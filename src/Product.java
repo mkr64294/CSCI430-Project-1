@@ -1,35 +1,33 @@
-import java.util;
+/** Author: Isaiah Ryman
+  * Date: 2/8/2021
+  * Class: CSCI430
+  * Description: 
+  */
+package src;
 
 public class Product{
-    private String pName;  //unique identifier
-    private int stockQty;  //negative means there are reservations on the item
-    private LinkedList<int> sList;  //list of suppliers with the product
-
+    private String pName;  //unique identifier not to be changed
+    private String description;
     public Product(String pName){   //the pName should be referenced 
-                                    //by the global product list before constructing to check for duplicates
+                                    //by the product list before 
+                                    //constructing to check for duplicates
         this.pName = pName;
-        this.stockQty = 0;
-        this.sList = new LinkedList<int>();
+        this.description = "no description.";
     }
-    public void nameItem(String newPName){
-        this.pName = newPName;
+    public Product(String pName, String pdescription){      //the pName should be referenced 
+                                                            //by the product list before 
+                                                            //constructing to check for duplicates
+        this.pName = pName;
+        this.description = pdescription;
+    }
+    public String getPName(){       //returns product name
+        return this.pName;
+    }
+    public String getDescription(){
+        return this.description;
+    }  
+    public void setDescription(String newDescription){
+        this.description = newDescription;
         return;
-    }
-    public boolean inStock(){
-        if(this.stockQty > 0){
-            return true
-        }
-        return false;
-    }
-    public int getStock(){ //amount in stock
-        return this.stockQty;
-    }
-    public void addStock(int qty){
-        this.stockQty += qty;
-        return;
-    }
-    public boolean removeStock(int qty){
-        this.stockQty += (qty * -1);
-    }
-
+    } 
 }
