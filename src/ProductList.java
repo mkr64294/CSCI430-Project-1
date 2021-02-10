@@ -7,13 +7,13 @@ public class ProductList {
         double price;
         int inStock;
         Queue<Integer> clientWaitList;
-        public SupplierMini(int sID,double price,int stock){
+        public SupplierMini(int sID,double price,int stock){//constructor
             supID = sID;
             this.price = price;
             inStock = stock;
             clientWaitList = new LinkedList<Integer>();
         }
-        public SupplierMini(int sID,double price){
+        public SupplierMini(int sID,double price){//constructor
             supID = sID;
             this.price = price;
             inStock = 0;
@@ -23,20 +23,21 @@ public class ProductList {
     public class Entry{
         Product product;
         LinkedList<SupplierMini> suppliers;
-        public Entry(String pName){
+        public Entry(String pName){ //constructor
             product = new Product(pName);
             suppliers = new LinkedList<SupplierMini>();
         }
-        public Entry(String pName, String pDescription){
+        public Entry(String pName, String pDescription){ //constructor
             product = new Product(pName, pDescription);
             suppliers = new LinkedList<SupplierMini>();
         }
     }
-    private LinkedList<Entry> products;
-    public ProductList(){
+    private LinkedList<Entry> products; //this is the combination of everything 
+                                        //we need to know of the product
+    public ProductList(){ //default constructor
         products = new LinkedList<Entry>();
     }
-    public boolean isProduct(String pName){
+    public boolean isProduct(String pName){ //product is in the listing
         int i;
         for(i = 0; i < products.size(); i++){
             if(products.get(i).product.getPName() == pName){
@@ -58,7 +59,7 @@ public class ProductList {
         }
         return 0;
     }
-    public boolean isSupplier(int sID, String pName){
+    public boolean isSupplier(int sID, String pName){ //does the supplier supply the object?
         int i, j;
         for(i = 0; i < products.size(); i++){
             if(products.get(i).product.getPName() == pName){
@@ -108,7 +109,7 @@ public class ProductList {
         }
         return false;
     }
-    public int numSuppliers(String pName){
+    public int numSuppliers(String pName){ //returns number of suppliers for the given product
         int indP = indexProduct(pName);
         if(indP != -1){
             return products.get(indP).suppliers.size();
@@ -127,7 +128,7 @@ public class ProductList {
         }
         return false;
     }
-    public boolean setDescription(String pName, String newDescription){
+    public boolean setDescription(String pName, String newDescription){ //sets a product description
         int i = indexProduct(pName);
         if(i != -1){
             products.get(i).product.setDescription(newDescription);
@@ -143,7 +144,7 @@ public class ProductList {
         return "product not found.\n";
         
     }
-    public boolean addProduct(String pName){
+    public boolean addProduct(String pName){ //adds a product the the product list
         int i = indexProduct(pName);
         Entry e = new Entry(pName);
         if(i != -1){
@@ -152,7 +153,8 @@ public class ProductList {
         products.add(e);
         return true;
     }
-    public boolean addProduct(String pName, String pDescription){
+    public boolean addProduct(String pName, String pDescription){ // adds a product to the product list 
+                                                                    //with a description
         int i = indexProduct(pName);
         Entry e = new Entry(pName, pDescription);
         if(i != -1){
@@ -161,7 +163,7 @@ public class ProductList {
         products.add(e);
         return true;
     }
-    public boolean removeProduct(String pName){
+    public boolean removeProduct(String pName){ //removes a product from the product list
         int indP = this.indexProduct(pName);
         if(indP != -1){
             products.remove(indP);
@@ -181,7 +183,8 @@ public class ProductList {
         return -9999999;
 
     }
-    public boolean addToStock(int sID, String pName, int amtToAdd){
+    public boolean addToStock(int sID, String pName, int amtToAdd){ //adds an amount of product to stock 
+                                                                    //for a given supplier
         int i = indexProduct(pName);
         if(isSupplier(sID, pName) && (i !=(-1))){
             for(int j = 0; j < products.get(i).suppliers.size(); j++){
@@ -193,7 +196,8 @@ public class ProductList {
         }
         return false;
     }
-    public boolean removeFromStock(int sID, String pName, int amtToRemove){
+    public boolean removeFromStock(int sID, String pName, int amtToRemove){ //adds an amount of product 
+                                                                            //to stock for a given supplier
         int i = indexProduct(pName);
         if(isSupplier(sID, pName) && (i !=(-1))){
             for(int j = 0; j < products.get(i).suppliers.size(); j++){
@@ -205,7 +209,7 @@ public class ProductList {
         }
         return false;
     }
-    public boolean setStock(int sID, String pName, int amtToSet){
+    public boolean setStock(int sID, String pName, int amtToSet){ //sets the stock for a product from a supplier
         int i = indexProduct(pName);
         if(isSupplier(sID, pName) && (i !=(-1))){
             for(int j = 0; j < products.get(i).suppliers.size(); j++){
@@ -217,7 +221,7 @@ public class ProductList {
         }
         return false;
     }
-    public boolean addToWaitlist(int clientID, String pName, int sID){
+    public boolean addToWaitlist(int clientID, String pName, int sID){ //adds clients to a suppliers product waitlist
         int i = indexProduct(pName);
         if(i == -1){
             return false;
@@ -232,7 +236,7 @@ public class ProductList {
         }
         return false;
     }
-    public boolean removeFromWaitlist(int clientID, String pName, int sID){
+    public boolean removeFromWaitlist(int clientID, String pName, int sID){ //removes clients from a suppliers product waitlist
         int i = indexProduct(pName);
         if(i == -1){
             return false;
