@@ -85,10 +85,22 @@ public class Supplier{
 // views the list of products that are in the suppler's list of products
     public void viewProductList(){
 
-        for (int i = 0; i < pList.size(); i++) { 
+        if(pList.isEmpty()){
+            System.out.println("No Products are added");
+            return;
+        }
+        else{
+
+            for (int i = 0; i < pList.size(); i++) { 
   
-            System.out.println(pList.get(i));
-        } 
+                System.out.println(pList.get(i));
+            } 
+
+            return;
+        }
+        
+
+        
 
     }
 
