@@ -3,8 +3,6 @@
   * Class: CSCI430
   * Description: 
   */
-package src;
-
 public class Product{
     private String pName;  //unique identifier not to be changed
     private String description;
