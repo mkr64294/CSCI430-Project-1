@@ -12,8 +12,9 @@ public class Tester {
     sc.addItem("charger", 7);
     sc.addItem("phone", 8);
     sc.addItem("phone", 1);
+    sc.removeItem("charger", 9);
     
-    System.out.println(sc.showQuantity("charger"));
+    System.out.println("Charger: " + sc.showQuantity("charger"));
     System.out.println(sc.showQuantity("phone"));
 
     System.out.println(sc.findProduct("phone").getPName() + " " + sc.findProduct("phone").getQty());
