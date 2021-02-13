@@ -34,13 +34,18 @@ public class ShoppingCart {
     }
   }
 
-  public int showQuantity(String itemName){
-    if(findProduct(itemName).getPName() != "not found"){
-      return findProduct(itemName).getQty();
-    }
-    return -9999;
+  public void removeItem(String itemName, int qty){
+      if(findProduct(itemName).getPName() == itemName){
+          int totalQty = findProduct(itemName).getQty();
+          int position = items.indexOf(findProduct(itemName));
+          if(totalQty <= qty){
+            items.remove(findProduct(itemName));
+          }else{
+            items.get(position).removeQty(qty);
+          }
+      }
   }
-
+  
   public ItemQty findProduct(String pName){
     for(int i = 0; i < items.size(); i++){
       //if(items.get(i).getPName() == pName){
@@ -49,6 +54,13 @@ public class ShoppingCart {
       }
     }
     return new ItemQty("not found", -1);
+  }
+
+  public int showQuantity(String itemName){
+    if(findProduct(itemName).getPName() != "not found"){
+      return findProduct(itemName).getQty();
+    }
+    return -9999;
   }
 
   
@@ -87,6 +99,10 @@ public class ShoppingCart {
 
   public void addQty(int qty){
     this.qty += qty;
+ }
+
+ public void removeQty(int qty){
+   this.qty -= qty;
  }
 }
 
