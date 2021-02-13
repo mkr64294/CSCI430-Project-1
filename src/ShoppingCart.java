@@ -8,7 +8,9 @@ public class ShoppingCart {
   private int supID;
   private LinkedList<ItemQty> items;
  
-  public ShoppingCart(){}; 
+  public ShoppingCart(){
+    items = new LinkedList<ItemQty>();
+  }
 
   public ShoppingCart(int supID, LinkedList<ItemQty> items){
     this.supID = supID;
@@ -21,7 +23,6 @@ public class ShoppingCart {
 
   public void setSupID(int newID){
     this.supID = newID;
-    return;
   }
 	
   public void addItem(String itemName, int qty){
@@ -43,14 +44,14 @@ public class ShoppingCart {
   public ItemQty findProduct(String pName){
     for(int i = 0; i < items.size(); i++){
       //if(items.get(i).getPName() == pName){
-      if(items.get(i).getPName().equals(pName)){
+      if(items.get(i).getPName()== pName){
         return items.get(i);
       }
     }
     return new ItemQty("not found", -1);
   }
 
-  /*
+  
   public boolean setItemQty(String pName, int qty){
     if(findProduct(itemName).getPName() != "not found"){
       findProduct(itemName).setQty(qty);
@@ -58,12 +59,13 @@ public class ShoppingCart {
     }
     return false;
   }
-  */
+  
 }
 
  class ItemQty{
   private String pName;
   private int qty;
+
   public ItemQty(String pName, int qty){
     this.pName = pName;
     this.qty = qty;
