@@ -1,3 +1,4 @@
+import java.util.*;
 
 
 public class SupplierTester {
@@ -35,7 +36,43 @@ public class SupplierTester {
        System.out.println("The product list after removing Item2 should be Item1, Item3");
        s1.viewProductList();
 
-       System.out.println("\nIf everything matched up then Supplier Methods are working");
+
+        System.out.println("Now testing SupplierList Class");
+
+        SupplierList sList = new SupplierList();
+
+        Supplier s2 = new Supplier("Peter", 4428);
+
+        sList.insertSupplier(s1);
+
+        sList.insertSupplier(s2);
+
+        System.out.println("Testing toString");
+        System.out.println(sList.toString());
+
+
+        System.out.println("Testing Iterator");
+        Iterator allSuppliers = sList.getSupplier();
+        while (allSuppliers.hasNext()){
+	     Supplier supplier = (Supplier)(allSuppliers.next());
+        System.out.println(supplier.toString());
+        }
+
+        System.out.println("Adding a single product to all Suppliers");
+        
+        Iterator addSuppliers = sList.getSupplier();
+        while (addSuppliers.hasNext()){
+	     Supplier supplier = (Supplier)(addSuppliers.next());
+        supplier.addItem("Item 50");
+        }
+        
+        System.out.println("Single Item should be added now all suppliers carry Item 50");
+        Iterator newSuppliers = sList.getSupplier();
+        while (newSuppliers.hasNext()){
+	     Supplier supplier = (Supplier)(newSuppliers.next());
+        System.out.println(supplier.toString());
+        }
+        
 
        }
 }

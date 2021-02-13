@@ -1,4 +1,5 @@
 // Mario Quintero
+// Supplier class
 
 
 import java.util.LinkedList;
@@ -82,25 +83,36 @@ public class Supplier{
         return sId;
     }
 
-// views the list of products that are in the suppler's list of products
-    public void viewProductList(){
+// **UPDATED** viewProductList now returns a string of either all products
+// or saying there are no products
+// this is to allow integration with toString() printing all supplier information including 
+// products they carry
+    public String viewProductList(){
+        String products ="";
 
         if(pList.isEmpty()){
-            System.out.println("No Products are added");
-            return;
+            products = "No Products are added";
+            
         }
         else{
 
             for (int i = 0; i < pList.size(); i++) { 
   
-                System.out.println(pList.get(i));
+                products = products + " " + pList.get(i);
             } 
 
-            return;
+            
         }
-        
+        return products;
+    }
 
-        
+    // Will print all info about this single supplier
+    public String toString(){
+
+        String string = "Name: " + sName + " Id: " + sId +
+                        "\nProducts: " + viewProductList();
+        return string;
+
 
     }
 
