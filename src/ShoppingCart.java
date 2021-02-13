@@ -53,8 +53,8 @@ public class ShoppingCart {
 
   
   public boolean setItemQty(String pName, int qty){
-    if(findProduct(itemName).getPName() != "not found"){
-      findProduct(itemName).setQty(qty);
+    if(findProduct(pName).getPName() != "not found"){
+      findProduct(pName).setQty(qty);
       return true;
     }
     return false;
