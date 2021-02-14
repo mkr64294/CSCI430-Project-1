@@ -22,8 +22,8 @@ public class SupplierTester {
         s1.addItem("Item3");
 
         System.out.println("The product list should now say Item1, Item2, Item3");
-       s1.viewProductList();
-
+       
+        System.out.println(s1.viewProductList());
         boolean isRemoved;
 
        isRemoved = s1.removeItem("Item4");
@@ -34,7 +34,7 @@ public class SupplierTester {
 
 
        System.out.println("The product list after removing Item2 should be Item1, Item3");
-       s1.viewProductList();
+       System.out.println(s1.viewProductList());
 
 
         System.out.println("Now testing SupplierList Class");
