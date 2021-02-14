@@ -19,6 +19,7 @@ class UserInterface {
     ProductList pList = new ProductList();
     ClientList cList = new ClientList();
     SupplierList sList = new SupplierList();
+    ShoppingCart cart = new ShoppingCart();
 
     displayMenu();
 
@@ -27,21 +28,21 @@ class UserInterface {
     while (entry != 'x' && entry != 'X') {
       entry = scan.next().charAt(0);
       if (entry == 'A' || entry == 'a') {
-        addClient(pList, cList, sList);
+        addClient(pList, cList, sList, cart);
       } else if (entry == 'B' || entry == 'b') {
-        addProduct(pList, cList, sList);
+        addProduct(pList, cList, sList, cart);
       } else if (entry == 'C' || entry == 'c') {
-        addSupplier(pList, cList, sList);
+        addSupplier(pList, cList, sList, cart);
       } else if (entry == 'D' || entry == 'd') {
-        editClient(pList, cList, sList);
+        editClient(pList, cList, sList, cart);
       } else if (entry == 'E' || entry == 'e') {
-        editProduct(pList, cList, sList);
+        editProduct(pList, cList, sList, cart);
       } else if (entry == 'F' || entry == 'f') {
-        editSupplier(pList, cList, sList);
+        editSupplier(pList, cList, sList, cart);
       } else if (entry == 'G' || entry == 'g') {
-        buyProduct(pList, cList, sList);
+        buyProduct(pList, cList, sList, cart);
       } else if (entry == 'H' || entry == 'h') {
-        addProductInventory(pList, cList, sList);
+        addProductInventory(pList, cList, sList, cart);
       } else if (entry == 'Z' || entry == 'z') {
         displayMenu();
       } else { // This is is any entry does not match one of these options
@@ -49,7 +50,8 @@ class UserInterface {
       }
     }
 
-    AllTestMethods(pList, cList, sList); // will never use, just putting here so I don't get an error
+    AllUnutilizedTestMethods(pList, cList, sList, cart); // will never use, just putting here so I don't get an error or
+                                                         // forget which functions I haven't added yet
   }
 
   private static void displayMenu() {
@@ -67,39 +69,40 @@ class UserInterface {
     System.out.println("Exit Warehouse                  X");
   }
 
-  private static void addClient(ProductList pList, ClientList cList, SupplierList sList) {
+  private static void addClient(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
     System.out.println("This function is not constructed yet");
   }
 
-  private static void addProduct(ProductList pList, ClientList cList, SupplierList sList) {
+  private static void addProduct(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
     System.out.println("This function is not constructed yet");
   }
 
-  private static void addSupplier(ProductList pList, ClientList cList, SupplierList sList) {
+  private static void addSupplier(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
     System.out.println("This function is not constructed yet");
   }
 
-  private static void editClient(ProductList pList, ClientList cList, SupplierList sList) {
+  private static void editClient(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
     System.out.println("This function is not constructed yet");
   }
 
-  private static void editProduct(ProductList pList, ClientList cList, SupplierList sList) {
+  private static void editProduct(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
     System.out.println("This function is not constructed yet");
   }
 
-  private static void editSupplier(ProductList pList, ClientList cList, SupplierList sList) {
+  private static void editSupplier(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
     System.out.println("This function is not constructed yet");
   }
 
-  private static void buyProduct(ProductList pList, ClientList cList, SupplierList sList) {
+  private static void buyProduct(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
     System.out.println("This function is not constructed yet");
   }
 
-  private static void addProductInventory(ProductList pList, ClientList cList, SupplierList sList) {
+  private static void addProductInventory(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
     System.out.println("This function is not constructed yet");
   }
 
-  private static void AllTestMethods(ProductList pList, ClientList cList, SupplierList sList) {
+  private static void AllUnutilizedTestMethods(ProductList pList, ClientList cList, SupplierList sList,
+      ShoppingCart cart) {
 
     // initialize some clients, suppliers, and products
     Client c1 = new Client(13579, "Tom Jones");
@@ -158,107 +161,68 @@ class UserInterface {
     System.out.println(pList.isProduct("Screwdriver") + "     (should be false)"); // returns a boolean false
 
     System.out.println(pList.addSupplier(555, "Phillips DX467 Large Screwdriver", 9.99, 150) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.addSupplier(876, "Phillips DX467 Large Screwdriver", 8.79) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.addSupplier(876, "Phillips DX467 Large Screwdriver", 8.39) + "     (should be false)"); // returns
-    // a
-    // boolean
-    // false
+    // a boolean false
 
     System.out.println(pList.setPrice("Phillips DX467 Large Screwdriver", 555, 9.39) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.getPrice("Phillips DX467 Large Screwdriver", 555) + "     (should be 9.39)"); // returns a
-    // double
-    // 9.39
+    // double 9.39
 
     System.out.println(pList.isSupplier(555, "Phillips DX467 Large Screwdriver") + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.isSupplier(555, "GVT7000 Double-Sided Razor Blades") + "     (should be false)"); // returns
-    // a
-    // boolean
-    // false
+    // a boolean false
     System.out.println(pList.indexProduct("Phillips DX467 Large Screwdriver") + "     (should be 0)"); // returns an int
-    // 0
+                                                                                                       // 0
 
     System.out.println(pList.numSuppliers("Phillips DX467 Large Screwdriver") + "     (should be 2)"); // returns an int
-    // 2
+                                                                                                       // 2
     System.out.println(pList.setDescription("Phillips DX467 Large Screwdriver",
         "A six-inch long heavy-huty Phillips screwdriver with up to 42 lbs. of torque") + "     (should be true)"); // returns
-                                                                                                                    // a
-                                                                                                                    // boolean
-                                                                                                                    // true
+    // a boolean true
     System.out.println(pList.getDescription("Phillips DX467 Large Screwdriver")); // returns a String "A six-inch long
-    // heavy-huty Phillips screwdriver
-    // with up to 42 lbs. of torque"
+    // heavy-huty Phillips screwdriver with up to 42 lbs. of torque"
 
     System.out.println(pList.getStock(555, "Phillips DX467 Large Screwdriver") + "     (should be 150)"); // returns an
-    // int 150
+                                                                                                          // int 150
     System.out.println(pList.getStock(876, "Phillips DX467 Large Screwdriver") + "     (should be 0)"); // returns an
-    // int 0
+                                                                                                        // int 0
     System.out.println(pList.addToStock(876, "Phillips DX467 Large Screwdriver", 75) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.removeFromStock(555, "Phillips DX467 Large Screwdriver", 37) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.getStock(555, "Phillips DX467 Large Screwdriver") + "     (should be 113)"); // returns an
-    // int 113
+                                                                                                          // int 113
     System.out.println(pList.setStock(555, "Phillips DX467 Large Screwdriver", 200) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
 
     System.out.println(pList.addToWaitlist(56, "Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.addToWaitlist(12, "Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.addToWaitlist(87, "Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.removeFromWaitlist(56, "Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // true
+    // a boolean true
     System.out.println(pList.popWaitlist(876, "Phillips DX467 Large Screwdriver") + "     (should be 12)"); // returns
-    // an int 12
+                                                                                                            // an int 12
 
     System.out.println(pList.removeSupplier("Phillips DX467 Large Screwdriver", 222) + "     (should be false)"); // returns
-    // a
-    // boolean
-    // false
+    // a boolean false
     System.out.println(pList.removeSupplier("Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a
-    // boolean
-    // True
+    // a boolean true
 
     System.out.println(pList.removeProduct("Screwdriver") + "     (should be false)"); // returns a boolean false
     System.out.println(pList.removeProduct("Phillips DX467 Large Screwdriver") + "     (should be true)"); // returns a
-    // boolean
-    // true
+    // boolean true
     System.out.println(pList.removeProduct("Phillips DX467 Large Screwdriver") + "     (should be false)"); // returns a
-    // boolean
-    // false
+    // boolean false
     System.out.println(pList.addProduct("Phillips DX467 Large Screwdriver") + "     (should be true)"); // returns a
-    // boolean true,
-    // adds the
-    // screwdriver back to the list of
-    // products
+    // boolean true, adds the screwdriver back to the list of products
 
   }
 }
