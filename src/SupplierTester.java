@@ -52,7 +52,7 @@ public class SupplierTester {
 
 
         System.out.println("Testing Iterator");
-        Iterator allSuppliers = sList.getSupplier();
+        Iterator<Supplier> allSuppliers = sList.getSupplier();
         while (allSuppliers.hasNext()){
 	     Supplier supplier = (Supplier)(allSuppliers.next());
         System.out.println(supplier.toString());
@@ -60,14 +60,14 @@ public class SupplierTester {
 
         System.out.println("Adding a single product to all Suppliers");
         
-        Iterator addSuppliers = sList.getSupplier();
+        Iterator<Supplier> addSuppliers = sList.getSupplier();
         while (addSuppliers.hasNext()){
 	     Supplier supplier = (Supplier)(addSuppliers.next());
         supplier.addItem("Item 50");
         }
         
         System.out.println("Single Item should be added now all suppliers carry Item 50");
-        Iterator newSuppliers = sList.getSupplier();
+        Iterator<Supplier> newSuppliers = sList.getSupplier();
         while (newSuppliers.hasNext()){
 	     Supplier supplier = (Supplier)(newSuppliers.next());
         System.out.println(supplier.toString());
