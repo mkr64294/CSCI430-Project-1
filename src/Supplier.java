@@ -83,8 +83,6 @@ public class Supplier{
         return sId;
     }
 
-// **UPDATED** viewProductList now returns a string of either all products
-// or saying there are no products
 // this is to allow integration with toString() printing all supplier information including 
 // products they carry
     public String viewProductList(){
