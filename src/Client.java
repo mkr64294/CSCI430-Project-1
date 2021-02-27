@@ -3,17 +3,21 @@ import java.io.*;
 
 public class Client implements Serializable {
   private static final long serialVersionUID = 1L;
-  private int cId;
+  private static final String MEMBER_STRING = "C";
+  private String cId;
   private String cName; 
   private String cAddress;
   private double credit;
-  private static final String MEMBER_STRING = "C";
- 
-  public Client(int cId, String cName) {
-    this.cId= cId;   
-    this.cName = cName;        
+  
+  public Client(String cName, String cAddress) {
+    this.cName = cName;  
+    this.cAddress = cAddress;
+    this.credit = 0.00; 
+    cId = CLIENT_STRING + (ClientIDServer.instance()).getcId();     
   }
 
+    public Client(){};
+    
     public int getcId(){
       return cId;
     }
@@ -36,6 +40,10 @@ public class Client implements Serializable {
   
     public void addCredit(double amount) {
       this.credit += amount;
+    }
+    
+    public double makePayment(double amount) {
+      return this.credit -= amount;
     }
     
     public void removeCredit(double amount) {
