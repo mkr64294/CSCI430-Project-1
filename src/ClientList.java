@@ -4,7 +4,7 @@ import java.io.*;
 
 public class ClientList implements Serializable {
   private static final long serialVersionUID = 1L;
-  private List clients = new LinkedList();
+  public LinkedList<Client> clients = new LinkedList<>();
   private static ClientList clientList;
   ClientList() {
   }
@@ -24,6 +24,20 @@ public class ClientList implements Serializable {
   public Iterator getClient(){
      return clients.iterator();
   }
+    
+  public double makePayment(String cid, double amount){
+     double remCredit = 0; 
+
+     for (Iterator iterator = clients.iterator(); iterator.hasNext(); ) {
+        Client client = (Client) iterator.next();
+            if (client.getcId().equals(cid)) {
+              remCredit = client.makePayment(amount);
+              break;
+            }
+        }
+
+      return remCredit;
+    }
   
   private void writeObject(java.io.ObjectOutputStream output) {
     try {
