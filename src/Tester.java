@@ -7,6 +7,8 @@ public class Tester {
   public static void main(String[] args) {
 
     ShoppingCart sc = new ShoppingCart();
+    Client c = new Client();
+    ClientList cl = new ClientList();
     
     sc.addItem("charger", 5);
     sc.addItem("charger", 7);
@@ -24,8 +26,11 @@ public class Tester {
     System.out.println("worked");
     
 
-  Client c1 = new Client(1, "khim");
-  Client c2 = new Client(2, "Dhoni");
+//  Client c1 = new Client(1, "khim");
+//  Client c2 = new Client(2, "Dhoni");
+  
+  Client c1 = new Client("khim", "316 7th ave");
+  Client c2 = new Client("Dhoni", "316 7th ave");
   
   c1.changeAddress("316 7th ave");
   c2.changeAddress("999 9th ave");
@@ -50,8 +55,11 @@ public class Tester {
 
   ClientList clientlist = new ClientList();
   clientlist.insertClient(c1);
-  clientlist.insertClient(c2);
   
-  System.out.println(clientlist);
+  System.out.println(clientlist.insertClient(c1));
+  clientlist.insertClient(c2);
+
+  double remCredit = clientlist.makePayment(c1.getcId(), 30.0);
+  System.out.println("Ream credit: " + remCredit);
  }
 }
