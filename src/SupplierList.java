@@ -20,6 +20,26 @@ public class SupplierList implements Serializable {
     }
   }
 
+  private int verifySupplierID(int supID){
+    int position = -1;
+        
+        for (int i = 0; i < suppliers.size(); i++) { 
+  
+            
+            int id = suppliers.get(i).getSId(); 
+  
+            
+            if (id == supID) { 
+  
+                position = i;
+                break; 
+            } 
+        } 
+        return position; 
+    
+
+  }
+
   public boolean insertSupplier(Supplier supplier) {
     suppliers.add(supplier);
     return true;

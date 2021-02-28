@@ -10,7 +10,7 @@ public class Supplier{
     private int sId;
     private LinkedList<String> pList;
 
-// Private method to look through a list for an entered name
+// Private method to look through a list for an entered
     private int searchList(String item){
         
         
