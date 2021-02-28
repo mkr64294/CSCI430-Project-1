@@ -75,7 +75,7 @@ public class Warehouse {
     return clientList.toString();
   }
 
-  public boolean isProduct(String pName) { // product is in the listing
+  public boolean isProduct(String pName) { // does the product exist?
     Iterator iterator;
     ProductSupplier p;
     for (iterator = productList.iterator(); iterator.hasNext();) {
@@ -86,21 +86,27 @@ public class Warehouse {
     return false;
   }
 
-  public double getPrice(String pName, Supplier sup) { // returns 0 if not found
-
+  public boolean isSupplier(int sId) { // does the supplier exist?
+    Iterator iterator;
+    SupplierProduct s;
+    for (iterator = supplierList.iterator(); iterator.hasNext();) {
+      s = (SupplierProduct) iterator.next();
+      if (s.supplier.getSId() == sId)
+        return true;
+    }
+    return false;
   }
 
-  public boolean isSupplier(Supplier sup, String pName) { // does the supplier supply the object?
-
-  }
-
-  public boolean addSupplier(Supplier sup, String pName, double sPrice, int stock) { // true means was not already in
-                                                                                     // list
-
-  }
-
-  public boolean addSupplier(Supplier sup, String pName, double sPrice) { // true means was not already in list
-
+  public boolean addSupplier(int sId, String sName) { // true means was not already in list
+    Iterator iterator;
+    SupplierProduct s;
+    for (iterator = supplierList.iterator(); iterator.hasNext();) {
+      s = (SupplierProduct) iterator.next();
+      if (s.supplier.getSId() == sId)
+        return false;
+    }
+    supplierList.add(new SupplierProduct(sName, sId));
+    return true;
   }
 
   public boolean removeSupplier(String pName, Supplier sup) { // true means was in list and was removed;
@@ -111,56 +117,124 @@ public class Warehouse {
 
   }
 
+  public double getPrice(String pName, Supplier sup) { // returns 0 if not found
+
+  }
+
   public boolean setPrice(String pName, Supplier sup, double newPrice) { // returns 0 if not found
 
   }
 
-  public boolean setDescription(String pName, String newDescription) { // sets a product description
-
+  public boolean setDescription(String pName, int sId, String newDescription) { // sets a product description
+    Iterator iterator1;
+    Iterator iterator2;
+    Iterator iterator3;
+    SupplierProduct s;
+    ProductSupplier p;
+    ProductQuantity pq;
+    for (iterator1 = productList.iterator(); iterator1.hasNext();) {
+      p = (ProductSupplier) iterator1.next();
+      if (p.product.getPName().equals(pName)) {
+        for (iterator2 = supplierList.iterator(); iterator2.hasNext();) {
+          s = (SupplierProduct) iterator2.next();
+          if (s.supplier.getSId() == sId) {
+            for (iterator3 = s.sProductList.iterator(); iterator3.hasNext();) {
+              pq = (ProductQuantity) iterator3.next();
+              if (pq.product.getPName().equals(pName)) {
+                p.product.setDescription(newDescription);
+                pq.product.setDescription(newDescription);
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
   }
 
   public String getDescription(String pName) {
-
-  }
-
-  public boolean addProduct(String pName) { // adds a product the the product list
-    Iterator iterator;
-    ProductSupplier p;
-    for (iterator = productList.iterator(); iterator.hasNext();) {
-      p = (ProductSupplier) iterator.next();
-      if (p.product.getPName().equals(pName))
-        return false;
-    }
-    productList.add(new ProductSupplier(pName));
-    return true;
-  }
-
-  public boolean addProduct(String pName, String pDescription) { // adds a product to the product list
-    Iterator iterator;
-    ProductSupplier p;
-    for (iterator = productList.iterator(); iterator.hasNext();) {
-      p = (ProductSupplier) iterator.next();
-      if (p.product.getPName().equals(pName))
-        return false;
-    }
-    productList.add(new ProductSupplier(pName, pDescription));
-    return true;
-  }
-
-  public boolean removeProduct(String pName) { // removes a product from the product list
     Iterator iterator;
     ProductSupplier p;
     for (iterator = productList.iterator(); iterator.hasNext();) {
       p = (ProductSupplier) iterator.next();
       if (p.product.getPName().equals(pName)) {
-        iterator.remove();
+        return p.product.getDescription();
+      }
+    }
+    return "Not Found";
+  }
+
+  public boolean addProduct(String pName, String sName, int sId) { // adds a product the the product list
+    Iterator iterator1;
+    ProductSupplier p;
+    SupplierProduct s;
+
+    for (iterator1 = productList.iterator(); iterator1.hasNext();) {
+      p = (ProductSupplier) iterator1.next();
+      if (p.product.getPName().equals(pName))
+        return false;
+    }
+    p = new ProductSupplier(pName);
+    p.pSupplierList.add(new SupplierQuantity(sName, sId));
+    productList.add(p);
+    s = new SupplierProduct(sName, sId);
+    s.sProductList.add(new ProductQuantity(pName));
+    supplierList.add(s);
+    return true;
+  }
+
+  public boolean addProduct(String pName, String sName, int sId, String pDescription) { // adds a product to the product
+                                                                                        // list
+    Iterator iterator1;
+    ProductSupplier p;
+    SupplierProduct s;
+
+    for (iterator1 = productList.iterator(); iterator1.hasNext();) {
+      p = (ProductSupplier) iterator1.next();
+      if (p.product.getPName().equals(pName))
+        return false;
+    }
+    p = new ProductSupplier(pName, pDescription);
+    p.pSupplierList.add(new SupplierQuantity(sName, sId));
+    productList.add(p);
+    s = new SupplierProduct(sName, sId);
+    s.sProductList.add(new ProductQuantity(pName, pDescription));
+    supplierList.add(s);
+    return true;
+  }
+
+  public boolean removeProduct(String pName, int sId) { // removes a product from the product list
+    Iterator iterator1;
+    Iterator iterator2;
+    Iterator iterator3;
+    SupplierProduct s;
+    ProductSupplier p;
+    ProductQuantity pq;
+    for (iterator1 = supplierList.iterator(); iterator1.hasNext();) {
+      s = (SupplierProduct) iterator1.next();
+      // p = (ProductSupplier) iterator1.next();
+      if (s.supplier.getSId() == sId) {
+        for (iterator2 = s.sProductList.iterator(); iterator2.hasNext();) {
+          pq = (ProductQuantity) iterator2.next();
+          if (pq.product.getPName().equals(pName)) {
+            iterator2.remove();
+            break;
+          }
+        }
+      }
+    }
+    for (iterator3 = productList.iterator(); iterator3.hasNext();) {
+      p = (ProductSupplier) iterator3.next();
+      if (p.product.getPName().equals(pName)) {
+        iterator3.remove();
         return true;
       }
     }
     return false;
   }
 
-  public int getStock(String sName, String pName) { // returns -9999999 if supplier does not exist
+  public int getStock(int sId, String pName) { // returns -9999999 if supplier does not exist
     Iterator iterator1;
     Iterator iterator2;
     ProductSupplier p;
@@ -168,9 +242,9 @@ public class Warehouse {
     for (iterator1 = productList.iterator(); iterator1.hasNext();) {
       p = (ProductSupplier) iterator1.next();
       if (p.product.getPName().equals(pName)) {
-        for (iterator2 = p.supplierList.iterator(); iterator2.hasNext();) {
+        for (iterator2 = p.pSupplierList.iterator(); iterator2.hasNext();) {
           q = (SupplierQuantity) iterator2.next();
-          if (q.supplier.getSName().equals(sName))
+          if (q.supplier.getSId() == sId)
             return q.quantity;
         }
       }
@@ -178,50 +252,145 @@ public class Warehouse {
     return -9999999;
   }
 
-  public boolean addToStock(Supplier sup, String pName, int amtToAdd) { // adds an amount of product to stock for a
-                                                                        // given supplier
-
+  public boolean addToStock(int sId, String pName, int amtToAdd) { // adds an amount of product to stock for a
+                                                                   // given supplier
+    Iterator iterator1;
+    Iterator iterator2;
+    Iterator iterator3;
+    Iterator iterator4;
+    SupplierProduct s;
+    ProductSupplier p;
+    ProductQuantity pq;
+    SupplierQuantity sq;
+    for (iterator1 = productList.iterator(); iterator1.hasNext();) {
+      p = (ProductSupplier) iterator1.next();
+      if (p.product.getPName().equals(pName)) {
+        for (iterator2 = supplierList.iterator(); iterator2.hasNext();) {
+          s = (SupplierProduct) iterator2.next();
+          if (s.supplier.getSId() == sId) {
+            for (iterator3 = s.sProductList.iterator(); iterator3.hasNext();) {
+              pq = (ProductQuantity) iterator3.next();
+              if (pq.product.getPName().equals(pName)) {
+                for (iterator4 = p.pSupplierList.iterator(); iterator4.hasNext();) {
+                  sq = (SupplierQuantity) iterator4.next();
+                  if (sq.supplier.getSId() == sId) {
+                    sq.quantity += amtToAdd;
+                    pq.quantity += amtToAdd;
+                    return true;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
   }
 
-  public boolean removeFromStock(Supplier sup, String pName, int amtToRemove) { // adds an amount of product to stock
-                                                                                // for a given supplier
-
+  public boolean removeFromStock(int sId, String pName, int amtToRemove) { // adds an amount of product to stock
+                                                                           // for a given supplier
+    Iterator iterator1;
+    Iterator iterator2;
+    Iterator iterator3;
+    Iterator iterator4;
+    SupplierProduct s;
+    ProductSupplier p;
+    ProductQuantity pq;
+    SupplierQuantity sq;
+    for (iterator1 = productList.iterator(); iterator1.hasNext();) {
+      p = (ProductSupplier) iterator1.next();
+      if (p.product.getPName().equals(pName)) {
+        for (iterator2 = supplierList.iterator(); iterator2.hasNext();) {
+          s = (SupplierProduct) iterator2.next();
+          if (s.supplier.getSId() == sId) {
+            for (iterator3 = s.sProductList.iterator(); iterator3.hasNext();) {
+              pq = (ProductQuantity) iterator3.next();
+              if (pq.product.getPName().equals(pName)) {
+                for (iterator4 = p.pSupplierList.iterator(); iterator4.hasNext();) {
+                  sq = (SupplierQuantity) iterator4.next();
+                  if (sq.supplier.getSId() == sId) {
+                    sq.quantity -= amtToRemove;
+                    pq.quantity -= amtToRemove;
+                    return true;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
   }
 
-  public boolean setStock(Supplier sup, String pName, int amtToSet) { // sets the stock for a product from a supplier
-
+  public boolean setStock(int sId, String pName, int amtToSet) { // sets the stock for a product from a supplier
+    Iterator iterator1;
+    Iterator iterator2;
+    Iterator iterator3;
+    Iterator iterator4;
+    SupplierProduct s;
+    ProductSupplier p;
+    ProductQuantity pq;
+    SupplierQuantity sq;
+    for (iterator1 = productList.iterator(); iterator1.hasNext();) {
+      p = (ProductSupplier) iterator1.next();
+      if (p.product.getPName().equals(pName)) {
+        for (iterator2 = supplierList.iterator(); iterator2.hasNext();) {
+          s = (SupplierProduct) iterator2.next();
+          if (s.supplier.getSId() == sId) {
+            for (iterator3 = s.sProductList.iterator(); iterator3.hasNext();) {
+              pq = (ProductQuantity) iterator3.next();
+              if (pq.product.getPName().equals(pName)) {
+                for (iterator4 = p.pSupplierList.iterator(); iterator4.hasNext();) {
+                  sq = (SupplierQuantity) iterator4.next();
+                  if (sq.supplier.getSId() == sId) {
+                    sq.quantity = amtToSet;
+                    pq.quantity = amtToSet;
+                    return true;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
   }
 
-  public boolean addToWaitlist(int clientID, String pName, Supplier sup) { // adds clients to a suppliers product
-                                                                           // waitlist
-
-  }
-
-  public boolean removeFromWaitlist(int clientID, String pName, Supplier sup) { // removes clients from a suppliers
-                                                                                // product waitlist
-
-  }
-
-  public int popWaitlist(Supplier sup, String pName) { // returns -1 if product not found -2 if supplier not found
-                                                       // otherwise returns client ID
-
-  }
+  /*
+   * public boolean addToWaitlist(int clientID, String pName, Supplier sup) { //
+   * adds clients to a suppliers product // waitlist
+   * 
+   * }
+   * 
+   * public boolean removeFromWaitlist(int clientID, String pName, Supplier sup) {
+   * // removes clients from a suppliers // product waitlist
+   * 
+   * }
+   * 
+   * public int popWaitlist(Supplier sup, String pName) { // returns -1 if product
+   * not found -2 if supplier not found // otherwise returns client ID
+   * 
+   * }
+   */
 
   // Create the class ProductSupplier, which contains the class SupplierQuantity
   // this is done so that every product we create will instantly have a supplier
   // list and inventory attached to it
   public class ProductSupplier {
     public Product product;
-    public List<SupplierQuantity> supplierList;
+    public List<SupplierQuantity> pSupplierList;
 
     public ProductSupplier(String pName) {
       product = new Product(pName);
-      supplierList = new LinkedList<SupplierQuantity>();
+      pSupplierList = new LinkedList<SupplierQuantity>();
     }
 
     public ProductSupplier(String pName, String pDescription) {
       product = new Product(pName, pDescription);
-      supplierList = new LinkedList<SupplierQuantity>();
+      pSupplierList = new LinkedList<SupplierQuantity>();
     }
   }
 
@@ -246,17 +415,19 @@ public class Warehouse {
   // list and inventory attached to it
   public class SupplierProduct {
     public Supplier supplier;
-    public List<ProductQuantity> productList;
+    public List<ProductQuantity> sProductList;
 
     public SupplierProduct(String sName, int sId) {
       supplier = new Supplier(sName, sId);
-      productList = new LinkedList<ProductQuantity>();
+      sProductList = new LinkedList<ProductQuantity>();
     }
   }
 
   public class ProductQuantity {
     public Product product;
     public int quantity;
+    // public float price;
+    // //************************************************************
 
     public ProductQuantity(String pName, int qty) {
       product = new Product(pName);
