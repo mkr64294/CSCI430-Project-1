@@ -16,10 +16,10 @@ class UserInterface {
   public static void main(String[] args) {
 
     // Initialize the Warehouse lists and the shopping cart
-    ProductList pList = new ProductList();
-    ClientList cList = new ClientList();
-    SupplierList sList = new SupplierList();
-    ShoppingCart cart = new ShoppingCart();
+    // ProductList pList = new ProductList();
+    Warehouse WH = new Warehouse();
+    // SupplierList sList = new SupplierList();
+    // ShoppingCart cart = new ShoppingCart();
 
     displayMenu();
 
@@ -105,8 +105,8 @@ class UserInterface {
       ShoppingCart cart) {
 
     // initialize some clients, suppliers, and products
-    Client c1 = new Client(13579, "Tom Jones");
-    Client c2 = new Client(24680, "Gerald Thompson");
+    Client c1 = new Client("Tom Jones", "123 4th St. Somewhere", 13579);
+    Client c2 = new Client("Gerald Thompson", "123 4th St. Anywhere", 24680);
     Supplier s1 = new Supplier("John's Shop Manufacturer", 97531);
     Supplier s2 = new Supplier("Bob & Joe's Electronics", 86420);
 
@@ -135,9 +135,9 @@ class UserInterface {
 
     // In this section, I'll run all the available client functions
     c1.changeAddress("1234 56th St. Alexandria, MN 56308");
-    c1.addCredit(5600.00);
+    c1.addCredit(13579, 5600);
     System.out.println(c1.toString() + " \n Credit : $" + c1.getCredit());
-    c1.removeCredit(2200);
+    c1.makePayment(13579, 2200);
     c1.changeName("Terry Ryan");
     // To test the client getters
     System.out.println(c1.getcName() + ", " + c1.getcId() + ", " + c1.getcAddress() + ", $" + c1.getCredit());

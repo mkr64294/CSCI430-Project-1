@@ -1,121 +1,107 @@
-
-
 import java.util.*;
 import java.text.*;
 import java.io.*;
 
 public class ShoppingCart {
-  private int supID;
   private LinkedList<ItemQty> items;
- 
-  public ShoppingCart(){
+
+  public ShoppingCart() {
     items = new LinkedList<ItemQty>();
   }
 
-  public ShoppingCart(int supID, LinkedList<ItemQty> items){
-    this.supID = supID;
+  public ShoppingCart(LinkedList<ItemQty> items) {
     this.items = items;
   }
 
-  public int getSupID(){
-    return supID;
-  }
-
-  public void setSupID(int newID){
-    this.supID = newID;
-  }
-	
-  public void addItem(String itemName, int qty){
-    if(findProduct(itemName).getPName() == itemName){
-       findProduct(itemName).addQty(qty);
-     } else {
-	items.add(new ItemQty(itemName, qty));
-	findProduct(itemName).setQty(qty);
+  public void addItem(String itemName, int qty, int sID) {
+    if (findProduct(itemName, sID).getPName() == itemName && findProduct(itemName, sID).getSID() == sID) {
+      findProduct(itemName, sID).addQty(qty);
+    } else {
+      items.add(new ItemQty(itemName, qty, sID));
     }
   }
 
-  public void removeItem(String itemName, int qty){
-      if(findProduct(itemName).getPName() == itemName){
-          int totalQty = findProduct(itemName).getQty();
-          int position = items.indexOf(findProduct(itemName));
-          if(totalQty <= qty){
-            items.remove(findProduct(itemName));
-          }else{
-            items.get(position).removeQty(qty);
-          }
+  public boolean removeItem(String itemName, int qty, int sID) {
+    if (findProduct(itemName, sID).getPName() == itemName) {
+      int totalQty = findProduct(itemName, sID).getQty();
+      int position = items.indexOf(findProduct(itemName, sID));
+      if (totalQty <= qty) {
+        items.remove(findProduct(itemName, sID));
+      } else {
+        items.get(position).removeQty(qty);
       }
-  }
-  
-  public ItemQty findProduct(String pName){
-    for(int i = 0; i < items.size(); i++){
-      //if(items.get(i).getPName() == pName){
-      if(items.get(i).getPName()== pName){
-        return items.get(i);
-      }
-    }
-    return new ItemQty("not found", -1);
-  }
-
-  public int showQuantity(String itemName){
-    if(findProduct(itemName).getPName() != "not found"){
-      return findProduct(itemName).getQty();
-    }
-    return -9999;
-  }
-
-  
-  public boolean setItemQty(String pName, int qty){
-    if(findProduct(pName).getPName() != "not found"){
-      findProduct(pName).setQty(qty);
       return true;
     }
     return false;
   }
-  
+
+  public ItemQty findProduct(String pName, int sID) {
+    for (int i = 0; i < items.size(); i++) {
+      if (items.get(i).getPName() == pName && items.get(i).getSID() == sID) {
+        return items.get(i);
+      }
+    }
+    return new ItemQty("not found", -1, -1);
+  }
+
+  public int showQuantity(String itemName, int sID) {
+    if (findProduct(itemName, sID).getPName() != "not found") {
+      return findProduct(itemName, sID).getQty();
+    }
+    return -9999;
+  }
+
+  public boolean setItemQty(String pName, int qty, int sID) {
+    if (findProduct(pName, sID).getPName() != "not found") {
+      findProduct(pName, sID).setQty(qty);
+      return true;
+    }
+    return false;
+  }
+
 }
 
- class ItemQty{
+class ItemQty implements Serializable {
   private String pName;
   private int qty;
+  private int sID;
 
-  public ItemQty(String pName, int qty){
-    this.pName = pName;
-    this.qty = qty;
+  public ItemQty(String prodName, int quantity, int supID) {
+    pName = prodName;
+    qty = quantity;
   }
 
-  public String getPName(){
+  public String getPName() {
     return pName;
   }
-  public void setPName(String newName){
+
+  public void setPName(String newName) {
     this.pName = newName;
     return;
   }
-  public int getQty(){
+
+  public int getSID() {
+    return sID;
+  }
+
+  public void setSID(int supplierID) {
+    sID = supplierID;
+    return;
+  }
+
+  public int getQty() {
     return this.qty;
   }
-  public void setQty(int newQty){
+
+  public void setQty(int newQty) {
     this.qty = newQty;
   }
 
-  public void addQty(int qty){
+  public void addQty(int qty) {
     this.qty += qty;
- }
+  }
 
- public void removeQty(int qty){
-   this.qty -= qty;
- }
+  public void removeQty(int qty) {
+    this.qty -= qty;
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
