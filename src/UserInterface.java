@@ -1,10 +1,10 @@
 
 /**
  Author: Mark Rice 
- Date: 2/13/2021 
+ Date: 2/28/2021 
  Class: CSCI430 
  Description: UI Class that runs all the functions from the client, product, and supplier classes written by the other member of my group
- Version 1.1: Began adding UI functionality by having the user select a choice from a menu to perform actions
+ Version 2.0: Began adding UI functionality by having the user select a choice from a menu to perform actions
  */
 
 import java.util.*;
@@ -16,33 +16,123 @@ class UserInterface {
   public static void main(String[] args) {
 
     // Initialize the Warehouse lists and the shopping cart
-    // ProductList pList = new ProductList();
     Warehouse WH = new Warehouse();
-    // SupplierList sList = new SupplierList();
-    // ShoppingCart cart = new ShoppingCart();
+
 
     displayMenu();
 
     char entry = '0';
 
     while (entry != 'x' && entry != 'X') {
+
       entry = scan.next().charAt(0);
-      if (entry == 'A' || entry == 'a') {
-        addClient(pList, cList, sList, cart);
-      } else if (entry == 'B' || entry == 'b') {
-        addProduct(pList, cList, sList, cart);
-      } else if (entry == 'C' || entry == 'c') {
-        addSupplier(pList, cList, sList, cart);
-      } else if (entry == 'D' || entry == 'd') {
-        editClient(pList, cList, sList, cart);
-      } else if (entry == 'E' || entry == 'e') {
-        editProduct(pList, cList, sList, cart);
-      } else if (entry == 'F' || entry == 'f') {
-        editSupplier(pList, cList, sList, cart);
-      } else if (entry == 'G' || entry == 'g') {
-        buyProduct(pList, cList, sList, cart);
+
+      if (entry == 'A' || entry == 'a') { // adding client
+
+        System.out.print("What is the name of this client?  : ");
+        String cName = scan.next();
+
+        System.out.print("What is this client's address?   : ");
+        String cAddress = scan.next();
+
+        System.out.print("Please create a numerical ID for this client   : ");
+        int clientID = scan.nextInt();
+
+        if (WH.addClient(cName, cAddress, clientID)){
+          System.out.println("Client sucessfully added.\n");
+        } else{
+          System.out.println("Unable to add client.\n");
+        }
+        
+      } else if (entry == 'B' || entry == 'b') {  // adding product
+        System.out.print("What is this product called?  : ");
+        String pName = scan.next();
+
+        System.out.print("What supplier supplies this product?   : ");
+        String sName = scan.next();
+
+        System.out.print("What is the ID of this supplier?   : ");
+        int sId = scan.nextInt();
+
+        System.out.print("Does this product have a description? (y/n)   : ");
+        while(entry != 'y' && entry != 'Y' && entry != 'n' && entry != 'N'){
+          entry = scan.next().charAt(0);
+          if (entry == 'y' || entry == 'Y'){
+            System.out.print("Please enter a description for this product.  : ");
+            String pDescription = scan.next();
+            if (WH.addProduct(pName, sName, sId, pDescription)){
+              System.out.println("Product sucessfully added.\n");
+            } else{
+              System.out.println("Unable to add product.\n");
+            }
+          } else if (entry == 'n' || entry == 'N'){
+            if (WH.addProduct(pName, sName, sId)){
+              System.out.println("Product sucessfully added.\n");
+            } else{
+              System.out.println("Unable to add product.\n");
+            }
+          } else {
+            System.out.print("Your previous entry is invalid. \nDoes this product have a description? (y/n)   : ");
+            entry = scan.next().charAt(0);
+          }
+        }
+
+      } else if (entry == 'C' || entry == 'c') {  // adding supplier
+
+        System.out.print("What is the name of this supplier?  : ");
+        String sName = scan.next();
+
+        System.out.print("What is the ID of this supplier?   : ");
+        int sId = scan.nextInt();
+        
+        if (WH.addSupplier(sId, sName)){
+          System.out.println("Supplier sucessfully added.\n");
+        } else{
+          System.out.println("Unable to add Supplier.\n");
+        }
+
+      } else if (entry == 'D' || entry == 'd') {  // remove client
+
+        System.out.print("What is the ID of this client?  : ");
+        int clientID = scan.nextInt();
+
+        if (WH.removeClient(clientID)){
+          System.out.println("Client sucessfully removed.\n");
+        } else{
+          System.out.println("Unable to remove client.\n");
+        }
+
+      } else if (entry == 'E' || entry == 'e') {  // remove product
+        
+        System.out.print("What is the name of this product?  : ");
+        String pName = scan.next();
+
+        System.out.print("What is the ID of the supplier that supplies this product?  : ")
+        int sId = scan.nextInt();
+
+        if (WH.removeProduct(pName, sId)){
+          System.out.println("Product sucessfully removed.\n");
+        } else{
+          System.out.println("Unable to remove product.\n");
+        }
+
+      } else if (entry == 'F' || entry == 'f') {  // remove supplier
+
+        System.out.print("What is the ID of this supplier?  : ")
+        int sId = scan.nextInt();
+
+        if (WH.removeSupplier(sId)){
+          System.out.println("Supplier sucessfully removed.\n");
+        } else{
+          System.out.println("Supplier to remove supplier.\n");
+        }
+
+      } else if (entry == 'G' || entry == 'g') {  // buy product
+
+        buyProduct(scan);
+
       } else if (entry == 'H' || entry == 'h') {
-        addProductInventory(pList, cList, sList, cart);
+        WH.addProductInventory(pList, cList, sList, cart);
       } else if (entry == 'Z' || entry == 'z') {
         displayMenu();
       } else { // This is is any entry does not match one of these options
@@ -50,179 +140,130 @@ class UserInterface {
       }
     }
 
-    AllUnutilizedTestMethods(pList, cList, sList, cart); // will never use, just putting here so I don't get an error or
-                                                         // forget which functions I haven't added yet
-  }
-
   private static void displayMenu() {
     System.out.println("MAIN MENU\n\nPlease select the action you would like to perform\n");
     System.out.println("Action                    Selection Key\n");
-    System.out.println("Add Client                      A");
-    System.out.println("Add Product                     B");
-    System.out.println("Add Supplier                    C\n");
-    System.out.println("Edit Client                     D");
-    System.out.println("Edit Product                    E");
-    System.out.println("Edit Supplier                   F\n");
-    System.out.println("Buy Product                     G");
-    System.out.println("Add Product Inventory           H\n");
+    System.out.println("Add Client                      A"); // Method written
+    System.out.println("Add Product                     B"); // Method written
+    System.out.println("Add Supplier                    C\n"); // Method written
+    System.out.println("Remove Client                   D"); // Method written
+    System.out.println("Remove Product                  E"); // Method written
+    System.out.println("Remove Supplier                 F\n"); // Method written
+    System.out.println("Buy Product                     G"); // Method written
+    System.out.println("Add Product Inventory           H\n"); //
     System.out.println("Redisplay Menu                  Z");
     System.out.println("Exit Warehouse                  X");
   }
 
-  private static void addClient(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
-    System.out.println("This function is not constructed yet");
-  }
+  public static void buyProduct(Scanner scan){
 
-  private static void addProduct(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
-    System.out.println("This function is not constructed yet");
-  }
+    System.out.print("What is your client ID?  : ")
+    int cId = scan.nextInt();
+    
+    System.out.print("What product would you like to buy?  : ")
+    String pName = scan.next();
 
-  private static void addSupplier(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
-    System.out.println("This function is not constructed yet");
-  }
+    if (!isProduct(pName)){
+      System.out.println("This product is not available\n");
+      return;
+    }
 
-  private static void editClient(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
-    System.out.println("This function is not constructed yet");
-  }
+    System.out.print("What is the ID of the supplier would you like to buy from?  : ");
+    int sId = scan.nextInt();
 
-  private static void editProduct(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
-    System.out.println("This function is not constructed yet");
-  }
+    if (getStock(sId, pName) < 0){
+      System.out.println("This product is not available from this supplier\n");
+      return;
+    }
 
-  private static void editSupplier(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
-    System.out.println("This function is not constructed yet");
-  }
+    int currentStock = getStock(sId, pName);
 
-  private static void buyProduct(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
-    System.out.println("This function is not constructed yet");
-  }
+    float price = getPrice(pName, sId);
 
-  private static void addProductInventory(ProductList pList, ClientList cList, SupplierList sList, ShoppingCart cart) {
-    System.out.println("This function is not constructed yet");
-  }
+    System.out.println("This product has a cost of $"+price+" and there are "+currentStock+" items available.\n");
 
-  private static void AllUnutilizedTestMethods(ProductList pList, ClientList cList, SupplierList sList,
-      ShoppingCart cart) {
+    System.out.print("How many items would you like to purchase?  : ");
+    int amtToRemove = scan.nextInt();
+    amtToRemove = abs(amtToRemove);
+    while (amtToRemove > currentStock){
+        System.out.print("You cannot purchase more items than we have in stock.");
+        amtToRemove = scan.nextInt();
+    }
 
-    // initialize some clients, suppliers, and products
-    Client c1 = new Client("Tom Jones", "123 4th St. Somewhere", 13579);
-    Client c2 = new Client("Gerald Thompson", "123 4th St. Anywhere", 24680);
-    Supplier s1 = new Supplier("John's Shop Manufacturer", 97531);
-    Supplier s2 = new Supplier("Bob & Joe's Electronics", 86420);
+    float purchasePrice = amtToRemove * price; //  not required to implement yet
 
-    // These aren't necessary since the ProductList class created these products for
-    // me, but I'll include them here for reference
-    /*
-     * Product p1 = new Product("Phillips DX467 Large Screwdriver"); Product p2 =
-     * new Product("GVT7000 Double-Sided Razor Blades"
-     * ,"Five-inch long retractable razor blade with rubber handle");
-     */
-
-    // initialize and populate ClientList, ProductList, and SupplierList
-
-    cList.insertClient(c1);
-    cList.insertClient(c2);
-
-    pList.addProduct("Phillips DX467 Large Screwdriver");
-    pList.addProduct("GVT7000 Double-Sided Razor Blades", "Five-inch long retractable razor blade with rubber handle");
-
-    // SupplierList has not been created, but when it is, this is what it would
-    // say...
-    /*
-     * SupplierList sList = new SupplierList(); sList.insertClient(s1);
-     * sList.insertClient(s2);
-     */
-
-    // In this section, I'll run all the available client functions
-    c1.changeAddress("1234 56th St. Alexandria, MN 56308");
-    c1.addCredit(13579, 5600);
-    System.out.println(c1.toString() + " \n Credit : $" + c1.getCredit());
-    c1.makePayment(13579, 2200);
-    c1.changeName("Terry Ryan");
-    // To test the client getters
-    System.out.println(c1.getcName() + ", " + c1.getcId() + ", " + c1.getcAddress() + ", $" + c1.getCredit());
-    // Test ClientList toString
-    System.out.println(cList.toString());
-
-    // Now I'll test the supplier functions
-    System.out.println("Supplier name : " + s1.getSName() + "\nSupplier ID : " + s1.getSId());
-    s1.changeSName("Kevin's Shop Manufacturer");
-    s1.addItem("Phillips DX467 Large Screwdriver");
-    s1.viewProductList();
-    s1.removeItem("Phillips DX467 Large Screwdriver"); // returns a boolean true
-    s1.viewProductList();
-
-    // Now I'll test the product functions (there's a lot here)
-
-    System.out.println(pList.isProduct("Phillips DX467 Large Screwdriver") + "     (should be true)"); // returns a
-    // boolean true
-    System.out.println(pList.isProduct("GVT7000 Double-Sided Razor Blades") + "     (should be true)"); // returns a
-    // boolean true
-    System.out.println(pList.isProduct("Screwdriver") + "     (should be false)"); // returns a boolean false
-
-    System.out.println(pList.addSupplier(555, "Phillips DX467 Large Screwdriver", 9.99, 150) + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.addSupplier(876, "Phillips DX467 Large Screwdriver", 8.79) + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.addSupplier(876, "Phillips DX467 Large Screwdriver", 8.39) + "     (should be false)"); // returns
-    // a boolean false
-
-    System.out.println(pList.setPrice("Phillips DX467 Large Screwdriver", 555, 9.39) + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.getPrice("Phillips DX467 Large Screwdriver", 555) + "     (should be 9.39)"); // returns a
-    // double 9.39
-
-    System.out.println(pList.isSupplier(555, "Phillips DX467 Large Screwdriver") + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.isSupplier(555, "GVT7000 Double-Sided Razor Blades") + "     (should be false)"); // returns
-    // a boolean false
-    System.out.println(pList.indexProduct("Phillips DX467 Large Screwdriver") + "     (should be 0)"); // returns an int
-                                                                                                       // 0
-
-    System.out.println(pList.numSuppliers("Phillips DX467 Large Screwdriver") + "     (should be 2)"); // returns an int
-                                                                                                       // 2
-    System.out.println(pList.setDescription("Phillips DX467 Large Screwdriver",
-        "A six-inch long heavy-huty Phillips screwdriver with up to 42 lbs. of torque") + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.getDescription("Phillips DX467 Large Screwdriver")); // returns a String "A six-inch long
-    // heavy-huty Phillips screwdriver with up to 42 lbs. of torque"
-
-    System.out.println(pList.getStock(555, "Phillips DX467 Large Screwdriver") + "     (should be 150)"); // returns an
-                                                                                                          // int 150
-    System.out.println(pList.getStock(876, "Phillips DX467 Large Screwdriver") + "     (should be 0)"); // returns an
-                                                                                                        // int 0
-    System.out.println(pList.addToStock(876, "Phillips DX467 Large Screwdriver", 75) + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.removeFromStock(555, "Phillips DX467 Large Screwdriver", 37) + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.getStock(555, "Phillips DX467 Large Screwdriver") + "     (should be 113)"); // returns an
-                                                                                                          // int 113
-    System.out.println(pList.setStock(555, "Phillips DX467 Large Screwdriver", 200) + "     (should be true)"); // returns
-    // a boolean true
-
-    System.out.println(pList.addToWaitlist(56, "Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.addToWaitlist(12, "Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.addToWaitlist(87, "Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.removeFromWaitlist(56, "Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a boolean true
-    System.out.println(pList.popWaitlist(876, "Phillips DX467 Large Screwdriver") + "     (should be 12)"); // returns
-                                                                                                            // an int 12
-
-    System.out.println(pList.removeSupplier("Phillips DX467 Large Screwdriver", 222) + "     (should be false)"); // returns
-    // a boolean false
-    System.out.println(pList.removeSupplier("Phillips DX467 Large Screwdriver", 876) + "     (should be true)"); // returns
-    // a boolean true
-
-    System.out.println(pList.removeProduct("Screwdriver") + "     (should be false)"); // returns a boolean false
-    System.out.println(pList.removeProduct("Phillips DX467 Large Screwdriver") + "     (should be true)"); // returns a
-    // boolean true
-    System.out.println(pList.removeProduct("Phillips DX467 Large Screwdriver") + "     (should be false)"); // returns a
-    // boolean false
-    System.out.println(pList.addProduct("Phillips DX467 Large Screwdriver") + "     (should be true)"); // returns a
-    // boolean true, adds the screwdriver back to the list of products
+    if(removeFromStock(sId, pName, amtToRemove))
+      System.out.print("Sucessfully removed item from stock");
 
   }
-}
+
+  public float makePayment(int cid, float amount) {
+  }
+
+  public float addCredit(int cid, float amount) {
+  }
+
+  private void writeObject(java.io.ObjectOutputStream output) {
+  }
+
+  private void readObject(java.io.ObjectInputStream input) throws ClassNotFoundException, IOException {
+  }
+
+  public String clientsToString() {
+  }
+
+  public boolean isProduct(String pName) {
+  }
+
+  public boolean isSupplier(int sId) {
+  }
+
+  // public boolean addSupplier(int sId, String sName) { }
+
+  // public void removeSupplier(int sId) { }
+
+  public int numSuppliers(String pName) {
+  }
+
+  public double getPrice(String pName, int sId) {
+  }
+
+  public boolean setPrice(String pName, int sId, float newPrice) {
+  }
+
+  public boolean setDescription(String pName, int sId, String newDescription) {
+  }
+
+  public String getDescription(String pName) {
+  }
+
+  // public boolean addProduct(String pName, String sName, int sId) {}
+
+  // public boolean addProduct(String pName, String sName, int sId, String
+  // pDescription) {}
+
+  // public boolean removeProduct(String pName, int sId) {}
+
+  public int getStock(int sId, String pName) {
+  }
+
+  public boolean addToStock(int sId, String pName, int amtToAdd) {
+  }
+
+  public boolean removeFromStock(int sId, String pName, int amtToRemove) {
+  }
+
+  public boolean setStock(int sId, String pName, int amtToSet) {
+  }
+
+  public boolean addToWaitlist(Client client, String pName, int sId, int qty) {
+  }
+
+  public boolean removeFromWaitlist(int clientID, String pName, int sId) {
+  }
+
+  public String generateInvoice(int clientID){}
+
+// public boolean addClient(String cName, String cAddress, int clientID){}
+
+// public boolean removeClient(int clientID) { }

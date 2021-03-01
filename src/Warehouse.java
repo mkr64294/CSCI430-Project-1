@@ -14,10 +14,8 @@ public class Warehouse {
   }
 
   public float makePayment(int cid, float amount) {
-
-    Iterator iterator;
     ClientBalance c;
-    for (iterator = clientList.iterator(); iterator.hasNext();) {
+    for (Iterator = clientList.iterator(); iterator.hasNext();) {
       c = (ClientBalance) iterator.next();
       if (c.client.getcId() == cid)
         return c.credit -= amount;
@@ -109,44 +107,45 @@ public class Warehouse {
     return true;
   }
 
-  public void removeSupplier(int sId) { // true means was in list and was removed;
+  public boolean removeSupplier(int sId) { // true means was in list and was removed;
     Iterator iterator1;
     Iterator iterator2;
     SupplierProduct s;
     ProductSupplier p;
     SupplierQuantity sq;
-    for (iterator1 = supplierList.iterator(); iterator1.hasNext();) { //remove supplier from supplierList
-      s = (SupplierProduct) iterator1.next();
-      if (s.supplier.getSId() == sId)
-        iterator1.remove();
-    }
-    for(iterator1 = productList.iterator(); iterator1.hasNext();) { //go through all products and remove the supplier
+    for (iterator1 = productList.iterator(); iterator1.hasNext();) { // go through all products and remove the supplier
       p = (ProductSupplier) iterator1.next();
-      for(iterator2 = p.pSupplierList.iterator(); iterator1.hasNext();){
+      for (iterator2 = p.pSupplierList.iterator(); iterator1.hasNext();) {
         sq = (SupplierQuantity) iterator2.next();
-        if(sq.supplier.getSId() == sId){
+        if (sq.supplier.getSId() == sId) {
           iterator2.remove();
         }
       }
     }
-    return;
+    for (iterator1 = supplierList.iterator(); iterator1.hasNext();) { // remove supplier from supplierList
+      s = (SupplierProduct) iterator1.next();
+      if (s.supplier.getSId() == sId)
+        iterator1.remove();
+        return true;
+    }
+    return false;
   }
 
   public int numSuppliers(String pName) { // returns number of suppliers for the given product
     return supplierList.size();
   }
 
-  public double getPrice(String pName, int sId) { // returns 0 if not found
+  public float getPrice(String pName, int sId) { // returns 0 if not found
     Iterator iterator1;
     Iterator iterator2;
     ProductSupplier p;
     SupplierQuantity sq;
 
-    for(iterator1 = productList.iterator(); iterator1.hasNext();) { //go through all products and remove the supplier
+    for (iterator1 = productList.iterator(); iterator1.hasNext();) { // go through all products and remove the supplier
       p = (ProductSupplier) iterator1.next();
-      for(iterator2 = p.pSupplierList.iterator(); iterator1.hasNext();){
+      for (iterator2 = p.pSupplierList.iterator(); iterator1.hasNext();) {
         sq = (SupplierQuantity) iterator2.next();
-        if(sq.supplier.getSId() == sId){
+        if (sq.supplier.getSId() == sId) {
           return sq.price;
         }
       }
@@ -160,11 +159,11 @@ public class Warehouse {
     ProductSupplier p;
     SupplierQuantity sq;
 
-    for(iterator1 = productList.iterator(); iterator1.hasNext();) { //go through all products and remove the supplier
+    for (iterator1 = productList.iterator(); iterator1.hasNext();) { // go through all products and remove the supplier
       p = (ProductSupplier) iterator1.next();
-      for(iterator2 = p.pSupplierList.iterator(); iterator1.hasNext();){
+      for (iterator2 = p.pSupplierList.iterator(); iterator1.hasNext();) {
         sq = (SupplierQuantity) iterator2.next();
-        if(sq.supplier.getSId() == sId){
+        if (sq.supplier.getSId() == sId) {
           sq.price = newPrice;
           return true;
         }
@@ -202,9 +201,8 @@ public class Warehouse {
   }
 
   public String getDescription(String pName) {
-    Iterator iterator;
     ProductSupplier p;
-    for (iterator = productList.iterator(); iterator.hasNext();) {
+    for (Iterator iterator = productList.iterator(); iterator.hasNext();) {
       p = (ProductSupplier) iterator.next();
       if (p.product.getPName().equals(pName)) {
         return p.product.getDescription();
@@ -406,14 +404,11 @@ public class Warehouse {
     return false;
   }
 
- 
-  public boolean addToWaitlist(Client client, String pName, int sId, int qty) { //adds clients to a suppliers product 
+  public boolean addToWaitlist(Client client, String pName, int sId, int qty) { // adds clients to a suppliers product
     Iterator iterator1;
     Iterator iterator2;
-    Iterator iterator3;
     ProductSupplier p;
     SupplierQuantity sq;
-    ClientWLNode cwln;
     for (iterator1 = productList.iterator(); iterator1.hasNext();) {
       p = (ProductSupplier) iterator1.next();
       if (p.product.getPName().equals(pName)) {
@@ -427,8 +422,8 @@ public class Warehouse {
     }
     return false;
   }
-    
-  public boolean removeFromWaitlist(int clientID, String pName, int sId) {// removes clients from a suppliers 
+
+  public boolean removeFromWaitlist(int clientID, String pName, int sId) {// removes clients from a suppliers
     Iterator iterator1;
     Iterator iterator2;
     Iterator iterator3;
@@ -454,8 +449,9 @@ public class Warehouse {
     }
     return false;
   }
-    
-  public int popWaitlist(int sId, String pName) { // returns -1 if product not found -2 if supplier not found // otherwise returns client ID
+
+  public int popWaitlist(int sId, String pName) { // returns -1 if product not found -2 if supplier not found //
+                                                  // otherwise returns client ID
     Iterator iterator1;
     Iterator iterator2;
     ProductSupplier p;
@@ -473,27 +469,26 @@ public class Warehouse {
     }
     return -999999;
   }
-  public void fulfillWaitlist(int sId, String pName, int qty) { 
+
+  public void fulfillWaitlist(int sId, String pName, int qty) {
     Iterator iterator1;
     Iterator iterator2;
     ProductSupplier p;
     SupplierQuantity sq;
-    ClientWLNode cwln;
     for (iterator1 = productList.iterator(); iterator1.hasNext();) {
       p = (ProductSupplier) iterator1.next();
       if (p.product.getPName().equals(pName)) {
         for (iterator2 = p.pSupplierList.iterator(); iterator2.hasNext();) {
           sq = (SupplierQuantity) iterator2.next();
           if (sq.supplier.getSId() == sId) {
-            while(sq.clientWL.peek().quantity < qty && !(sq.clientWL.isEmpty())){
+            while (sq.clientWL.peek().quantity < qty && !(sq.clientWL.isEmpty())) {
               qty -= sq.clientWL.peek().quantity;
               sq.clientWL.remove();
             }
-            if(sq.clientWL.peek().quantity == qty && !(sq.clientWL.isEmpty())){
+            if (sq.clientWL.peek().quantity == qty && !(sq.clientWL.isEmpty())) {
               sq.clientWL.remove();
               return;
-            }
-            else if(sq.clientWL.peek().quantity > qty && !(sq.clientWL.isEmpty()){
+            } else if (sq.clientWL.peek().quantity > qty && !(sq.clientWL.isEmpty())) {
               sq.clientWL.peek().quantity -= qty;
               return;
             }
@@ -504,7 +499,45 @@ public class Warehouse {
     }
     return;
   }
-   
+
+  public String generateInvoice(int clientID) { // should only be called after the last item is in the cart.
+    Iterator iterator1;
+    ClientBalance cb;
+    for (iterator1 = clientList.iterator(); iterator1.hasNext();) {
+      cb = (ClientBalance) iterator1.next();
+      if (cb.client.getcId() == clientID) {
+        return cb.client.generateInvoice();
+      }
+    }
+    return "client not found";
+  }
+
+  public boolean addClient(String cName, String cAddress, int clientID) {
+    Iterator iterator1;
+    ClientBalance cb;
+    int clientID = 0;
+    for (iterator1 = clientList.iterator(); iterator1.hasNext();) {
+      cb = (ClientBalance) iterator1.next();
+      if (cb.client.getcId() == clientID) {
+        return false;
+      }
+    }
+    clientList.add(new ClientBalance(cName, cAddress, clientID));
+    return true;
+  }
+
+  public boolean removeClient(int clientID) {
+    Iterator iterator1;
+    ClientBalance cb;
+    for (iterator1 = clientList.iterator(); iterator1.hasNext();) {
+      cb = (ClientBalance) iterator1.next();
+      if (cb.client.getcId() == clientID) {
+        iterator1.remove();
+        return true;
+      }
+    }
+    return false;
+  }
 
   // Create the class ProductSupplier, which contains the class SupplierQuantity
   // this is done so that every product we create will instantly have a supplier
@@ -542,10 +575,11 @@ public class Warehouse {
     }
   }
 
-  public class ClientWLNode{
+  public class ClientWLNode {
     public Client client;
     public int quantity;
-    public ClientWLNode(Client c, int qty){
+
+    public ClientWLNode(Client c, int qty) {
       client = c;
       quantity = qty;
     }
@@ -567,7 +601,6 @@ public class Warehouse {
   public class ProductQuantity {
     public Product product;
     public int quantity;
-    
 
     public ProductQuantity(String pName, int qty) {
       product = new Product(pName);
@@ -595,10 +628,100 @@ public class Warehouse {
   public class ClientBalance {
     public Client client;
     public float credit;
+    public ShoppingCart cart;
+    private LinkedList<Invoice> invoices;
 
     public ClientBalance(String cName, String cAddress, int cID) {
       client = new Client(cName, cAddress, cID);
       credit = 0;
+      cart = new ShoppingCart();
+      invoices = new LinkedList<Invoice>();
+    }
+
+    public void addItem(String itemName, int qty, int sID) {
+      cart.addItem(itemName, qty, sID);
+      return;
+    }
+
+    public boolean removeItem(String itemName, int qty, int sID) {
+      return cart.removeItem(itemName, qty, sID);
+    }
+
+    public ItemQty findProduct(String pName, int sID) {
+      return cart.findProduct(pName, sID);
+    }
+
+    public int showQuantity(String itemName, int sID) {
+      return cart.showQuantity(itemName, sID);
+    }
+
+    public boolean setItemQty(String pName, int qty, int sID) {
+      return cart.setItemQty(pName, qty, sID);
+    }
+
+    public String generateInvoice() { // will update the invoice for the current shopping cart
+      String s = "order ID is " + cart.getOrderID() + '\n';
+      Iterator iterator;
+      ItemQty iq;
+      if (invoiceExists(cart.getOrderID())) {
+        getInvoiceIterator(cart.getOrderID()).remove();
+      }
+      for (iterator = getCartIterator(); iterator.hasNext();) {
+        iq = (ItemQty) iterator.next();
+        s += "Product " + iq.getPName() + " supplier ID " + iq.getSID() + " quantity " + iq.getQty() + " price "
+            + (getPrice(iq.getPName(), iq.getSID()) * iq.getQty()) + '\n';
+      }
+      invoices.add(new Invoice(cart.getOrderID(), s));
+      return s;
+    }
+
+    public float getCartPrice() {
+      float price = 0;
+      Iterator iterator;
+      ItemQty iq;
+      for (iterator = getCartIterator(); iterator.hasNext();) {
+        iq = (ItemQty) iterator.next();
+        price += (getPrice(iq.getPName(), iq.getSID()) * iq.getQty());
+      }
+      return price;
+    }
+
+    public boolean invoiceExists(int oID) {
+      Iterator iterator;
+      Invoice i;
+      for (iterator = invoices.iterator(); iterator.hasNext();) {
+        i = (Invoice) iterator.next();
+        if (i.orderID == oID) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    public Iterator getInvoiceIterator(int oID) {
+      Iterator iterator;
+      Invoice i;
+      for (iterator = invoices.iterator(); iterator.hasNext();) {
+        i = (Invoice) iterator.next();
+        if (i.orderID == oID) {
+          return iterator;
+        }
+      }
+      return iterator;
+    }
+
+    public Iterator getCartIterator() {
+      return cart.getCartIterator();
+    }
+
+    public class Invoice {
+      int orderID;
+      String orderDetails;
+
+      public Invoice(int orderID, String contents) {
+        this.orderDetails = contents;
+        this.orderID = orderID;
+      }
     }
   }
 }

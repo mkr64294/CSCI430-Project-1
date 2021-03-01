@@ -4,6 +4,7 @@ import java.io.*;
 
 public class ShoppingCart {
   private LinkedList<ItemQty> items;
+  private int orderID;
 
   public ShoppingCart() {
     items = new LinkedList<ItemQty>();
@@ -11,6 +12,7 @@ public class ShoppingCart {
 
   public ShoppingCart(LinkedList<ItemQty> items) {
     this.items = items;
+    orderID = 1;
   }
 
   public void addItem(String itemName, int qty, int sID) {
@@ -59,6 +61,14 @@ public class ShoppingCart {
     return false;
   }
 
+  public int getOrderID() {
+    return orderID;
+  }
+
+  public Iterator getCartIterator() {
+    return items.iterator();
+  }
+
 }
 
 class ItemQty implements Serializable {
@@ -103,5 +113,9 @@ class ItemQty implements Serializable {
 
   public void removeQty(int qty) {
     this.qty -= qty;
+  }
+
+  public String toString() {
+    return ("item: " + pName + " quantity " + qty + " supplier: " + sID + '\n');
   }
 }
