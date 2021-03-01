@@ -60,6 +60,7 @@ class UserInterface {
           entry = scan.next().charAt(0);
           if (entry == 'y' || entry == 'Y') {
             System.out.print("Please enter a description for this product.  : ");
+            scan.nextLine();
             String pDescription = scan.nextLine();
             if (WH.addProduct(pName, sName, sId, pDescription)) {
               System.out.println("Product sucessfully added.\n");
@@ -129,7 +130,7 @@ class UserInterface {
         if (WH.removeSupplier(sId)) {
           System.out.println("Supplier sucessfully removed.\n");
         } else {
-          System.out.println("Supplier to remove supplier.\n");
+          System.out.println("Unable to remove supplier.\n");
         }
 
       } else if (entry == 'G' || entry == 'g') { // buy product
@@ -172,7 +173,6 @@ class UserInterface {
     int cId = scan.nextInt();
 
     System.out.print("What product would you like to buy?  : ");
-    scan.nextLine();
     String pName = scan.nextLine();
 
     if (!WH.isProduct(pName)) {
