@@ -15,7 +15,8 @@ public class Warehouse {
 
   public float makePayment(int cid, float amount) {
     ClientBalance c;
-    for (Iterator = clientList.iterator(); iterator.hasNext();) {
+    Iterator iterator;
+    for (iterator = clientList.iterator(); iterator.hasNext();) {
       c = (ClientBalance) iterator.next();
       if (c.client.getcId() == cid)
         return c.credit -= amount;
@@ -49,14 +50,11 @@ public class Warehouse {
   private void readObject(java.io.ObjectInputStream input) throws ClassNotFoundException, IOException {
     try {
       if (clientList != null) {
+        input.readObject();
         return;
       } else {
         input.defaultReadObject();
-        if (clientList == null) {
-          clientList = (List<Warehouse.ClientBalance>) input.readObject();
-        } else {
-          input.readObject();
-        }
+        clientList = (List<Warehouse.ClientBalance>) input.readObject();
       }
     } catch (IOException ioe) {
       ioe.printStackTrace();
@@ -126,7 +124,7 @@ public class Warehouse {
       s = (SupplierProduct) iterator1.next();
       if (s.supplier.getSId() == sId)
         iterator1.remove();
-        return true;
+      return true;
     }
     return false;
   }
@@ -506,7 +504,7 @@ public class Warehouse {
     for (iterator1 = clientList.iterator(); iterator1.hasNext();) {
       cb = (ClientBalance) iterator1.next();
       if (cb.client.getcId() == clientID) {
-        return cb.client.generateInvoice();
+        return cb.generateInvoice();
       }
     }
     return "client not found";
@@ -515,7 +513,6 @@ public class Warehouse {
   public boolean addClient(String cName, String cAddress, int clientID) {
     Iterator iterator1;
     ClientBalance cb;
-    int clientID = 0;
     for (iterator1 = clientList.iterator(); iterator1.hasNext();) {
       cb = (ClientBalance) iterator1.next();
       if (cb.client.getcId() == clientID) {
