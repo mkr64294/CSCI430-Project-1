@@ -11,9 +11,9 @@ import java.util.*;
 
 class UserInterface {
 
-  private Scanner scan = new Scanner(System.in);
+  private static Scanner scan = new Scanner(System.in);
 
-  public void main(String[] args) {
+  public static void main(String[] args) {
 
     // Initialize the Warehouse lists and the shopping cart
     Warehouse WH = new Warehouse();
@@ -29,10 +29,10 @@ class UserInterface {
       if (entry == 'A' || entry == 'a') { // adding client
 
         System.out.print("What is the name of this client?  : ");
-        String cName = scan.next();
+        String cName = scan.nextLine();
 
         System.out.print("What is this client's address?   : ");
-        String cAddress = scan.next();
+        String cAddress = scan.nextLine();
 
         System.out.print("Please create a numerical ID for this client   : ");
         int clientID = scan.nextInt();
@@ -45,10 +45,10 @@ class UserInterface {
 
       } else if (entry == 'B' || entry == 'b') { // adding product
         System.out.print("What is this product called?  : ");
-        String pName = scan.next();
+        String pName = scan.nextLine();
 
         System.out.print("What supplier supplies this product?   : ");
-        String sName = scan.next();
+        String sName = scan.nextLine();
 
         System.out.print("What is the ID of this supplier?   : ");
         int sId = scan.nextInt();
@@ -58,7 +58,7 @@ class UserInterface {
           entry = scan.next().charAt(0);
           if (entry == 'y' || entry == 'Y') {
             System.out.print("Please enter a description for this product.  : ");
-            String pDescription = scan.next();
+            String pDescription = scan.nextLine();
             if (WH.addProduct(pName, sName, sId, pDescription)) {
               System.out.println("Product sucessfully added.\n");
             } else {
@@ -79,7 +79,7 @@ class UserInterface {
       } else if (entry == 'C' || entry == 'c') { // adding supplier
 
         System.out.print("What is the name of this supplier?  : ");
-        String sName = scan.next();
+        String sName = scan.nextLine();
 
         System.out.print("What is the ID of this supplier?   : ");
         int sId = scan.nextInt();
@@ -104,7 +104,7 @@ class UserInterface {
       } else if (entry == 'E' || entry == 'e') { // remove product
 
         System.out.print("What is the name of this product?  : ");
-        String pName = scan.next();
+        String pName = scan.nextLine();
 
         System.out.print("What is the ID of the supplier that supplies this product?  : ");
         int sId = scan.nextInt();
@@ -159,13 +159,13 @@ class UserInterface {
     System.out.println("Exit Warehouse                  X");
   }
 
-  public void buyProduct(Scanner scan, Warehouse WH) {
+  public static void buyProduct(Scanner scan, Warehouse WH) {
 
     System.out.print("What is your client ID?  : ");
     int cId = scan.nextInt();
 
     System.out.print("What product would you like to buy?  : ");
-    String pName = scan.next();
+    String pName = scan.nextLine();
 
     if (!WH.isProduct(pName)) {
       System.out.println("This product is not available\n");
@@ -201,10 +201,10 @@ class UserInterface {
 
   }
 
-  public void addProductInventory(Scanner scan, Warehouse WH) {
+  public static void addProductInventory(Scanner scan, Warehouse WH) {
 
     System.out.print("What product would you like add stock?  : ");
-    String pName = scan.next();
+    String pName = scan.nextLine();
 
     if (!WH.isProduct(pName)) {
       System.out.println("This product does not exist\n");
