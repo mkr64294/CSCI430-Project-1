@@ -145,8 +145,14 @@ class UserInterface {
 
         displayMenu();
 
+      } else if (entry == 'X' || entry == 'x') {
+
+        break;
+
       } else { // This is is any entry does not match one of these options
+
         System.out.println("This in not a valid selection. Please try again.\n");
+
       }
     }
   }
@@ -235,7 +241,7 @@ class UserInterface {
 
     if (WH.addToStock(sId, pName, amtToAdd))
       System.out.print(
-          "Sucessfully added " + amtToAdd + " items to stock for a total of " + WH.getStock(sId, pName) + "items.");
+          "Sucessfully added " + amtToAdd + " items to stock for a total of " + WH.getStock(sId, pName) + " items.");
   }
 
 }
