@@ -179,6 +179,7 @@ class UserInterface {
     int cId = scan.nextInt();
 
     System.out.print("What product would you like to buy?  : ");
+    scan.nextLine();
     String pName = scan.nextLine();
 
     if (!WH.isProduct(pName)) {
