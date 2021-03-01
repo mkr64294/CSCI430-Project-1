@@ -29,6 +29,7 @@ class UserInterface {
       if (entry == 'A' || entry == 'a') { // adding client
 
         System.out.print("What is the name of this client?  : ");
+        scan.nextLine();
         String cName = scan.nextLine();
 
         System.out.print("What is this client's address?   : ");
@@ -45,6 +46,7 @@ class UserInterface {
 
       } else if (entry == 'B' || entry == 'b') { // adding product
         System.out.print("What is this product called?  : ");
+        scan.nextLine();
         String pName = scan.nextLine();
 
         System.out.print("What supplier supplies this product?   : ");
@@ -79,6 +81,7 @@ class UserInterface {
       } else if (entry == 'C' || entry == 'c') { // adding supplier
 
         System.out.print("What is the name of this supplier?  : ");
+        scan.nextLine();
         String sName = scan.nextLine();
 
         System.out.print("What is the ID of this supplier?   : ");
@@ -93,6 +96,7 @@ class UserInterface {
       } else if (entry == 'D' || entry == 'd') { // remove client
 
         System.out.print("What is the ID of this client?  : ");
+        scan.nextLine();
         int clientID = scan.nextInt();
 
         if (WH.removeClient(clientID)) {
@@ -104,6 +108,7 @@ class UserInterface {
       } else if (entry == 'E' || entry == 'e') { // remove product
 
         System.out.print("What is the name of this product?  : ");
+        scan.nextLine();
         String pName = scan.nextLine();
 
         System.out.print("What is the ID of the supplier that supplies this product?  : ");
@@ -118,6 +123,7 @@ class UserInterface {
       } else if (entry == 'F' || entry == 'f') { // remove supplier
 
         System.out.print("What is the ID of this supplier?  : ");
+        scan.nextLine();
         int sId = scan.nextInt();
 
         if (WH.removeSupplier(sId)) {
@@ -162,6 +168,7 @@ class UserInterface {
   public static void buyProduct(Scanner scan, Warehouse WH) {
 
     System.out.print("What is your client ID?  : ");
+    scan.nextLine();
     int cId = scan.nextInt();
 
     System.out.print("What product would you like to buy?  : ");
@@ -204,6 +211,7 @@ class UserInterface {
   public static void addProductInventory(Scanner scan, Warehouse WH) {
 
     System.out.print("What product would you like add stock?  : ");
+    scan.nextLine();
     String pName = scan.nextLine();
 
     if (!WH.isProduct(pName)) {
