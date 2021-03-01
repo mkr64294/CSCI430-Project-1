@@ -122,9 +122,10 @@ public class Warehouse {
     }
     for (iterator1 = supplierList.iterator(); iterator1.hasNext();) { // remove supplier from supplierList
       s = (SupplierProduct) iterator1.next();
-      if (s.supplier.getSId() == sId)
+      if (s.supplier.getSId() == sId) {
         iterator1.remove();
-      return true;
+        return true;
+      }
     }
     return false;
   }
