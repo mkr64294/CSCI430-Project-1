@@ -10,21 +10,26 @@ import java.io.*;
 public class Product implements Serializable {
     private String pName; // unique identifier not to be changed
     private String description;
+    private int pID;
 
-    public Product(String pName) { // the pName should be referenced
+    public Product(String pName, int pID) { // the pName should be referenced
                                    // by the product list before
                                    // constructing to check for duplicates
+        this.pID = pID;
         this.pName = pName;
         this.description = "no description.";
     }
 
-    public Product(String pName, String pdescription) { // the pName should be referenced
-                                                        // by the product list before
-                                                        // constructing to check for duplicates
+    public Product(String pName, String pdescription, int pID) { // the pName should be referenced
+                                                             // by the product list before
+        this.pID = pID;                                      // constructing to check for duplicates
         this.pName = pName;
         this.description = pdescription;
     }
-
+    public int getPID(){
+        return pID;
+    }
+    
     public String getPName() { // returns product name
         return this.pName;
     }
