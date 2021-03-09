@@ -240,9 +240,9 @@ class UserInterface {
     System.out.print("How many items would you like to add to stock?  : ");
     int amtToAdd = scan.nextInt();
 
-    if (WH.addToStock(sId, pId, amtToAdd))
+    if (WH.addToStock(sId, pName, amtToAdd))
       System.out.print(
-          "Sucessfully added " + amtToAdd + " items to stock for a total of " + WH.getStock(sId, pId) + " items.");
+          "Sucessfully added " + amtToAdd + " items to stock for a total of " + WH.getStock(sId, pName) + " items.");
   }
 
 }
