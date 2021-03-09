@@ -45,7 +45,7 @@ public class Warehouse {
 
     ListIterator<ClientBalance> iterator;
     ClientBalance c;
-    for (iterator = clientList.listIterator(); iterator.hasNext();) {
+    for (iterator = clientList.listIterator(); iterator.hasNext();){
       c = (ClientBalance) iterator.next();
       if (c.client.getcId() == cid){
         c.credit += amount;
@@ -53,8 +53,13 @@ public class Warehouse {
         return c.credit;
       }
     }
-
     return -9999;
+  }
+  public float getCredit(int cID){ //return -1 if client not found
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if (cbIt == null){return -1;}
+    ClientBalance cb = (ClientBalance) cbIt;
+    return cb.credit;
   }
 
   private void writeObject(java.io.ObjectOutputStream output) {
@@ -238,7 +243,8 @@ public class Warehouse {
   }
 
   public boolean addToStock(int sID, int pID, int amtToAdd) { // adds an amount of product to stock for a given supplier
-    SupplierProduct sp = (SupplierProduct) findSupplier(sID);
+    ListIterator<SupplierProduct> spIt = findSupplier(sID);
+    SupplierProduct sp = (SupplierProduct) spIt;
     if(sp == null){
       return false;
     }
@@ -247,7 +253,8 @@ public class Warehouse {
       return false;
     }
     ProductQuantity pq = (ProductQuantity) pqIt;
-    ProductSupplier ps = (ProductSupplier) findProduct(pID);
+    ListIterator<ProductSupplier> psIt = findProduct(pID);
+    ProductSupplier ps = (ProductSupplier) psIt;
     if(ps == null){
       return false;
     }
@@ -260,6 +267,8 @@ public class Warehouse {
     pq.quantity += amtToAdd;
     sqIt.set(sq);
     pqIt.set(pq);
+    spIt.set(sp);
+    psIt.set(ps);
     return true;
   }
 
@@ -457,6 +466,51 @@ public class Warehouse {
     return true;
   }
 
+  public boolean addToCart(int cID, int pID, int qty, int sID){
+    boolean bool;
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){return false;}
+    ClientBalance cb = (ClientBalance) cbIt;
+    bool = cb.addToCart(pID, qty, sID);
+    cbIt.set(cb);
+    return bool;
+  }
+  public boolean removeFromCart(int cID, int pID, int qty, int sID){
+    boolean bool;
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){return false;}
+    ClientBalance cb = (ClientBalance) cbIt;
+    bool = cb.removeFromCart(pID, qty, sID);
+    cbIt.set(cb);
+    return bool;
+  }
+  public boolean isInCart(int cID, int pID, int sID){
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){return false;}
+    ClientBalance cb = (ClientBalance) cbIt;
+    return cb.isInCart(pID, sID);
+  }
+  public boolean clearCart(int cID){
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){return false;}
+    ClientBalance cb = (ClientBalance) cbIt;
+    cb.clearCart();
+    cbIt.set(cb);
+    return true;
+  }
+  public int getCartQuantity(int cID, int pID, int sID){ // returns -1 if client not found
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){return -1;}
+    ClientBalance cb = (ClientBalance) cbIt;
+    return cb.showItemQty(pID, sID);
+  }
+  public String showCart(int cID){
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){return "not found";}
+    ClientBalance cb = (ClientBalance) cbIt;
+    return cb.cart.toString();
+  }
+
   // Create the class ProductSupplier, which contains the class SupplierQuantity
   // this is done so that every product we create will instantly have a supplier
   // list and inventory attached to it
@@ -595,16 +649,11 @@ public class Warehouse {
       cart = new ShoppingCart();
     }
 
-    public void addItem(int pID, int qty, int sID) {
-      cart.addItem(pID, qty, sID);
-      return;
-    }
-
-    public boolean removeItem(int pID, int qty, int sID) {
+    public boolean removeFromCart(int pID, int qty, int sID) {
       return cart.removeItem(pID, qty, sID);
     }
 
-    public ListIterator<ItemQty> findItem(int pId, int sID) {
+    public ListIterator<ItemQty> searchCart(int pId, int sID) {
       return cart.searchCart(pId, sID);
     }
 
@@ -619,7 +668,17 @@ public class Warehouse {
     public float getCartPrice() {
       return cart.getCartPrice();
     }
-  
+
+    public boolean addToCart(int pID, int qty, int sID){
+      return cart.addItem(pID, qty, sID);
+    }
+    public boolean isInCart(int pID, int sID){
+      return cart.isInCart(pID, sID);
+    }
+    public void clearCart(){
+      cart.clear();
+    }
+
     public class ShoppingCart {
       private LinkedList<ItemQty> items;
       private int orderID;
@@ -635,6 +694,9 @@ public class Warehouse {
           invIt.remove();
         }
         inv = new Invoice(orderID, toString());
+      }
+      public void clear(){
+        items.clear();
       }
       public float getCartPrice(){
         ListIterator<ItemQty> itemIt = items.listIterator();
@@ -734,6 +796,11 @@ public class Warehouse {
         }
         return null;
       }
+      public boolean isInCart(int pID, int sID){
+        ListIterator<ItemQty> iqIt = searchCart(pID, sID);
+        if(iqIt == null){return false;}
+        return true;
+      }
     
       public int getOrderID() {
         return orderID;
@@ -766,6 +833,8 @@ public class Warehouse {
     }
     
     class ItemQty implements Serializable {
+      
+      private static final long serialVersionUID = 1L;
       private ListIterator<ProductSupplier> product;
       private int qty;
       private ListIterator<SupplierQuantity> supplier;
@@ -805,7 +874,7 @@ public class Warehouse {
       }
     
       public String toString() {
-        return ("item: " + getPName() + " quantity " + qty + " supplier: " + getSID() + '\n');
+        return ("item: " + getPName() + " quantity: " + qty + " supplier: " + getSID() + '\n');
       }
     }
   }
