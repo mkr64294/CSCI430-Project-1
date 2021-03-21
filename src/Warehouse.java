@@ -363,74 +363,32 @@ public class Warehouse {
 
   }
 
-  /*public boolean addToWaitlist(int cID, int pID, int sID, int qty) { // adds clients to a suppliers product
-    ListIterator<ProductSupplier> psIt = findProduct(pID);
-    if(psIt == null){
-      return false;
-    }
-    ProductSupplier ps = (ProductSupplier) psIt;
-    ListIterator<SupplierQuantity> sqIt = ps.findSupplierQuantity(sID);
-    if(sqIt == null){
-      return false;
-    }
-    SupplierQuantity sq = (SupplierQuantity) sqIt;
-    ClientWLNode cwln = new ClientWLNode(cID, qty);
-    sq.clientWL.add(cwln);
-    sqIt.set(sq);
-    psIt.set(ps);
+  public boolean addToWaitlist(int cID, int pID, int sID, int qty) { // adds clients to a suppliers product
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){return false;}
+    cbIt.previous();
+    ClientBalance c = cbIt.next();
+    boolean flag;
+    flag = c.addToClientWaitlist(pID, qty, sID);
+    if(flag == false){return false;}
+    cbIt.remove();
+    clientList.add(c);
     return true;
   }
 
-  public boolean removeFromWaitlist(int cID, int pID, int sID) {// removes clients from a suppliers
-
+  public boolean removeFromWaitlist(int cID, int pID, int sID, int qty) {// removes clients from a suppliers
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){return false;}
+    cbIt.previous();
+    ClientBalance c = cbIt.next();
+    boolean flag;
+    flag = c.removeFromClientWaitlist(pID,qty,sID);
+    if(flag == false){return false;}
+    cbIt.remove();
+    clientList.add(c);
+    return true;
   }
 
-  public int popWaitlist(int sID, int pID) { //returns client ID or 0 if not found
-    ListIterator<ProductSupplier> psIt = findProduct(pID);
-    if(psIt == null){
-      return 0;
-    }
-    ProductSupplier ps = (ProductSupplier) psIt;
-    ListIterator<SupplierQuantity> sqIt = ps.findSupplierQuantity(sID);
-    if(sqIt == null){
-      return 0;
-    }
-    SupplierQuantity sq = (SupplierQuantity) sqIt;
-    ClientWLNode cwln = sq.clientWL.remove();
-    return cwln.getcId();
-  }
-
-  public int fulfillWaitlist(int sID, int pID, int qty) { //returns the leftover not needed qty, -1 if not found
-    ListIterator<ProductSupplier> psIt = findProduct(pID);
-    if(psIt == null){
-      return -1;
-    }
-    psIt.previous();
-    ProductSupplier ps = psIt.next();
-    ListIterator<SupplierQuantity> sqIt = ps.findSupplierQuantity(sID);
-    if(sqIt == null){
-      return -1;
-    }
-    sqIt.previous();
-    SupplierQuantity sq = sqIt.next();
-    ClientWLNode cwln;
-    for(;(!(sq.clientWL.isEmpty()))||(qty == 0);){
-      cwln = sq.clientWL.peek();
-      if(cwln.quantity <= qty){
-        qty -= cwln.quantity;
-        sq.clientWL.remove();
-      }
-      else{
-        sqIt.set(sq);
-        psIt.set(ps);
-        return qty;
-      }
-    }
-    sqIt.set(sq);
-    psIt.set(ps);
-    return qty;
-  }
-*/
   public boolean generateInvoice(int clientID) { // should only be called after the last item is in the cart.
     ListIterator<ClientBalance> cbIt = findClient(clientID);
     if(cbIt == null){return false;}
@@ -596,22 +554,20 @@ public class Warehouse {
 
 
   public class SupplierQuantity {
-    public ListIterator<SupplierProduct> supplier;
     public int quantity;
     public float price;
-    public Queue<ClientWLNode> clientWL;
+    public LinkedList<ClientWLNode> clientWL;
     public int sIDsq;
 
     public SupplierQuantity(int sID) {
       quantity = 0;
-      supplier = findSupplier(sID);
       clientWL = new LinkedList<>();
       sIDsq = sID;
     }
 
     public SupplierQuantity(int sID, int qty) {
       quantity = qty;
-      supplier = findSupplier(sID);
+      sIDsq = sID;
     }
 
     public int getSID(){
@@ -623,19 +579,26 @@ public class Warehouse {
       SupplierProduct sp = spIt.next();
       return sp.supplier.getSName();
     }
+    public ListIterator<ClientWLNode> findClientWLNode(int cID){
+      ListIterator<ClientWLNode> cnIt = clientWL.listIterator();
+      ClientWLNode cn;
+      while(cnIt.hasNext()){
+        cn=cnIt.next();
+        if(cn.client == cID){
+          return cnIt;
+        }
+      }
+      return null;
+    }
   }
 
   public class ClientWLNode {
-    public ListIterator<ClientBalance> client;
+    public int client;
     public int quantity;
 
     public ClientWLNode(int cID, int qty) {
-      client = findClient(cID);
+      client = cID;
       quantity = qty;
-    }
-    public int getcId(){
-      ClientBalance cb = (ClientBalance) client;
-      return cb.client.getcId();
     }
   }
 
@@ -712,18 +675,72 @@ public class Warehouse {
     public Client client;
     public float credit;
     public ShoppingCart cart;
+    public LinkedList<ItemQty> waitlist;
 
     public ClientBalance(String cName, String cAddress) {
       client = new Client(cName, cAddress, clientCount);
       clientCount++;
       credit = 0;
       cart = new ShoppingCart();
+      waitlist = new LinkedList<ItemQty>();
     }
 
     public boolean removeFromCart(int pID, int qty, int sID) {
       return cart.removeItem(pID, qty, sID);
     }
-
+    public boolean addToClientWaitlist(int pID, int qty, int sID){
+      ListIterator<ProductSupplier> psIt = findProduct(pID);
+      if(psIt == null){return false;}
+      psIt.previous();
+      ProductSupplier ps = psIt.next();
+      ListIterator<SupplierQuantity> sqIt = ps.findSupplierQuantity(sID);
+      if(sqIt == null){return false;}
+      sqIt.previous();
+      SupplierQuantity sq = sqIt.next();
+      sq.clientWL.add(new ClientWLNode(client.getcId(), qty));
+      sqIt.remove();
+      ps.pSupplierList.add(sq);
+      psIt.remove();
+      productList.add(ps);
+      waitlist.add(new ItemQty(pID, qty, sID));
+      return true;
+    }
+    public boolean removeFromClientWaitlist(int pID, int qty, int sID){
+      ListIterator<ProductSupplier> psIt = findProduct(pID);
+      if(psIt == null){return false;}
+      psIt.previous();
+      ProductSupplier ps = psIt.next();
+      ListIterator<SupplierQuantity> sqIt = ps.findSupplierQuantity(sID);
+      if(sqIt == null){return false;}
+      sqIt.previous();
+      SupplierQuantity sq = sqIt.next();
+      ListIterator<ClientWLNode> cnIt = sq.findClientWLNode(client.getcId());
+      if(cnIt == null){return false;}
+      cnIt.previous();
+      ClientWLNode cn = cnIt.next();
+      if(cn.quantity > qty){
+        cn.quantity -= qty;
+        sq.clientWL.add(cn);
+      }
+      cnIt.remove();
+      ps.pSupplierList.add(sq);
+      sqIt.remove();
+      productList.add(ps);
+      psIt.remove();
+      return true;
+    }
+    public ListIterator<ItemQty> findItemWaitlistPred(int pID, int sID){
+      ListIterator<ItemQty> wlIt = waitlist.listIterator();
+      ItemQty item;
+      while(wlIt.hasNext()){
+        item = wlIt.next();
+        if(item.pIDiq == pID && item.sIDiq == sID){
+          wlIt.previous();
+          return wlIt;
+        }
+      }
+      return null;
+    }
     public ListIterator<ItemQty> searchCart(int pId, int sID) {
       return cart.searchCart(pId, sID);
     }
@@ -902,36 +919,37 @@ public class Warehouse {
     class ItemQty implements Serializable {
       
       private static final long serialVersionUID = 1L;
-      private ListIterator<ProductSupplier> product;
       private int qty;
-      private ListIterator<SupplierQuantity> supplier;
       private int pIDiq;
-      private String pNameiq;
       private int sIDiq;
     
       public ItemQty(int pID, int quantity, int sID) {
-        product = findProduct(pID);
+        ListIterator<ProductSupplier> product = findProduct(pID);
         product.previous();
         ProductSupplier ps = product.next();
         pIDiq = ps.product.getPID();
-        pNameiq = ps.product.getPName();
-        supplier = ps.findSupplierQuantity(sID);
+        ListIterator<SupplierQuantity> supplier = ps.findSupplierQuantity(sID);
         supplier.previous();
         SupplierQuantity sq = supplier.next();
         sIDiq = sq.getSID();
         qty = quantity;
-
       }
       public float getPrice(){
+        ListIterator<ProductSupplier> product = findProduct(pIDiq);
+        product.previous();
+        ProductSupplier ps = product.next();
+        ListIterator<SupplierQuantity> supplier = ps.findSupplierQuantity(sIDiq); 
         supplier.previous();
-        SupplierQuantity sq = supplier.next();
-        return sq.price;
+        return supplier.next().price;
       }
       public int getPID(){
         return pIDiq;
       }
       public String getPName() {
-        return pNameiq;
+        ListIterator<ProductSupplier> psIt = findProduct(pIDiq);
+        if(psIt == null){return "Not found";}
+        psIt.previous();
+        return psIt.next().product.getPName();
       }  
       public int getSID(){
         return sIDiq;
