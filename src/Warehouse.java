@@ -520,6 +520,126 @@ public class Warehouse {
 
     return cb.cart.toString();
   }
+  public String printClientWaitlist(int cID){
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){
+      return "Client not found";
+    }
+    cbIt.previous();
+    ClientBalance cb = cbIt.next();
+    return cb.printWaitlist();
+  }
+  public String showClientDetails(int cID){
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){
+      return "Client not found";
+    }
+    cbIt.previous();
+    ClientBalance cb = cbIt.next();
+    return "client ID: " + cb.client.getcId() + "\nClient Name: " + cb.client.getcName() + "\nClient Address: " + cb.client.getcAddress() + "\nClient Balance: " + cb.credit + '\n';
+  }
+  public String showProductList(){
+    ListIterator<ProductSupplier> psIt = productList.listIterator();
+    ProductSupplier ps;
+    ListIterator<SupplierQuantity> sqIt;
+    SupplierQuantity sq;
+    String list = "Product List\n";
+    while(psIt.hasNext()){
+      ps = psIt.next();
+      list += "Product ID: " + ps.product.getPID() + " Product Name: " + ps.product.getPName();
+      for(sqIt = ps.pSupplierList.listIterator();sqIt.hasNext();){
+        sq = sqIt.next();
+        list += "\n" + sq.toString();
+      }
+      list += "\n\n";
+    }
+    return list;
+  }
+  public String showClientsWithCredit(){
+    ListIterator<ClientBalance> cbIt = clientList.listIterator();
+    ClientBalance cb;
+    String out = "These Clients owe money: \n";
+    while(cbIt.hasNext()){
+      cb = cbIt.next();
+      if(cb.credit > 0){
+        out += cb.toString();
+      }
+    }
+    return out;
+  }
+  public String showSupplierList(int sID){
+    ListIterator<SupplierProduct> spIt = supplierList.listIterator();
+    SupplierProduct sp;
+    String out = "Supplier List:\n";
+    while(spIt.hasNext()){
+      sp = spIt.next();
+      out += sp.supplierToString();
+    }
+    return out;
+  }
+  public String showProductWaitlist(int pID, int sID){
+    ListIterator<ProductSupplier> psIt = findProduct(pID);
+    if(psIt == null){
+      return "product not found";
+    }
+    psIt.previous();
+    ProductSupplier ps = psIt.next();
+    ListIterator<SupplierQuantity> sqIt = ps.findSupplierQuantity(sID);
+    if(sqIt == null){
+      return "supplier does not supply this product";
+    }
+    sqIt.previous();
+    SupplierQuantity sq = sqIt.next();
+    return sq.toString();
+  }
+  public String showProductListForSupplier(int pID){
+    ListIterator<ProductSupplier> psIt = findProduct(pID);
+    if(psIt == null){
+      return "Product Not Found\n";
+    }
+    psIt.previous();
+    ProductSupplier ps = psIt.next();
+    ListIterator<SupplierQuantity> sqIt = ps.pSupplierList.listIterator();
+    SupplierQuantity sq;
+    String list = "Product List\n";
+    while(sqIt.hasNext()){
+      sq = sqIt.next();
+      list += "\n" + sq.toString();
+    }
+    list += "\n\n";
+    return list;
+  }
+  public String showSupplierListForProduct(int sID){
+    ListIterator<SupplierProduct> spIt = findSupplier(sID);
+    if(spIt == null){
+      return "Supplier Not Found\n";
+    }
+    spIt.previous();
+    SupplierProduct sp = spIt.next();
+    ListIterator<ProductQuantity> pqIt = sp.sProductList.listIterator();
+    ProductQuantity pq;
+    String out = "Supplier ID: " + sp.supplier.getSName() + " Supplier Name: " + sp.supplier.getSName();
+    ListIterator<ProductSupplier> psIt;
+    ProductSupplier ps;
+    ListIterator<SupplierQuantity> sqIt;
+    SupplierQuantity sq;
+
+    while(pqIt.hasNext()){
+      pq = pqIt.next();
+      psIt = findProduct(pq.pIDpq);
+      psIt.previous();
+      ps = psIt.next();
+      sqIt = ps.pSupplierList.listIterator();
+      while(sqIt.hasNext()){
+        sq = sqIt.next();
+        if(sq.getSID() == sID){
+          out += "Product Name: " + ps.product.getPName() + " Product ID: " + ps.product.getPID() + " Price: " + sq.price +'\n';
+        }
+      }
+    }
+    out += "\n";
+    return out;
+  }
 
   // Create the class ProductSupplier, which contains the class SupplierQuantity
   // this is done so that every product we create will instantly have a supplier
@@ -590,6 +710,19 @@ public class Warehouse {
       }
       return null;
     }
+    public String toString(){
+      return "Supplier Name: " + getSName() + " Supplier ID: " + sIDsq + " Quantity: " + quantity + " Price: " + price;
+    }
+    public String showWaitlist(){
+      ListIterator<ClientWLNode> cnIt = clientWL.listIterator();
+      ClientWLNode cn;
+      String out = "Product Waitlist:\n";
+      while(cnIt.hasNext()){
+        cn = cnIt.next();
+        out += cn.toString();
+      }
+      return out;
+    }
   }
 
   public class ClientWLNode {
@@ -599,6 +732,15 @@ public class Warehouse {
     public ClientWLNode(int cID, int qty) {
       client = cID;
       quantity = qty;
+    }
+    public String toString(){
+      ListIterator<ClientBalance> cbIt = findClient(client);
+      if(cbIt == null){
+        return "Client no longer exists";
+      }
+      cbIt.previous();
+      ClientBalance cb = cbIt.next();
+      return "Client ID: " + client + " Client Name " + cb.client.getcName() + " Quantity " + quantity + '\n';
     }
   }
 
@@ -634,6 +776,9 @@ public class Warehouse {
         s += "Product: " + pq.getPName() + " pID " + pq.getPID() + '\n';
       }
       return s;
+    }
+    public String supplierToString(){
+      return "Supplier ID: " + supplier.getSId() + " SupplierName: " + supplier.getSName();
     }
   }
 
@@ -684,7 +829,16 @@ public class Warehouse {
       cart = new ShoppingCart();
       waitlist = new LinkedList<ItemQty>();
     }
-
+    public String printWaitlist(){
+      Iterator<ItemQty> iqIt = waitlist.listIterator();
+      ItemQty iq;
+      String wl = "Waitlisted Items:\n";
+      while(iqIt.hasNext()){
+        iq = iqIt.next();
+        wl += iq.toString();
+      }
+      return wl;
+    }
     public boolean removeFromCart(int pID, int qty, int sID) {
       return cart.removeItem(pID, qty, sID);
     }
@@ -765,6 +919,9 @@ public class Warehouse {
     }
     public void clearCart(){
       cart.clear();
+    }
+    public String toString(){
+      return "client ID: " + client.getcId() + " Client Name: " + client.getcName() + " Client Address: " + client.getcAddress() + " Client Balance: " + credit + '\n';
     }
 
     public class ShoppingCart {
