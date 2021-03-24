@@ -4,7 +4,7 @@ import java.io.*;
 public class ManagerState extends WareState {
 
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private static Warehouse warehouse;
+    //private static Warehouse warehouse;
     //private WareContext context;
     private static ManagerState instance;
     private static final int EXIT = 0;
@@ -59,38 +59,63 @@ public class ManagerState extends WareState {
 
      private void addProduct() {
 
+        char entry = '0';
+        String text;
         System.out.println("Code to add a product ");
 
-        
+        String pName = getToken("What is this product called?  : ");
+
+        while (entry != 'y' && entry != 'Y' && entry != 'n' && entry != 'N') {
+          text = getToken("Does this product have a description? (y/n)   : ");
+          entry = text.charAt(0);
+          if (entry == 'y' || entry == 'Y') {
+            String pDescription = getToken("Please enter a description for this product.  : ");
+            System.out.println("Product "+ pName +" sucessfully added.\nThis product has an ID of "+ warehouse.addProduct(pName, pDescription) +".\n");
+          } else if (entry == 'n' || entry == 'N') {
+            System.out.println("Product "+ pName +" sucessfully added.\nThis product has an ID of "+ warehouse.addProduct(pName) +".\n");
+          } else {
+            text = getToken("Your previous entry is invalid. \nDoes this product have a description? (y/n)   : ");
+            entry = text.charAt(0);
+          }
+        }
      }
 
      private void showProductSuppliers() {
 
         System.out.println("code to get all suppliers that provide a certain product");
+        int pID = Integer.parseInt(getToken("Enter product ID to see who suppliers it"));
+        System.out.println(warehouse.showProductListForSupplier(pID));
+
 
      }
 
      private void showSupplierProducts() {
         System.out.println("Code for showing which products a certain supplier carries");
-        
+        int sID = Integer.parseInt(getToken("Enter Supplier ID to see their products"));
+        System.out.println(warehouse.showSupplierListForProduct(sID));
      }
 
      
 
      private void addSupplier() {
         System.out.println("Code for adding suppliers");
+
+        String sName = getToken("What is the name of this supplier?  : ");
+        int sId = warehouse.addSupplier(sName);
+        System.out.println("Supplier "+ sName +" sucessfully added.\nThis supplier has an ID of "+ sId +".\n");
         
      }
 
      private void updateSupplierProducts() {
         System.out.println("Code for modifying the products that a certain supplier carries");
-        
+        System.out.println("This takes more effort than calling a method so will do at the end");
      }
 
      
 
      private void showSuppliers() {
-         System.out.println("Code to show all suppliers");
+         
+      System.out.println(warehouse.showSupplierList());
 
      }
 
@@ -109,12 +134,12 @@ public class ManagerState extends WareState {
 
     private void becomeClerk() {
         System.out.println("\n\nBecoming Clerk");
-        (WareContext.instance()).changeState(WareContext.SALES_STATE);
+        (context).changeState(WareContext.SALES_STATE);
          }
     
          public void logout()
          {
-             (WareContext.instance()).changeState(WareContext.MANAGER_STATE); 
+             (context).changeState(WareContext.MANAGER_STATE); 
          }
     
 

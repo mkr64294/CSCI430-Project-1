@@ -4,7 +4,7 @@ import java.io.*;
 public class SalesState extends WareState {
 
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private static Warehouse warehouse;
+    //private static Warehouse warehouse;
     //private WareContext context;
     private static SalesState instance;
     private static final int EXIT = 0;
@@ -61,42 +61,41 @@ public class SalesState extends WareState {
 
         System.out.println("Code to add a client ");
 
+        String cName = getToken("What is the name of this client?  : ");
+
+        String cAddress = getToken("What is this client's address?   : ");
+        int cId = warehouse.addClient(cName, cAddress);
+        System.out.println("Client "+ cName +" at address "+ cAddress +" sucessfully added.\nThis client has an ID of "+ cId +".\n");
+
         
      }
 
      private void showWaitlist() {
 
         System.out.println("Code to get product's waitlist");
-
-         
+        int pID = Integer.parseInt(getToken("Enter the product ID of the product you want to view"));
+        int sID = Integer.parseInt(getToken("Enter the supplier ID of which supplier you want to see product waitlist for"));
+        System.out.println(warehouse.showProductWaitlist(pID, sID));
      }
 
      private void showProducts() {
         System.out.println("Code for showing warehouse products and quantity, will need to add to Warehouse");
-        /*
-         Iterator allProducts = warehouse.getProducts();
-         while (allProducts.hasNext()) {
-             Product product = (Product) (allProducts.next());
-             System.out.println(product.toString());
-         }
-         */
+        System.out.println(warehouse.showProductList());
      }
 
      
 
      private void showClients() {
         System.out.println("Code for showing all clients, will need to add to Warehouse");
-        /*
-         Iterator allProducts = warehouse.getProducts();
-         while (allProducts.hasNext()) {
-             Product product = (Product) (allProducts.next());
-             System.out.println(product.toString());
-         }
-         */
+        
+        System.out.println(warehouse.clientsToString());
      }
 
      private void recieveShipment() {
         System.out.println("Code for accepting shipments then accepting those products to waitlist or not");
+        System.out.println("This also takes more work so Will wait until everything else works");
+
+
         
      }
 
@@ -104,6 +103,7 @@ public class SalesState extends WareState {
 
      private void showDueClients() {
          System.out.println("Code to somehow get all clients with an outstanding balance");
+         System.out.println(warehouse.showClientsWithCredit());
 
      }
 
@@ -124,19 +124,19 @@ public class SalesState extends WareState {
              String userID = getToken("Please input the user id: ");
              if (warehouse.isClient(Integer.parseInt(userID))) {
                 System.out.println("\n\nBecoming Client");
-                 (WareContext.instance()).setUser(userID);
-                 (WareContext.instance()).changeState(WareContext.CLIENT_STATE); 
+                 (context).setUser(userID);
+                 (context).changeState(WareContext.CLIENT_STATE); 
              } else {
                  System.out.println("Invalid user id.");
              }
          }
     
         public void logout() {
-            if ((WareContext.instance()).getLogin() == WareContext.IsManager) {
+            if ((context).getLogin() == WareContext.IsManager) {
                 System.out.println("\n\nReturning to Manager");
-                (WareContext.instance()).changeState(WareContext.MANAGER_STATE);
+                (context).changeState(WareContext.MANAGER_STATE);
             } else {
-                (WareContext.instance()).changeState(WareContext.LOGIN_STATE);
+                (context).changeState(WareContext.SALES_STATE);
             }
         }
     

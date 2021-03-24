@@ -54,25 +54,25 @@ public class LoginState extends WareState {
     private void manager() {
         
         System.out.println("Login as Manager");
-            (WareContext.instance()).setLogin(WareContext.IsManager);
-            (WareContext.instance()).changeState(0);
+            (context).setLogin(WareContext.IsManager);
+            (context).changeState(0);
         
 
     }
 
      private void clerk() {
         System.out.println("Login as Salesclerk");
-             (WareContext.instance()).setLogin(WareContext.IsSales);
-             (WareContext.instance()).changeState(1);
+             (context).setLogin(WareContext.IsSales);
+             (context).changeState(1);
          }
      
 
     private void client() {
         String userID = getToken("Please input the client id: ");
         if (warehouse.isClient(Integer.parseInt(userID))) {
-            (WareContext.instance()).setLogin(WareContext.IsClient);
-            (WareContext.instance()).setUser(userID);
-            (WareContext.instance()).changeState(2);
+            (context).setLogin(WareContext.IsClient);
+            (context).setUser(userID);
+            (context).changeState(2);
 
         } else {
             System.out.println("Invalid user id.");
@@ -109,7 +109,7 @@ public class LoginState extends WareState {
             
         }
 
-        (WareContext.instance()).changeState(3);
+        (context).changeState(3);
     }
 
     public void run() {

@@ -567,7 +567,7 @@ public class Warehouse {
     }
     return out;
   }
-  public String showSupplierList(int sID){
+  public String showSupplierList(){
     ListIterator<SupplierProduct> spIt = supplierList.listIterator();
     SupplierProduct sp;
     String out = "Supplier List:\n";
@@ -592,6 +592,8 @@ public class Warehouse {
     SupplierQuantity sq = sqIt.next();
     return sq.toString();
   }
+
+  //Method will return the Suppliers of a certain product 
   public String showProductListForSupplier(int pID){
     ListIterator<ProductSupplier> psIt = findProduct(pID);
     if(psIt == null){
@@ -609,6 +611,8 @@ public class Warehouse {
     list += "\n\n";
     return list;
   }
+
+  //Method will return the products of a certain supplier
   public String showSupplierListForProduct(int sID){
     ListIterator<SupplierProduct> spIt = findSupplier(sID);
     if(spIt == null){
