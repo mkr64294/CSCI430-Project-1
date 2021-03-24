@@ -44,7 +44,7 @@ public class WareContext {
     }
     return true;
   }
-
+/*
   private void retrieve() {
     try {
       Warehouse tempWarehouse = Warehouse.retrieve();
@@ -59,6 +59,7 @@ public class WareContext {
       cnfe.printStackTrace();
     }
   }
+  */
 
   public void setLogin(int code)
   {currentUser = code;}
@@ -74,17 +75,17 @@ public class WareContext {
   
 
   private WareContext() { 
-    if (yesOrNo("Look for saved data and  use it?")) {
+    /*if (yesOrNo("Look for saved data and  use it?")) {
       retrieve();
     } else {
       warehouse = Warehouse.instance();
-    }
+    }*/
     // set up the FSM and transition table;
     states = new WareState[4];
     states[0] = ManagerState.instance();
     states[1] = SalesState.instance();
     states[2] = ClientState.instance(); 
-    states[3]=  Loginstate.instance();
+    states[3]=  LoginState.instance();
 
     nextState = new int[4][4];
     nextState[MANAGER_STATE][MANAGER_STATE] = LOGIN_STATE;
@@ -124,13 +125,13 @@ public class WareContext {
 
   private void terminate()
   {
-   if (yesOrNo("Save data?")) {
+   /*if (yesOrNo("Save data?")) {
       if (warehouse.save()) {
          System.out.println(" The warehouse has been successfully saved in the file WarehouseData \n" );
        } else {
          System.out.println(" There has been an error in saving \n" );
        }
-     }
+     }*/
    System.out.println(" Goodbye \n "); System.exit(0);
   }
 
@@ -146,7 +147,7 @@ public class WareContext {
     states[currentState].run();
   }
   
-  public static void main (String[] args){
+  public static void run (){
     WareContext.instance().process(); 
   }
 }

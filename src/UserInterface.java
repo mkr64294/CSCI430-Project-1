@@ -11,9 +11,12 @@ import java.util.*;
 
 class UserInterface {
 
-  private static Scanner scan = new Scanner(System.in);
+  //private static Scanner scan = new Scanner(System.in);
 
   public static void main(String[] args) {
+    WareContext.run();
+
+    /*
 
     // Initialize the Warehouse lists and the shopping cart
     Warehouse WH = new Warehouse();
@@ -438,5 +441,7 @@ class UserInterface {
 
     System.out.println("Your new credit balance is $"+newCredit+".");
     scan.nextLine();
+    */
   }
+  
 }
