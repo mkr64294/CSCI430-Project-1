@@ -109,7 +109,9 @@ public class ManagerState extends WareState {
      private void updateSupplierProducts() {
         int sID = Integer.parseInt(getToken("Enter the Supplier ID of the supplier you want to edit"));
         System.out.println(warehouse.showSupplierListForProduct(sID));
+        if(warehouse.isSupplier(sID)){
 
+        
         System.out.println("What would you like to do?");
         System.out.println("1 for adding product");
         System.out.println("2 for removing product");
@@ -139,8 +141,17 @@ public class ManagerState extends WareState {
                       break;
                 }
 
-                 case 2: {//Need code to remove from supplier list
-                        System.out.println("Need to add a remove product from supplier list");
+                 case 2: {
+                        System.out.println("Removing product from supplier list");
+
+                        int pID = Integer.parseInt(getToken("What is the ID of this product?  : "));
+                         if (warehouse.removeSupplierFromProduct(sID, pID)) {
+                       System.out.println("Product sucessfully removed from this supplier.\n");
+
+                       
+                      } else {
+                         System.out.println("Unable to remove product from supplier.\n");
+                      }
                         break;
                 }
 
@@ -167,7 +178,10 @@ public class ManagerState extends WareState {
 
             }
         }
-
+      }
+      else{
+        System.out.println("Supplier not found");
+      }
      }
 
      

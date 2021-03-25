@@ -105,8 +105,10 @@ public class SalesState extends WareState {
                           "Enter 1 for yes\n Enter 2 for no");
         String confirm = getToken("Enter your choice");
         
-        if(confirm.equals("1")){    //Code needed to fulfill a waitlisted order
-          System.out.println("Fulfill waitlist");
+        if(confirm.equals("1")){  
+          int cID = Integer.parseInt(getToken("Enter the ID of which client in the waitlist you want to fulfill"));
+          warehouse.removeFromWaitlist(cID, pID, sID, qty);
+          System.out.println("Waitlist order fulfilled");
         }
         else if(confirm.equals("2")){
             warehouse.addToStock(sID, pID, qty);

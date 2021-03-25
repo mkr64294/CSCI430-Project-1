@@ -155,6 +155,34 @@ public class Warehouse {
     return true;
   }
 
+  public boolean removeSupplierFromProduct(int sID, int pID) { // removes a product from a supplier
+    ListIterator<SupplierProduct> spIt = findSupplier(sID);
+    if(spIt == null){return false;}
+    spIt.previous();
+    SupplierProduct sp = spIt.next();
+
+    ListIterator<ProductQuantity> pqIt = sp.findProductQuantity(pID);
+    if(pqIt == null){return false;}
+    pqIt.previous();
+    ProductQuantity pq = pqIt.next();
+
+    ListIterator<ProductSupplier> psIt = findProduct(pID);
+    if(psIt == null){return false;}
+    psIt.previous();
+    ProductSupplier ps = psIt.next();
+
+    ListIterator<SupplierQuantity> sqIt = ps.findSupplierQuantity(sID);
+    if(sqIt == null){return false;}
+    sqIt.previous();
+    SupplierQuantity sq = sqIt.next();
+
+    
+    sqIt.remove();
+    pqIt.remove();
+    return true;
+
+  }
+
   public String viewSupplierProducts(int sID){
     ListIterator<SupplierProduct> spIt = findSupplier(sID);
     if(spIt == null){return "not found";}
@@ -295,7 +323,7 @@ public class Warehouse {
     return true;
   }
 
-  public boolean removeFromStock(int sID, int pID, int amtToRemove) { // adds an amount of product to stock
+  public boolean removeFromStock(int sID, int pID, int amtToRemove) { // removes an amount of product to stock
                                                                            // for a given supplier
     ListIterator<SupplierProduct> spIt = findSupplier(sID);
     if(spIt == null){return false;}
@@ -476,6 +504,17 @@ public class Warehouse {
     cbIt.set(cb);
     return bool;
   }
+  public boolean setCartQty(int cID, int pID, int qty, int sID){
+    boolean bool;
+    ListIterator<ClientBalance> cbIt = findClient(cID);
+    if(cbIt == null){return false;}
+    cbIt.previous();
+    ClientBalance cb = cbIt.next();
+
+    bool = cb.setItemQty(pID, qty, sID);
+    cbIt.set(cb);
+    return bool;
+  }
   public boolean removeFromCart(int cID, int pID, int qty, int sID){
     boolean bool;
     ListIterator<ClientBalance> cbIt = findClient(cID);
@@ -622,7 +661,7 @@ public class Warehouse {
     SupplierProduct sp = spIt.next();
     ListIterator<ProductQuantity> pqIt = sp.sProductList.listIterator();
     ProductQuantity pq;
-    String out = "Supplier ID: " + sp.supplier.getSName() + " Supplier Name: " + sp.supplier.getSName();
+    String out = "Supplier ID: " + sp.supplier.getSName() + " Supplier Name: " + sp.supplier.getSName() + "\n";
     ListIterator<ProductSupplier> psIt;
     ProductSupplier ps;
     ListIterator<SupplierQuantity> sqIt;
@@ -637,7 +676,7 @@ public class Warehouse {
       while(sqIt.hasNext()){
         sq = sqIt.next();
         if(sq.getSID() == sID){
-          out += "Product Name: " + ps.product.getPName() + " Product ID: " + ps.product.getPID() + " Price: " + sq.price +'\n';
+          out += " Product Name: " + ps.product.getPName() + " Product ID: " + ps.product.getPID() + " Price: " + sq.price +'\n';
         }
       }
     }
@@ -782,7 +821,7 @@ public class Warehouse {
       return s;
     }
     public String supplierToString(){
-      return "Supplier ID: " + supplier.getSId() + " SupplierName: " + supplier.getSName();
+      return "Supplier ID: " + supplier.getSId() + " Supplier Name: " + supplier.getSName() + "\n";
     }
   }
 

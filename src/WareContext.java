@@ -1,10 +1,10 @@
 import java.util.*;
-import java.text.*;
+
 import java.io.*;
 public class WareContext {
   
   private int currentState;
-  private static Warehouse warehouse;
+  
   private static WareContext context;
   private int currentUser;
   private String userID;
@@ -37,29 +37,7 @@ public class WareContext {
     } while (true);
   }
   
-  private boolean yesOrNo(String prompt) {
-    String more = getToken(prompt + " (Y|y)[es] or anything else for no");
-    if (more.charAt(0) != 'y' && more.charAt(0) != 'Y') {
-      return false;
-    }
-    return true;
-  }
-/*
-  private void retrieve() {
-    try {
-      Warehouse tempWarehouse = Warehouse.retrieve();
-      if (tempWarehouse != null) {
-        System.out.println(" The warehouse has been successfully retrieved from the file WarehouseData \n" );
-        warehouse = tempWarehouse;
-      } else {
-        System.out.println("File doesnt exist; creating new warehouse" );
-        warehouse = Warehouse.instance();
-      }
-    } catch(Exception cnfe) {
-      cnfe.printStackTrace();
-    }
-  }
-  */
+  
 
   public void setLogin(int code)
   {currentUser = code;}
@@ -75,12 +53,7 @@ public class WareContext {
   
 
   private WareContext() { 
-    /*if (yesOrNo("Look for saved data and  use it?")) {
-      retrieve();
-    } else {
-      warehouse = Warehouse.instance();
-    }*/
-    // set up the FSM and transition table;
+    
     states = new WareState[4];
     states[0] = ManagerState.instance();
     states[1] = SalesState.instance();
