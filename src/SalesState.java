@@ -59,7 +59,7 @@ public class SalesState extends WareState {
 
      private void addClient() {
 
-        System.out.println("Code to add a client ");
+        System.out.println("Adding Client");
 
         String cName = getToken("What is the name of this client?  : ");
 
@@ -72,37 +72,56 @@ public class SalesState extends WareState {
 
      private void showWaitlist() {
 
-        System.out.println("Code to get product's waitlist");
+        System.out.println("Getting Product's waitlist");
         int pID = Integer.parseInt(getToken("Enter the product ID of the product you want to view"));
         int sID = Integer.parseInt(getToken("Enter the supplier ID of which supplier you want to see product waitlist for"));
         System.out.println(warehouse.showProductWaitlist(pID, sID));
      }
 
      private void showProducts() {
-        System.out.println("Code for showing warehouse products and quantity, will need to add to Warehouse");
+        System.out.println("Showing Products");
         System.out.println(warehouse.showProductList());
      }
 
      
 
      private void showClients() {
-        System.out.println("Code for showing all clients, will need to add to Warehouse");
+        System.out.println("Showing all Clients");
         
         System.out.println(warehouse.clientsToString());
      }
 
      private void recieveShipment() {
-        System.out.println("Code for accepting shipments then accepting those products to waitlist or not");
-        System.out.println("This also takes more work so Will wait until everything else works");
+        System.out.println("Recieving Shipment");
+        
+        int pID = Integer.parseInt(getToken("Enter the ID of the product recieved"));
+        int sID = Integer.parseInt(getToken("Enter who we got that product from"));
+        int qty = Integer.parseInt(getToken("Enter how many of that product we recieved"));
 
+        System.out.println(warehouse.showProductWaitlist(pID, sID));
+        
 
+        System.out.println("Would you like to fulfill a waitlist order?\n" +
+                          "Enter 1 for yes\n Enter 2 for no");
+        String confirm = getToken("Enter your choice");
+        
+        if(confirm.equals("1")){    //Code needed to fulfill a waitlisted order
+          System.out.println("Fulfill waitlist");
+        }
+        else if(confirm.equals("2")){
+            warehouse.addToStock(sID, pID, qty);
+            System.out.println("Added to stock");
+        }
+        else{
+          System.out.println("Not a valid option");
+        }
         
      }
 
      
 
      private void showDueClients() {
-         System.out.println("Code to somehow get all clients with an outstanding balance");
+         System.out.println("Getting Clients with outstanding balance");
          System.out.println(warehouse.showClientsWithCredit());
 
      }

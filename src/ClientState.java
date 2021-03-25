@@ -57,18 +57,18 @@ public class ClientState extends WareState {
 
      private void clientDetails() {
 
-        System.out.println("Code to get details for client " + context.getUser() + "here");
+        System.out.println("Getting User Details");
         System.out.println(warehouse.showClientDetails(Integer.parseInt(context.getUser())));
      }
 
      private void showWaitlist() {
 
-        System.out.println("Code to get client waitlist " + context.getUser() + "here");
+        System.out.println("Getting User Waitlist");
         System.out.println(warehouse.printClientWaitlist(Integer.parseInt(context.getUser())));
      }
 
      private void showProducts() {
-        System.out.println("Code for showing warehouse products, will need to add to Warehouse");
+        System.out.println("Showing Products");
         System.out.println(warehouse.showProductList());
      }
 
@@ -76,19 +76,124 @@ public class ClientState extends WareState {
 
 
          
-         System.out.println("Code to modify cart");
-         System.out.println("Seems every state has that one code that requires more things to set up " +
-         "and as such this is that for Client for now here's cart");
+         System.out.println("Modify cart");
+         
 
          System.out.println(warehouse.showCart(Integer.parseInt(context.getUser())));
+
+         System.out.println("What would you like to do?");
+        System.out.println("1 for adding product");
+        System.out.println("2 for removing product");
+        System.out.println("3 for changing quantity");
+        System.out.println("0 to return to Client Menu");
+
+        int choice;
+
+        while ((choice = Integer.parseInt(getToken("Enter a number"))) != 0) {
+            switch (choice) {
+                 case 1: {
+       
+                    System.out.print("What is the ID of the product you're adding to your cart?  : ");
+                    int pID = Integer.parseInt("What is the ID of the product you're adding to your cart?  : ");
+                
+                    while(!warehouse.isProduct(pID)){
+                      System.out.print("This product does not exist. Please enter a valid product ID or press 0 to cancel  : ");
+                      pID = Integer.parseInt("What is the ID of the product you're adding to your cart?  : ");
+                      if(pID == 0){
+                        
+                        break;
+                      }
+                      break;
+                }
+            }
+
+                 case 2: {
+                
+
+    System.out.println("These are the items currently in your shopping cart.");
+    System.out.println(warehouse.showCart(Integer.parseInt(context.getUser())));
+    String text;
+    System.out.print("Would you like to empty this cart? (y/n)   : ");
+    char entry = 'a';
+    while (entry != 'y' && entry != 'Y' && entry != 'n' && entry != 'N') {
+        text = getToken("Does this product have a description? (y/n)   : ");
+        entry = text.charAt(0);
+      if (entry == 'y' || entry == 'Y') {
+        if(warehouse.clearCart(Integer.parseInt(context.getUser()))){
+          System.out.println("This cart is now empty");
+          break;
+        }
+      } else if (entry == 'n' || entry == 'N') {
+        break;
+      } else {
+        System.out.print("Your previous entry is invalid.\nWould you like to empty this cart? (y/n)   : ");
+      }
+    }
+
+    int pID = Integer.parseInt(getToken("What is the ID of the product you're removing from your cart?  : "));
+
+    while(!warehouse.isProduct(pID)){
+      System.out.print("This product does not exist. Please enter a valid product ID or press 0 to cancel  : ");
+      pID = Integer.parseInt(getToken("What is the ID of the product you're removing from your cart?  : "));
+      if(pID == 0){
+        break;
+        
+      }
+      int sID = Integer.parseInt(getToken("What is the ID of the supplier that supplies this product?  : "));
+  
+      if(!warehouse.isInCart(Integer.parseInt(context.getUser()), pID, sID)){
+        System.out.print("This item is not in the cart.");
+        break;
+      }
+  
+      System.out.print("The current price of this item is $"+ String.format("%.2f", warehouse.getPrice(pID, sID)) +" and there are "+ warehouse.getCartQuantity(Integer.parseInt(context.getUser()), pID, sID) +" items in the cart.");
+      int qty = Integer.parseInt(getToken("\nHow many items would you like to remove?  : "));
+  
+      while(qty < 0 || warehouse.getCartQuantity(Integer.parseInt(context.getUser()), pID, sID) < qty){
+        sID = Integer.parseInt(getToken("You cannot remove this number of items. Please enter a valid amount or press 0 to cancel  : "));
+        if(sID == 0){
+          
+          break;
+        }
+      }
+  
+      int oldNumOfItems = warehouse.getCartQuantity(Integer.parseInt(context.getUser()), pID, sID);
+  
+      if(warehouse.removeFromCart(Integer.parseInt(context.getUser()), pID, qty, sID) && (qty == oldNumOfItems)){
+        System.out.println("Item successfully removed from cart");
+      } else if (qty < oldNumOfItems) {
+        System.out.println("There are "+warehouse.getCartQuantity(Integer.parseInt(context.getUser()), pID, sID)+" items of this product remaining in the cart.");
+      } else {
+        System.out.print("Unable to remove item from cart.\n");
+      }
+
+                
+                    
+                        break;
+                }
+            }
+
+                 case 3: {  //Need to remove qty from cart
+                    System.out.println("Need to remove qty from cart");
+                  
+                  break;
+                 }
+
+            }
+        }
          
 
      }
 
      private void getTransactions() {
-         System.out.println("Code to get transactions for client " + context.getUser() + "here");
+         System.out.println("Getting latest Transaction");
+        int oID = 0;
+         String found = "";
+        while(!(found.equals("not found"))){
 
-         System.out.println("This one is interesting since we don't have any form of tracking transactions, perhaps invoices?");
+         System.out.println(warehouse.getInvoice(Integer.parseInt(context.getUser()), oID));
+         oID++;
+        }
      }
 
     private void help() {

@@ -61,7 +61,7 @@ public class ManagerState extends WareState {
 
         char entry = '0';
         String text;
-        System.out.println("Code to add a product ");
+        System.out.println("Adding Product ");
 
         String pName = getToken("What is this product called?  : ");
 
@@ -82,7 +82,7 @@ public class ManagerState extends WareState {
 
      private void showProductSuppliers() {
 
-        System.out.println("code to get all suppliers that provide a certain product");
+        System.out.println("Showing Product's Suppliers");
         int pID = Integer.parseInt(getToken("Enter product ID to see who suppliers it"));
         System.out.println(warehouse.showProductListForSupplier(pID));
 
@@ -90,7 +90,7 @@ public class ManagerState extends WareState {
      }
 
      private void showSupplierProducts() {
-        System.out.println("Code for showing which products a certain supplier carries");
+        System.out.println("Showing Supplier's Products");
         int sID = Integer.parseInt(getToken("Enter Supplier ID to see their products"));
         System.out.println(warehouse.showSupplierListForProduct(sID));
      }
@@ -98,7 +98,7 @@ public class ManagerState extends WareState {
      
 
      private void addSupplier() {
-        System.out.println("Code for adding suppliers");
+        System.out.println("Adding Supplier");
 
         String sName = getToken("What is the name of this supplier?  : ");
         int sId = warehouse.addSupplier(sName);
@@ -107,8 +107,67 @@ public class ManagerState extends WareState {
      }
 
      private void updateSupplierProducts() {
-        System.out.println("Code for modifying the products that a certain supplier carries");
-        System.out.println("This takes more effort than calling a method so will do at the end");
+        int sID = Integer.parseInt(getToken("Enter the Supplier ID of the supplier you want to edit"));
+        System.out.println(warehouse.showSupplierListForProduct(sID));
+
+        System.out.println("What would you like to do?");
+        System.out.println("1 for adding product");
+        System.out.println("2 for removing product");
+        System.out.println("3 for changing price");
+        System.out.println("0 to return to Manager Menu");
+
+        int choice;
+
+        while ((choice = Integer.parseInt(getToken("Enter a number"))) != 0) {
+            switch (choice) {
+                 case 1: {
+                        int pID = Integer.parseInt(getToken("What is the ID of this product?  : "));
+                         if (warehouse.addSupplierToProduct(pID, sID)) {
+                       System.out.println("Product sucessfully added to this supplier.\n");
+
+                       float price = Float.parseFloat(getToken("What is the price of this product?  : $"));
+                       String priceString = String.format("%.2f", price);
+
+                         if (warehouse.setPrice(pID, sID, price)){
+                          System.out.println("The price of this product has been set to $"+ priceString +".\n");
+                       } else {
+                        System.out.println("Unable to assign a price to this product.\n");
+                      }
+                      } else {
+                         System.out.println("Unable to add product to supplier.\n");
+                      }
+                      break;
+                }
+
+                 case 2: {//Need code to remove from supplier list
+                        System.out.println("Need to add a remove product from supplier list");
+                        break;
+                }
+
+                 case 3: {
+
+                  int pID = Integer.parseInt(getToken("What is the ID of this product?  : "));
+                  
+          
+                  if (warehouse.isSupplierOfProduct(sID, pID)) {
+                    System.out.println("The current price of this product is $" + String.format("%.2f", warehouse.getPrice(pID, sID)));
+                    float price = Float.parseFloat(getToken("What is the new price of this product?  : $"));
+                    String priceString = String.format("%.2f", price);
+          
+                    if (warehouse.setPrice(pID, sID, price)){
+                      System.out.println("The price of this product has been set to $"+ priceString +".\n");
+                    } else {
+                      System.out.println("Unable to assign a price to this product.\n");
+                    }
+                  } else {
+                    System.out.println("Unable to change the price of this product.\n");
+                  }
+                  break;
+                 }
+
+            }
+        }
+
      }
 
      
