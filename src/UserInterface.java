@@ -168,7 +168,9 @@ class UserInterface {
       } else if (entry == 'M' || entry == 'm') { // add credit
       
         addCreditUI(scan, WH);
+    //
       
+    //
       }else if (entry == 'Z' || entry == 'z') {
 
         displayMenu();

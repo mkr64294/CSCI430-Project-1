@@ -1,12 +1,15 @@
 import java.util.*;
-
+import javax.swing.BorderFactory;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
 
-public class WareContext {
+public class WareContextGUI {
 
   private int currentState;
 
-  private static WareContext context;
+  private static WareContextGUI context;
   private int currentUser;
   private String userID;
   private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -23,9 +26,9 @@ public class WareContext {
   public static final int CART_STATE = 4;
   public static final int QUERY_STATE = 5;
 
-  private WareState[] states;
+  private WareStateGUI[] states;
   private int[][] nextState;
-
+  public static JFrame wareFrame; 
   public String getToken(String prompt) {
     do {
       try {
@@ -57,15 +60,15 @@ public class WareContext {
     return userID;
   }
 
-  private WareContext() {
+  private WareContextGUI() {
 
-    states = new WareState[6];
-    states[0] = ManagerState.instance();
-    states[1] = SalesState.instance();
-    states[2] = ClientState.instance();
-    states[3] = LoginState.instance();
-    states[4] = CartState.instance();
-    states[5] = QueryState.instance();
+    states = new WareStateGUI[6];
+    states[0] = ManagerStateGUI.instance();
+    states[1] = SalesStateGUI.instance();
+    states[2] = ClientStateGUI.instance();
+    states[3] = LoginStateGUI.instance();
+    states[4] = CartStateGUI.instance();
+    states[5] = QueryStateGUI.instance();
 
     nextState = new int[6][6];
     nextState[MANAGER_STATE][MANAGER_STATE] = LOGIN_STATE;
@@ -111,6 +114,11 @@ public class WareContext {
     nextState[QUERY_STATE][QUERY_STATE] = -2;
 
     currentState = LOGIN_STATE;
+
+    wareFrame = new JFrame("Library GUI");
+	  wareFrame.addWindowListener(new WindowAdapter(){public void windowClosing(WindowEvent e){System.exit(0);}});
+    wareFrame.setSize(1000,1000);
+    wareFrame.setLocation(1000, 1000);
   }
 
   public void changeState(int transition) {
@@ -129,10 +137,10 @@ public class WareContext {
     System.exit(0);
   }
 
-  public static WareContext instance() {
+  public static WareContextGUI instance() {
     if (context == null) {
       System.out.println("calling constructor");
-      context = new WareContext();
+      context = new WareContextGUI();
     }
     return context;
   }
@@ -142,6 +150,11 @@ public class WareContext {
   }
 
   public static void run() {
-    WareContext.instance().process();
+    WareContextGUI.instance().process();
   }
+
+  public JFrame getFrame()
+  { return wareFrame;}
+
+
 }

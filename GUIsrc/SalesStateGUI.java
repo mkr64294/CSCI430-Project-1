@@ -1,12 +1,16 @@
 import java.util.*;
 import java.io.*;
+import javax.swing.*;
+import javax.swing.text.*;
+import java.awt.event.*;
+import java.awt.*;
 
-public class SalesState extends WareState {
+public class SalesStateGUI extends WareStateGUI {
 
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     //private static Warehouse warehouse;
     //private WareContext context;
-    private static SalesState instance;
+    private static SalesStateGUI instance;
     private static final int EXIT = 0;
     private static final int ADD_CLIENT = 1;
     private static final int CLIENT_QUERY = 2;
@@ -16,14 +20,35 @@ public class SalesState extends WareState {
     private static final int BECOME_CLIENT = 6;
     private static final int HELP = 7;
 
-    private SalesState() {
+    private static JLabel cNameTag;
+    private static JLabel cAddressTag;
+    private static JLabel pIDTag;
+    private static JLabel pQuantityTag;
+    private static JLabel IDTag;
+
+    private static JButton addNewClient;
+    private static JButton viewAsClient;
+    private static JButton queryClient;
+    private static JButton productShipment;
+    private static JButton viewWaitlist;
+    private static JButton viewProducts;
+
+    private static JTextField cNameText;
+    private static JTextField cAddressText;
+    private static JTextField pIDText;
+    private static JTextField pQuantityText;
+    private static JTextField cIDText;
+
+    private static JTextArea resultText;
+
+    private SalesStateGUI() {
         super();
         //warehouse = Warehouse.instance();
     }
 
-    public static SalesState instance() {
+    public static SalesStateGUI instance() {
         if (instance == null) {
-            instance = new SalesState();
+            instance = new SalesStateGUI();
         }
         return instance;
     }
@@ -131,18 +156,18 @@ public class SalesState extends WareState {
              if (warehouse.isClient(Integer.parseInt(userID))) {
                 System.out.println("\n\nBecoming Client");
                  (context).setUser(userID);
-                 (context).changeState(WareContext.CLIENT_STATE); 
+                 (context).changeState(WareContextGUI.CLIENT_STATE); 
              } else {
                  System.out.println("Invalid user id.");
              }
          }
     
         public void logout() {
-            if ((context).getLogin() == WareContext.IsManager) {
+            if ((context).getLogin() == WareContextGUI.IsManager) {
                 System.out.println("\n\nReturning to Manager");
-                (context).changeState(WareContext.MANAGER_STATE);
+                (context).changeState(WareContextGUI.MANAGER_STATE);
             } else {
-                (context).changeState(WareContext.SALES_STATE);
+                (context).changeState(WareContextGUI.SALES_STATE);
             }
         }
     
@@ -157,7 +182,7 @@ public class SalesState extends WareState {
                      break;
                     }
                   case CLIENT_QUERY:{
-                     (context).changeState(WareContext.QUERY_STATE);
+                     (context).changeState(WareContextGUI.QUERY_STATE);
                      break;
                     }
                   case SHOW_PRODUCTS:{
