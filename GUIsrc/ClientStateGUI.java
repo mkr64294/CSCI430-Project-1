@@ -47,6 +47,20 @@ public class ClientStateGUI extends WareStateGUI {
     wareFrame.add(panel);
     panel.setLayout(null);
 
+    tabText = new JTextArea();
+    tabText.setBounds(10, 270, 500, 200);
+    panel.add(tabText);
+
+    clientInfoText = new JTextArea();
+    clientInfoText.setBounds(10, 10, 200, 80);
+    panel.add(clientInfoText);
+
+    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    panel.add(scroll);
+
+    // Need to run a method here which will print the client's info to the JTextArea
+    // clientInfoText
+
     cartOptions = new JButton("Shopping Cart Options");
     cartOptions.setBounds(220, 50, 80, 25);
     panel.add(cartOptions);
@@ -54,6 +68,8 @@ public class ClientStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        // transitions to the shopping cart state
 
       }
     });
@@ -66,6 +82,9 @@ public class ClientStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        // prints the current waitlist in the tabText JTextArea
+        // if the waitlist is empty, then print "No Products In Waitlist"
+
       }
     });
 
@@ -76,6 +95,9 @@ public class ClientStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        // prints the current waitlist in the tabText JTextArea
+        // if the shopping cart is empty, then print "No Products In Shopping Cart"
 
       }
     });
@@ -88,19 +110,11 @@ public class ClientStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        // prints the current list of transactions in the tabText JTextArea
+        // if the shopping cart is empty, then print "No Transactions Made"
+
       }
     });
-
-    tabText = new JTextArea();
-    tabText.setBounds(10, 270, 500, 200);
-    panel.add(tabText);
-
-    clientInfoText = new JTextArea();
-    clientInfoText.setBounds(10, 10, 200, 80);
-    panel.add(clientInfoText);
-
-    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    panel.add(scroll);
 
     wareFrame.setVisible(true);
 

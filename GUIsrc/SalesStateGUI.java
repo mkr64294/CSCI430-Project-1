@@ -61,6 +61,13 @@ public class SalesStateGUI extends WareStateGUI {
     wareFrame.add(panel);
     panel.setLayout(null);
 
+    tabText = new JTextArea();
+    tabText.setBounds(10, 215, 500, 200);
+    panel.add(tabText);
+
+    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    panel.add(scroll);
+
     cNameTag = new JLabel("Client name:");
     cNameTag.setBounds(10, 10, 80, 25);
     panel.add(cNameTag);
@@ -84,6 +91,11 @@ public class SalesStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        String cName = cNameText.getText();
+        string cAddress = cAddressText.getText();
+
+        // creates new client with this name and address
 
       }
     });
@@ -112,6 +124,13 @@ public class SalesStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        int pID = Integer.parseInt(pIDText.getText());
+        int pQTY = Integer.parseInt(pQuantityText.getText());
+
+        // checks to see if product exists
+        // if it does not, clear the pID and pQTY fields
+        // if it does, then add product and its quantity to the inventory
+
       }
     });
 
@@ -131,6 +150,13 @@ public class SalesStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        int cID = Integer.parseInt(cIDText.getText());
+        if (warehouse.isClient(cID)) {
+          (context).setLogin(WareContextGUI.IsClient);
+          // (context).setUser(cID); // I thought clientID was an int???
+          (context).changeState(2);
+        }
+
       }
     });
 
@@ -141,6 +167,9 @@ public class SalesStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        // print waitlist in the JTextArea tabText
+        // which waitlist, and how do you access it???
 
       }
     });
@@ -153,6 +182,8 @@ public class SalesStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        // prints the list of products stored in the warehouse in the JTextArea tabText
+
       }
     });
 
@@ -164,15 +195,10 @@ public class SalesStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        // transitions into client querty state
+
       }
     });
-
-    tabText = new JTextArea();
-    tabText.setBounds(10, 215, 500, 200);
-    panel.add(tabText);
-
-    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    panel.add(scroll);
 
     wareFrame.setVisible(true);
   }

@@ -2,8 +2,6 @@ package GUIsrc;
 
 import java.util.*;
 import java.io.*;
-
-import javax.print.attribute.standard.PrintQuality;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.event.*;
@@ -73,6 +71,9 @@ public class CartStateGUI extends WareStateGUI {
     tabText.setBounds(10, 200, 500, 200);
     panel.add(tabText);
 
+    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    panel.add(scroll);
+
     addProduct = new JButton("Add to cart");
     addProduct.setBounds(170, 10, 80, 25);
     panel.add(addProduct);
@@ -80,6 +81,11 @@ public class CartStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        String pID = pIDfield.getText();
+        int pQTY = Integer.parseInt(pIDfield.getText());
+
+        // adds product to the cart
 
       }
     });
@@ -92,6 +98,11 @@ public class CartStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        String pID = pIDfield.getText();
+        int pQTY = Integer.parseInt(pIDfield.getText());
+
+        // update's product quantity
+
       }
     });
 
@@ -103,11 +114,12 @@ public class CartStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        String pID = pIDfield.getText();
+
+        // removes product from the cart, no matter the quantity
+
       }
     });
-
-    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    panel.add(scroll);
 
     wareFrame.setVisible(true);
   }

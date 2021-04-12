@@ -63,23 +63,30 @@ public class ManagerStateGUI extends WareStateGUI {
     panel = new JPanel();
     wareFrame.add(panel);
     panel.setLayout(null);
-    System.out.print('.');
+
+    tabText = new JTextArea();
+    tabText.setBounds(10, 500, 500, 200);
+    panel.add(tabText);
+
+    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    panel.add(scroll);
+
     pNameL = new JLabel("Product Name:");
     pNameL.setBounds(10, 10, 80, 25);
     panel.add(pNameL);
-    System.out.print('.');
+
     pNameTag = new JTextField(20);
     pNameTag.setBounds(100, 10, 100, 25);
     panel.add(pNameTag);
-    System.out.print('.');
+
     pDescriptionL = new JLabel("Description:");
     pDescriptionL.setBounds(10, 40, 80, 25);
     panel.add(pDescriptionL);
-    System.out.print('.');
+
     pDescriptionTag = new JTextField(200);
     pDescriptionTag.setBounds(100, 40, 200, 25);
     panel.add(pDescriptionTag);
-    System.out.print('.');
+
     addNewProduct = new JButton("Add Product");
     addNewProduct.setBounds(10, 70, 120, 25);
     panel.add(addNewProduct);
@@ -87,6 +94,11 @@ public class ManagerStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        String pName = pNameTag.getText();
+        String pDesc = pDescriptionTag.getText();
+
+        // adds product
 
       }
     });
@@ -115,6 +127,11 @@ public class ManagerStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        int pID = Integer.parseInt(pIDTag.getText());
+        int sID = Integer.parseInt(sIDTag.getText());
+
+        // updates product supplier
+
       }
     });
 
@@ -134,6 +151,10 @@ public class ManagerStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        String sName = sNameTag.getText();
+
+        // adds supplier with this name
+
       }
     });
 
@@ -144,6 +165,8 @@ public class ManagerStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        // transitions to sales state
 
       }
     });
@@ -156,6 +179,8 @@ public class ManagerStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        // prints the list of suppliers in the JTextArea tabText
+
       }
     });
 
@@ -166,6 +191,8 @@ public class ManagerStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        // prints the list of product suppliers in the JTextArea tabText
 
       }
     });
@@ -178,15 +205,10 @@ public class ManagerStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        // prints the list of supplier products in the JTextArea tabText
+
       }
     });
-
-    tabText = new JTextArea();
-    tabText.setBounds(10, 500, 500, 200);
-    panel.add(tabText);
-
-    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    panel.add(scroll);
 
     wareFrame.setVisible(true);
   }

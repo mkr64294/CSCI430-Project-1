@@ -34,6 +34,8 @@ public class QueryStateGUI extends WareStateGUI {
 
   private static JFrame wareFrame;
 
+  private int cID = -1;
+
   private QueryStateGUI() {
     super();
 
@@ -46,6 +48,13 @@ public class QueryStateGUI extends WareStateGUI {
     panel = new JPanel();
     wareFrame.add(panel);
     panel.setLayout(null);
+
+    tabText = new JTextArea();
+    tabText.setBounds(10, 270, 500, 200);
+    panel.add(tabText);
+
+    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    panel.add(scroll);
 
     cIDL = new JLabel("Client ID:");
     cIDL.setBounds(10, 10, 80, 25);
@@ -63,6 +72,12 @@ public class QueryStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        cID = Integer.parseInt(cIDF.getText());
+
+        // checks to see if client with current cID exists
+        // if client does not exist, print "Client does not exist"
+        // if client exists, print the client's blanace in the JTextArea tabText
+
       }
     });
 
@@ -74,6 +89,10 @@ public class QueryStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        // checks to see if client with current cID exists
+        // if client does not exist, print "Client does not exist"
+        // if client exists, print the client's blanace in the JTextArea tabText
+
       }
     });
 
@@ -84,6 +103,11 @@ public class QueryStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        // checks to see if client with current cID exists
+        // if client does not exist, print "Client does not exist"
+        // if client exists, print the client's list of transactions in the JTextArea
+        // tabText
 
       }
     });
