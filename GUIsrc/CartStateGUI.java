@@ -1,3 +1,5 @@
+package GUIsrc;
+
 import java.util.*;
 import java.io.*;
 
@@ -32,32 +34,19 @@ public class CartStateGUI extends WareStateGUI {
 
   private static JPanel panel;
 
+  private static JFrame wareFrame;
+
   private CartStateGUI() {
     super();
-    addProduct.addActionListener(new ActionListener() {
 
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
+    wareFrame = new JFrame("Shopping Cart");
+    wareFrame.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
       }
     });
-    updateQuantity.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-      }
-    });
-    removeProduct.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-      }
-    });
-
     panel = new JPanel();
-    (WareContextGUI.wareFrame).add(panel);
+    wareFrame.add(panel);
     panel.setLayout(null);
 
     pIDlabel = new JLabel("Product ID:");
@@ -87,19 +76,40 @@ public class CartStateGUI extends WareStateGUI {
     addProduct = new JButton("Add to cart");
     addProduct.setBounds(170, 10, 80, 25);
     panel.add(addProduct);
+    addProduct.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     updateQuantity = new JButton("Update quantity");
     updateQuantity.setBounds(170, 40, 80, 25);
     panel.add(updateQuantity);
+    updateQuantity.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     removeProduct = new JButton("Remove from cart");
     removeProduct.setBounds(170, 70, 80, 25);
     panel.add(removeProduct);
+    removeProduct.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     panel.add(scroll);
 
-    (WareContextGUI.wareFrame).setVisible(true);
+    wareFrame.setVisible(true);
   }
 
   public static CartStateGUI instance() {

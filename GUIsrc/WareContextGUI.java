@@ -1,3 +1,5 @@
+package GUIsrc;
+
 import java.util.*;
 import javax.swing.BorderFactory;
 import javax.swing.*;
@@ -28,7 +30,8 @@ public class WareContextGUI {
 
   private WareStateGUI[] states;
   private int[][] nextState;
-  public static JFrame wareFrame; 
+  public static JFrame wareFrame;
+
   public String getToken(String prompt) {
     do {
       try {
@@ -115,10 +118,6 @@ public class WareContextGUI {
 
     currentState = LOGIN_STATE;
 
-    wareFrame = new JFrame("Library GUI");
-	  wareFrame.addWindowListener(new WindowAdapter(){public void windowClosing(WindowEvent e){System.exit(0);}});
-    wareFrame.setSize(1000,1000);
-    wareFrame.setLocation(1000, 1000);
   }
 
   public void changeState(int transition) {
@@ -153,8 +152,8 @@ public class WareContextGUI {
     WareContextGUI.instance().process();
   }
 
-  public JFrame getFrame()
-  { return wareFrame;}
-
+  public JFrame getFrame() {
+    return wareFrame;
+  }
 
 }

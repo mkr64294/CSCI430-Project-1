@@ -1,3 +1,5 @@
+package GUIsrc;
+
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
@@ -30,33 +32,19 @@ public class QueryStateGUI extends WareStateGUI {
 
   private static JScrollPane scroll;
 
+  private static JFrame wareFrame;
+
   private QueryStateGUI() {
     super();
 
-    cButton.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
+    wareFrame = new JFrame("Query");
+    wareFrame.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
       }
     });
-    balanceButton.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-      }
-    });
-    transactionButton.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-      }
-    });
-
     panel = new JPanel();
-    (WareContextGUI.wareFrame).add(panel);
+    wareFrame.add(panel);
     panel.setLayout(null);
 
     cIDL = new JLabel("Client ID:");
@@ -70,14 +58,35 @@ public class QueryStateGUI extends WareStateGUI {
     cButton = new JButton("View Client");
     cButton.setBounds(10, 50, 80, 25);
     panel.add(cButton);
+    cButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     balanceButton = new JButton("Outstanding Balance");
     balanceButton.setBounds(10, 50, 120, 25);
     panel.add(balanceButton);
+    balanceButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     transactionButton = new JButton("Number of Transactions");
     transactionButton.setBounds(130, 50, 120, 25);
     panel.add(transactionButton);
+    transactionButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     tabText = new JTextArea();
     tabText.setBounds(10, 270, 500, 200);
@@ -86,7 +95,7 @@ public class QueryStateGUI extends WareStateGUI {
     scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     panel.add(scroll);
 
-    (WareContextGUI.wareFrame).setVisible(true);
+    wareFrame.setVisible(true);
 
   }
 

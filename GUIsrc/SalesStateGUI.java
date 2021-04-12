@@ -1,3 +1,5 @@
+package GUIsrc;
+
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
@@ -45,53 +47,18 @@ public class SalesStateGUI extends WareStateGUI {
 
   private static JScrollPane scroll;
 
+  private static JFrame wareFrame;
+
   private SalesStateGUI() {
     super();
-    addNewClient.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
+    wareFrame = new JFrame("Sales Clerk");
+    wareFrame.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
       }
     });
-    viewAsClient.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-      }
-    });
-    queryClient.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-      }
-    });
-    productShipment.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-      }
-    });
-    viewWaitlist.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-      }
-    });
-    viewProducts.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-      }
-    });
-
     panel = new JPanel();
-    (WareContextGUI.wareFrame).add(panel);
+    wareFrame.add(panel);
     panel.setLayout(null);
 
     cNameTag = new JLabel("Client name:");
@@ -113,6 +80,13 @@ public class SalesStateGUI extends WareStateGUI {
     addNewClient = new JButton("Add Client");
     addNewClient.setBounds(10, 80, 80, 25);
     panel.add(addNewClient);
+    addNewClient.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     pIDTag = new JLabel("Product ID:");
     pIDTag.setBounds(310, 10, 80, 25);
@@ -133,6 +107,13 @@ public class SalesStateGUI extends WareStateGUI {
     productShipment = new JButton("Accept shipment");
     productShipment.setBounds(310, 80, 80, 25);
     panel.add(productShipment);
+    productShipment.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     cIDTag = new JLabel("Client ID:");
     cIDTag.setBounds(10, 130, 80, 25);
@@ -145,18 +126,46 @@ public class SalesStateGUI extends WareStateGUI {
     viewAsClient = new JButton("View As Client");
     viewAsClient.setBounds(10, 160, 80, 25);
     panel.add(viewAsClient);
+    viewAsClient.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     viewWaitlist = new JButton("View Waitlist");
     viewWaitlist.setBounds(10, 190, 80, 25);
     panel.add(viewWaitlist);
+    viewWaitlist.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     viewProducts = new JButton("View Products");
     viewProducts.setBounds(90, 190, 80, 25);
     panel.add(viewProducts);
+    viewProducts.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     queryClient = new JButton("Query Client");
     queryClient.setBounds(300, 170, 80, 25);
     panel.add(queryClient);
+    queryClient.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+      }
+    });
 
     tabText = new JTextArea();
     tabText.setBounds(10, 215, 500, 200);
@@ -165,7 +174,7 @@ public class SalesStateGUI extends WareStateGUI {
     scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     panel.add(scroll);
 
-    (WareContextGUI.wareFrame).setVisible(true);
+    wareFrame.setVisible(true);
   }
 
   public static SalesStateGUI instance() {

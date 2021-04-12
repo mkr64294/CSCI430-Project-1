@@ -1,3 +1,5 @@
+package GUIsrc;
+
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
@@ -30,9 +32,24 @@ public class ClientStateGUI extends WareStateGUI {
 
   private static JScrollPane scroll;
 
+  private static JFrame wareFrame;
+
   private ClientStateGUI() {
     super();
 
+    wareFrame = new JFrame("Client");
+    wareFrame.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
+      }
+    });
+    panel = new JPanel();
+    wareFrame.add(panel);
+    panel.setLayout(null);
+
+    cartOptions = new JButton("Shopping Cart Options");
+    cartOptions.setBounds(220, 50, 80, 25);
+    panel.add(cartOptions);
     cartOptions.addActionListener(new ActionListener() {
 
       @Override
@@ -40,6 +57,10 @@ public class ClientStateGUI extends WareStateGUI {
 
       }
     });
+
+    viewWaitlist = new JButton("View Waitlist");
+    viewWaitlist.setBounds(10, 245, 80, 25);
+    panel.add(viewWaitlist);
     viewWaitlist.addActionListener(new ActionListener() {
 
       @Override
@@ -47,6 +68,10 @@ public class ClientStateGUI extends WareStateGUI {
 
       }
     });
+
+    viewProducts = new JButton("View Products");
+    viewProducts.setBounds(90, 245, 80, 25);
+    panel.add(viewProducts);
     viewProducts.addActionListener(new ActionListener() {
 
       @Override
@@ -54,6 +79,10 @@ public class ClientStateGUI extends WareStateGUI {
 
       }
     });
+
+    viewTransactions = new JButton("View Transactions");
+    viewTransactions.setBounds(170, 245, 80, 25);
+    panel.add(viewTransactions);
     viewTransactions.addActionListener(new ActionListener() {
 
       @Override
@@ -61,26 +90,6 @@ public class ClientStateGUI extends WareStateGUI {
 
       }
     });
-
-    panel = new JPanel();
-    (WareContextGUI.wareFrame).add(panel);
-    panel.setLayout(null);
-
-    cartOptions = new JButton("Shopping Cart Options");
-    cartOptions.setBounds(220, 50, 80, 25);
-    panel.add(cartOptions);
-
-    viewWaitlist = new JButton("View Waitlist");
-    viewWaitlist.setBounds(10, 245, 80, 25);
-    panel.add(viewWaitlist);
-
-    viewProducts = new JButton("View Products");
-    viewProducts.setBounds(90, 245, 80, 25);
-    panel.add(viewProducts);
-
-    viewTransactions = new JButton("View Transactions");
-    viewTransactions.setBounds(170, 245, 80, 25);
-    panel.add(viewTransactions);
 
     tabText = new JTextArea();
     tabText.setBounds(10, 270, 500, 200);
@@ -93,7 +102,7 @@ public class ClientStateGUI extends WareStateGUI {
     scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     panel.add(scroll);
 
-    (WareContextGUI.wareFrame).setVisible(true);
+    wareFrame.setVisible(true);
 
   }
 
