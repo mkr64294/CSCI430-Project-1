@@ -81,6 +81,12 @@ public class ClientStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        tabText.setEditable(true);
+        tabText.setText(warehouse.printClientWaitlist(Integer.parseInt(context.getUser())));
+        if (tabText.getText() == "") {
+          tabText.setText("No Products In Waitlist");
+        }
+        tabText.setEditable(false);
         // prints the current waitlist in the tabText JTextArea
         // if the waitlist is empty, then print "No Products In Waitlist"
 
@@ -95,6 +101,12 @@ public class ClientStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
+        tabText.setEditable(true);
+        tabText.setText(warehouse.showProductList());
+        if (tabText.getText() == "") {
+          tabText.setText("No Products To View");
+        }
+        tabText.setEditable(false);
         // prints the current waitlist in the tabText JTextArea
         // if the shopping cart is empty, then print "No Products In Shopping Cart"
 
@@ -108,6 +120,20 @@ public class ClientStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+
+        tabText.setEditable(true);
+        int oID = 0;
+        String found = "";
+        if ((found.equals(""))) {
+          tabText.setText("No Transactions found");
+        } else {
+          while (!(found.equals("not found"))) {
+            tabText.setText(tabText.getText() + "\n" + warehouse.getInvoice(Integer.parseInt(context.getUser()), oID));
+            found = warehouse.getInvoice(Integer.parseInt(context.getUser()), oID);
+            oID++;
+          }
+        }
+        tabText.setEditable(false);
 
         // prints the current list of transactions in the tabText JTextArea
         // if the shopping cart is empty, then print "No Transactions Made"
