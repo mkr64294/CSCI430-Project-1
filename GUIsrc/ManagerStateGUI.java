@@ -65,30 +65,30 @@ public class ManagerStateGUI extends WareStateGUI {
     panel.setLayout(null);
 
     tabText = new JTextArea();
-    tabText.setBounds(10, 500, 500, 200);
-    panel.add(tabText);
-
+    tabText.setBounds(10, 250, 500, 200);
+    tabText.setEditable(false);
     scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     panel.add(scroll);
+    panel.add(tabText);
 
     pNameL = new JLabel("Product Name:");
-    pNameL.setBounds(10, 10, 80, 25);
+    pNameL.setBounds(10, 10, 120, 25);
     panel.add(pNameL);
 
     pNameTag = new JTextField(20);
-    pNameTag.setBounds(100, 10, 100, 25);
+    pNameTag.setBounds(110, 10, 80, 25);
     panel.add(pNameTag);
 
     pDescriptionL = new JLabel("Description:");
-    pDescriptionL.setBounds(10, 40, 80, 25);
+    pDescriptionL.setBounds(10, 40, 120, 25);
     panel.add(pDescriptionL);
 
     pDescriptionTag = new JTextField(200);
-    pDescriptionTag.setBounds(100, 40, 200, 25);
+    pDescriptionTag.setBounds(110, 40, 200, 25);
     panel.add(pDescriptionTag);
 
     addNewProduct = new JButton("Add Product");
-    addNewProduct.setBounds(10, 70, 120, 25);
+    addNewProduct.setBounds(10, 70, 150, 25);
     panel.add(addNewProduct);
     addNewProduct.addActionListener(new ActionListener() {
 
@@ -102,25 +102,25 @@ public class ManagerStateGUI extends WareStateGUI {
 
       }
     });
-    System.out.print('.');
+
     pIDL = new JLabel("Product ID:");
-    pIDL.setBounds(150, 10, 80, 25);
+    pIDL.setBounds(240, 10, 100, 25);
     panel.add(pIDL);
 
-    pIDTag = new JTextField(20);
-    pIDTag.setBounds(240, 10, 80, 25);
+    pIDTag = new JTextField(10);
+    pIDTag.setBounds(320, 10, 40, 25);
     panel.add(pIDTag);
 
     sIDL = new JLabel("Supplier ID:");
-    sIDL.setBounds(150, 40, 80, 25);
+    sIDL.setBounds(390, 10, 100, 25);
     panel.add(sIDL);
 
-    sIDTag = new JTextField(20);
-    sIDTag.setBounds(240, 40, 80, 25);
+    sIDTag = new JTextField(10);
+    sIDTag.setBounds(480, 10, 40, 25);
     panel.add(sIDTag);
 
-    updateProductSupplier = new JButton("Update Product Supplier");
-    updateProductSupplier.setBounds(150, 80, 120, 25);
+    updateProductSupplier = new JButton("Update Product To Supplier");
+    updateProductSupplier.setBounds(10, 100, 230, 25);
     panel.add(updateProductSupplier);
     updateProductSupplier.addActionListener(new ActionListener() {
 
@@ -136,15 +136,15 @@ public class ManagerStateGUI extends WareStateGUI {
     });
 
     sNameL = new JLabel("Supplier Name:");
-    sNameL.setBounds(10, 130, 80, 25);
+    sNameL.setBounds(10, 140, 120, 25);
     panel.add(sNameL);
 
     sNameTag = new JTextField(20);
-    sNameTag.setBounds(100, 130, 80, 25);
+    sNameTag.setBounds(110, 140, 120, 25);
     panel.add(sNameTag);
 
     addNewSupplier = new JButton("Add Supplier");
-    addNewSupplier.setBounds(10, 170, 80, 25);
+    addNewSupplier.setBounds(10, 170, 150, 25);
     panel.add(addNewSupplier);
     addNewSupplier.addActionListener(new ActionListener() {
 
@@ -159,7 +159,7 @@ public class ManagerStateGUI extends WareStateGUI {
     });
 
     viewAsSalesclerk = new JButton("View As Salesclerk");
-    viewAsSalesclerk.setBounds(800, 300, 80, 25);
+    viewAsSalesclerk.setBounds(10, 480, 200, 25);
     panel.add(viewAsSalesclerk);
     viewAsSalesclerk.addActionListener(new ActionListener() {
 
@@ -172,7 +172,7 @@ public class ManagerStateGUI extends WareStateGUI {
     });
 
     viewSuppliers = new JButton("View Suppliers");
-    viewSuppliers.setBounds(10, 475, 80, 25);
+    viewSuppliers.setBounds(10, 220, 150, 25);
     panel.add(viewSuppliers);
     viewSuppliers.addActionListener(new ActionListener() {
 
@@ -185,7 +185,7 @@ public class ManagerStateGUI extends WareStateGUI {
     });
 
     viewProductSuppliers = new JButton("View Product Suppliers");
-    viewProductSuppliers.setBounds(90, 475, 80, 25);
+    viewProductSuppliers.setBounds(160, 220, 150, 25);
     panel.add(viewProductSuppliers);
     viewProductSuppliers.addActionListener(new ActionListener() {
 
@@ -198,7 +198,7 @@ public class ManagerStateGUI extends WareStateGUI {
     });
 
     viewSupplierProducts = new JButton("View Supplier Products");
-    viewSupplierProducts.setBounds(170, 475, 80, 25);
+    viewSupplierProducts.setBounds(310, 220, 150, 25);
     panel.add(viewSupplierProducts);
     viewSupplierProducts.addActionListener(new ActionListener() {
 

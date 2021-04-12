@@ -18,10 +18,6 @@ public class QueryStateGUI extends WareStateGUI {
   private static final int DISPLAY_NO_TRANSACTION = 3;
   private static final int HELP = 4;
 
-  private static JLabel cIDL;
-
-  private static JTextField cIDF;
-
   private static JButton cButton;
   private static JButton balanceButton;
   private static JButton transactionButton;
@@ -33,8 +29,6 @@ public class QueryStateGUI extends WareStateGUI {
   private static JScrollPane scroll;
 
   private static JFrame wareFrame;
-
-  private int cID = -1;
 
   private QueryStateGUI() {
     super();
@@ -50,74 +44,50 @@ public class QueryStateGUI extends WareStateGUI {
     panel.setLayout(null);
 
     tabText = new JTextArea();
-    tabText.setBounds(10, 270, 500, 200);
-    panel.add(tabText);
-
+    tabText.setBounds(10, 40, 500, 200);
+    tabText.setEditable(false);
     scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     panel.add(scroll);
+    panel.add(tabText);
 
-    cIDL = new JLabel("Client ID:");
-    cIDL.setBounds(10, 10, 80, 25);
-    panel.add(cIDL);
-
-    cIDF = new JTextField(8);
-    cIDL.setBounds(100, 10, 80, 25);
-    panel.add(cIDL);
-
-    cButton = new JButton("View Client");
-    cButton.setBounds(10, 50, 80, 25);
+    cButton = new JButton("View All Clients");
+    cButton.setBounds(10, 10, 175, 25);
     panel.add(cButton);
     cButton.addActionListener(new ActionListener() {
 
       @Override
       public void actionPerformed(ActionEvent event) {
 
-        cID = Integer.parseInt(cIDF.getText());
-
-        // checks to see if client with current cID exists
-        // if client does not exist, print "Client does not exist"
-        // if client exists, print the client's blanace in the JTextArea tabText
+        // get a list of clients and display in text field
 
       }
     });
 
     balanceButton = new JButton("Outstanding Balance");
-    balanceButton.setBounds(10, 50, 120, 25);
+    balanceButton.setBounds(185, 10, 175, 25);
     panel.add(balanceButton);
     balanceButton.addActionListener(new ActionListener() {
 
       @Override
       public void actionPerformed(ActionEvent event) {
 
-        // checks to see if client with current cID exists
-        // if client does not exist, print "Client does not exist"
-        // if client exists, print the client's blanace in the JTextArea tabText
+        // get a list of clients with a remaing balance and print to text field
 
       }
     });
 
-    transactionButton = new JButton("Number of Transactions");
-    transactionButton.setBounds(130, 50, 120, 25);
+    transactionButton = new JButton("No Transactions");
+    transactionButton.setBounds(360, 10, 175, 25);
     panel.add(transactionButton);
     transactionButton.addActionListener(new ActionListener() {
 
       @Override
       public void actionPerformed(ActionEvent event) {
 
-        // checks to see if client with current cID exists
-        // if client does not exist, print "Client does not exist"
-        // if client exists, print the client's list of transactions in the JTextArea
-        // tabText
+        // get a list of clients with a no transactions and print to text field
 
       }
     });
-
-    tabText = new JTextArea();
-    tabText.setBounds(10, 270, 500, 200);
-    panel.add(tabText);
-
-    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    panel.add(scroll);
 
     wareFrame.setVisible(true);
 

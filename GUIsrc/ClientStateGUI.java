@@ -48,21 +48,20 @@ public class ClientStateGUI extends WareStateGUI {
     panel.setLayout(null);
 
     tabText = new JTextArea();
-    tabText.setBounds(10, 270, 500, 200);
+    tabText.setBounds(10, 150, 500, 200);
+    tabText.setEditable(false);
+    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    panel.add(scroll);
     panel.add(tabText);
 
     clientInfoText = new JTextArea();
-    clientInfoText.setBounds(10, 10, 200, 80);
+    clientInfoText.setBounds(10, 10, 200, 100);
+    clientInfoText.setText(warehouse.showClientDetails(Integer.parseInt(context.getUser())));
+    clientInfoText.setEditable(false);
     panel.add(clientInfoText);
 
-    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    panel.add(scroll);
-
-    // Need to run a method here which will print the client's info to the JTextArea
-    // clientInfoText
-
-    cartOptions = new JButton("Shopping Cart Options");
-    cartOptions.setBounds(220, 50, 80, 25);
+    cartOptions = new JButton("Shopping Cart");
+    cartOptions.setBounds(220, 50, 150, 25);
     panel.add(cartOptions);
     cartOptions.addActionListener(new ActionListener() {
 
@@ -75,7 +74,7 @@ public class ClientStateGUI extends WareStateGUI {
     });
 
     viewWaitlist = new JButton("View Waitlist");
-    viewWaitlist.setBounds(10, 245, 80, 25);
+    viewWaitlist.setBounds(10, 245, 150, 25);
     panel.add(viewWaitlist);
     viewWaitlist.addActionListener(new ActionListener() {
 

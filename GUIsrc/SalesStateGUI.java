@@ -62,11 +62,11 @@ public class SalesStateGUI extends WareStateGUI {
     panel.setLayout(null);
 
     tabText = new JTextArea();
-    tabText.setBounds(10, 215, 500, 200);
-    panel.add(tabText);
-
+    tabText.setBounds(10, 245, 500, 200);
+    tabText.setEditable(false);
     scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     panel.add(scroll);
+    panel.add(tabText);
 
     cNameTag = new JLabel("Client name:");
     cNameTag.setBounds(10, 10, 80, 25);
@@ -85,7 +85,7 @@ public class SalesStateGUI extends WareStateGUI {
     panel.add(cAddressText);
 
     addNewClient = new JButton("Add Client");
-    addNewClient.setBounds(10, 80, 80, 25);
+    addNewClient.setBounds(10, 80, 150, 25);
     panel.add(addNewClient);
     addNewClient.addActionListener(new ActionListener() {
 
@@ -93,7 +93,7 @@ public class SalesStateGUI extends WareStateGUI {
       public void actionPerformed(ActionEvent event) {
 
         String cName = cNameText.getText();
-        string cAddress = cAddressText.getText();
+        String cAddress = cAddressText.getText();
 
         // creates new client with this name and address
 
@@ -117,7 +117,7 @@ public class SalesStateGUI extends WareStateGUI {
     panel.add(pQuantityText);
 
     productShipment = new JButton("Accept shipment");
-    productShipment.setBounds(310, 80, 80, 25);
+    productShipment.setBounds(310, 80, 150, 25);
     panel.add(productShipment);
     productShipment.addActionListener(new ActionListener() {
 
@@ -143,7 +143,7 @@ public class SalesStateGUI extends WareStateGUI {
     panel.add(cIDText);
 
     viewAsClient = new JButton("View As Client");
-    viewAsClient.setBounds(10, 160, 80, 25);
+    viewAsClient.setBounds(10, 160, 150, 25);
     panel.add(viewAsClient);
     viewAsClient.addActionListener(new ActionListener() {
 
@@ -161,7 +161,7 @@ public class SalesStateGUI extends WareStateGUI {
     });
 
     viewWaitlist = new JButton("View Waitlist");
-    viewWaitlist.setBounds(10, 190, 80, 25);
+    viewWaitlist.setBounds(10, 220, 150, 25);
     panel.add(viewWaitlist);
     viewWaitlist.addActionListener(new ActionListener() {
 
@@ -175,7 +175,7 @@ public class SalesStateGUI extends WareStateGUI {
     });
 
     viewProducts = new JButton("View Products");
-    viewProducts.setBounds(90, 190, 80, 25);
+    viewProducts.setBounds(160, 220, 150, 25);
     panel.add(viewProducts);
     viewProducts.addActionListener(new ActionListener() {
 
@@ -188,7 +188,7 @@ public class SalesStateGUI extends WareStateGUI {
     });
 
     queryClient = new JButton("Query Client");
-    queryClient.setBounds(300, 170, 80, 25);
+    queryClient.setBounds(10, 450, 150, 25);
     panel.add(queryClient);
     queryClient.addActionListener(new ActionListener() {
 

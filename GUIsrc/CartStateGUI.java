@@ -21,6 +21,7 @@ public class CartStateGUI extends WareStateGUI {
 
   private static JTextField pIDfield;
   private static JTextField pQTYfield;
+  private static JTextField sIDfield;
 
   private static JButton addProduct;
   private static JButton updateQuantity;
@@ -48,42 +49,47 @@ public class CartStateGUI extends WareStateGUI {
     panel.setLayout(null);
 
     pIDlabel = new JLabel("Product ID:");
-    pIDlabel.setBounds(10, 10, 80, 25);
+    pIDlabel.setBounds(10, 10, 130, 25);
     panel.add(pIDlabel);
 
     pQTYlabel = new JLabel("Product QTY:");
-    pQTYlabel.setBounds(10, 40, 80, 25);
+    pQTYlabel.setBounds(10, 40, 100, 25);
     panel.add(pQTYlabel);
 
     cartlabel = new JLabel("Shopping Cart");
-    cartlabel.setBounds(10, 70, 80, 25);
+    cartlabel.setBounds(10, 100, 100, 25);
     panel.add(cartlabel);
 
     pIDfield = new JTextField(10);
-    pIDfield.setBounds(100, 10, 50, 25);
+    pIDfield.setBounds(110, 10, 50, 25);
     panel.add(pIDfield);
 
     pQTYfield = new JTextField(10);
-    pQTYfield.setBounds(100, 40, 50, 25);
+    pQTYfield.setBounds(110, 40, 50, 25);
     panel.add(pQTYfield);
 
     tabText = new JTextArea();
-    tabText.setBounds(10, 200, 500, 200);
-    panel.add(tabText);
-
+    tabText.setBounds(10, 125, 500, 200);
+    tabText.setEditable(false);
     scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     panel.add(scroll);
+    panel.add(tabText);
 
     addProduct = new JButton("Add to cart");
-    addProduct.setBounds(170, 10, 80, 25);
+    addProduct.setBounds(200, 10, 150, 25);
     panel.add(addProduct);
     addProduct.addActionListener(new ActionListener() {
 
       @Override
       public void actionPerformed(ActionEvent event) {
 
-        String pID = pIDfield.getText();
+        int pID = Integer.parseInt(pIDfield.getText());
+        int sID = Integer.parseInt(sIDfield.getText());
         int pQTY = Integer.parseInt(pIDfield.getText());
+        warehouse.addToCart(Integer.parseInt(context.getUser()), pID, pQTY, sID);
+        tabText.setEditable(true);
+        tabText.setText(warehouse.showCart(Integer.parseInt(context.getUser())));
+        tabText.setEditable(false);
 
         // adds product to the cart
 
@@ -91,14 +97,14 @@ public class CartStateGUI extends WareStateGUI {
     });
 
     updateQuantity = new JButton("Update quantity");
-    updateQuantity.setBounds(170, 40, 80, 25);
+    updateQuantity.setBounds(200, 40, 150, 25);
     panel.add(updateQuantity);
     updateQuantity.addActionListener(new ActionListener() {
 
       @Override
       public void actionPerformed(ActionEvent event) {
 
-        String pID = pIDfield.getText();
+        int pID = Integer.parseInt(pIDfield.getText());
         int pQTY = Integer.parseInt(pIDfield.getText());
 
         // update's product quantity
@@ -107,7 +113,7 @@ public class CartStateGUI extends WareStateGUI {
     });
 
     removeProduct = new JButton("Remove from cart");
-    removeProduct.setBounds(170, 70, 80, 25);
+    removeProduct.setBounds(200, 70, 150, 25);
     panel.add(removeProduct);
     removeProduct.addActionListener(new ActionListener() {
 
