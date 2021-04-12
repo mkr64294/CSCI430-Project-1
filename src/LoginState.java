@@ -9,16 +9,15 @@ public class LoginState extends WareState {
     private static final int EXIT = 3;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     // private WareContext context;
-    ivate
-    static LoginState instance;
+    private static LoginState instance;
 
-   private LoginState() {
+    private LoginState() {
         super();
-    
-   *     // context = WareContext.instance() }
-   * p     if (instance  
+
+        // context = WareContext.instance() }
+        if (instance == null) {
             instance = new LoginState();
-        }return instance;
+        }
 
     }
 
@@ -27,10 +26,11 @@ public class LoginState extends WareState {
             try {
                 int value = Integer.parseInt(getToken("Enter command:"));
                 if (value <= EXIT && value >= MANAGER_LOGIN) {
-                   return value;
+                    return value;
                 }
-           } catch (NumberFormatException nfe) {
+            } catch (NumberFormatException nfe) {
                 System.out.println("Enter a number");
+            }
         } while (true);
     }
 

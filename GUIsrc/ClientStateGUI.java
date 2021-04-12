@@ -24,6 +24,7 @@ public class ClientStateGUI extends WareStateGUI {
   private static JButton viewWaitlist;
   private static JButton viewProducts;
   private static JButton viewTransactions;
+  private static JButton back;
 
   private static JTextArea tabText;
   private static JTextArea clientInfoText;
@@ -36,112 +37,6 @@ public class ClientStateGUI extends WareStateGUI {
 
   private ClientStateGUI() {
     super();
-
-    wareFrame = new JFrame("Client");
-    wareFrame.addWindowListener(new WindowAdapter() {
-      public void windowClosing(WindowEvent e) {
-        System.exit(0);
-      }
-    });
-    panel = new JPanel();
-    wareFrame.add(panel);
-    panel.setLayout(null);
-
-    tabText = new JTextArea();
-    tabText.setBounds(10, 150, 500, 200);
-    tabText.setEditable(false);
-    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    panel.add(scroll);
-    panel.add(tabText);
-
-    clientInfoText = new JTextArea();
-    clientInfoText.setBounds(10, 10, 200, 100);
-    clientInfoText.setText(warehouse.showClientDetails(Integer.parseInt(context.getUser())));
-    clientInfoText.setEditable(false);
-    panel.add(clientInfoText);
-
-    cartOptions = new JButton("Shopping Cart");
-    cartOptions.setBounds(220, 50, 150, 25);
-    panel.add(cartOptions);
-    cartOptions.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-        // transitions to the shopping cart state
-
-      }
-    });
-
-    viewWaitlist = new JButton("View Waitlist");
-    viewWaitlist.setBounds(10, 245, 150, 25);
-    panel.add(viewWaitlist);
-    viewWaitlist.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-        tabText.setEditable(true);
-        tabText.setText(warehouse.printClientWaitlist(Integer.parseInt(context.getUser())));
-        if (tabText.getText() == "") {
-          tabText.setText("No Products In Waitlist");
-        }
-        tabText.setEditable(false);
-        // prints the current waitlist in the tabText JTextArea
-        // if the waitlist is empty, then print "No Products In Waitlist"
-
-      }
-    });
-
-    viewProducts = new JButton("View Products");
-    viewProducts.setBounds(90, 245, 80, 25);
-    panel.add(viewProducts);
-    viewProducts.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-        tabText.setEditable(true);
-        tabText.setText(warehouse.showProductList());
-        if (tabText.getText() == "") {
-          tabText.setText("No Products To View");
-        }
-        tabText.setEditable(false);
-        // prints the current waitlist in the tabText JTextArea
-        // if the shopping cart is empty, then print "No Products In Shopping Cart"
-
-      }
-    });
-
-    viewTransactions = new JButton("View Transactions");
-    viewTransactions.setBounds(170, 245, 80, 25);
-    panel.add(viewTransactions);
-    viewTransactions.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-        tabText.setEditable(true);
-        int oID = 0;
-        String found = "";
-        if ((found.equals(""))) {
-          tabText.setText("No Transactions found");
-        } else {
-          while (!(found.equals("not found"))) {
-            tabText.setText(tabText.getText() + "\n" + warehouse.getInvoice(Integer.parseInt(context.getUser()), oID));
-            found = warehouse.getInvoice(Integer.parseInt(context.getUser()), oID);
-            oID++;
-          }
-        }
-        tabText.setEditable(false);
-
-        // prints the current list of transactions in the tabText JTextArea
-        // if the shopping cart is empty, then print "No Transactions Made"
-
-      }
-    });
-
-    wareFrame.setVisible(true);
 
   }
 
@@ -275,6 +170,120 @@ public class ClientStateGUI extends WareStateGUI {
   }
 
   public void run() {
-    process();
+    // process();
+    wareFrame = new JFrame("Client");
+    wareFrame.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
+      }
+    });
+    panel = new JPanel();
+    panel.setLayout(null);
+
+    tabText = new JTextArea();
+    tabText.setBounds(10, 150, 500, 200);
+    tabText.setEditable(false);
+    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    panel.add(scroll);
+    panel.add(tabText);
+
+    clientInfoText = new JTextArea();
+    clientInfoText.setBounds(10, 10, 200, 100);
+    clientInfoText.setText(warehouse.showClientDetails(Integer.parseInt(context.getUser())));
+    clientInfoText.setEditable(false);
+    panel.add(clientInfoText);
+
+    cartOptions = new JButton("Shopping Cart");
+    cartOptions.setBounds(220, 50, 150, 25);
+    panel.add(cartOptions);
+    cartOptions.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+        (context).changeState(WareContextGUI.CART_STATE);
+
+      }
+    });
+
+    viewWaitlist = new JButton("View Waitlist");
+    viewWaitlist.setBounds(10, 245, 150, 25);
+    panel.add(viewWaitlist);
+    viewWaitlist.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+        tabText.setEditable(true);
+        tabText.setText(warehouse.printClientWaitlist(Integer.parseInt(context.getUser())));
+        if (tabText.getText() == "") {
+          tabText.setText("No Products In Waitlist");
+        }
+        tabText.setEditable(false);
+        // prints the current waitlist in the tabText JTextArea
+        // if the waitlist is empty, then print "No Products In Waitlist"
+
+      }
+    });
+
+    viewProducts = new JButton("View Products");
+    viewProducts.setBounds(90, 245, 80, 25);
+    panel.add(viewProducts);
+    viewProducts.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+        tabText.setEditable(true);
+        tabText.setText(warehouse.showProductList());
+        if (tabText.getText() == "") {
+          tabText.setText("No Products To View");
+        }
+        tabText.setEditable(false);
+        // prints the current waitlist in the tabText JTextArea
+        // if the shopping cart is empty, then print "No Products In Shopping Cart"
+
+      }
+    });
+
+    viewTransactions = new JButton("View Transactions");
+    viewTransactions.setBounds(170, 245, 80, 25);
+    panel.add(viewTransactions);
+    viewTransactions.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+        tabText.setEditable(true);
+        int oID = 0;
+        String found = "";
+        if ((found.equals(""))) {
+          tabText.setText("No Transactions found");
+        } else {
+          while (!(found.equals("not found"))) {
+            tabText.setText(tabText.getText() + "\n" + warehouse.getInvoice(Integer.parseInt(context.getUser()), oID));
+            found = warehouse.getInvoice(Integer.parseInt(context.getUser()), oID);
+            oID++;
+          }
+        }
+        tabText.setEditable(false);
+
+        // prints the current list of transactions in the tabText JTextArea
+        // if the shopping cart is empty, then print "No Transactions Made"
+
+      }
+    });
+    back = new JButton("Back");
+    back.setBounds(10, 600, 80, 25);
+    panel.add(back);
+    back.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+        // go to previous state
+      }
+    });
+    wareFrame.add(panel);
+    wareFrame.pack();
+    wareFrame.setVisible(true);
   }
 }

@@ -13,6 +13,7 @@ public class WareContextGUI {
 
   private static WareContextGUI context;
   private int currentUser;
+  private int currentClient;
   private String userID;
   private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
   public static final int IsManager = 0;
@@ -55,12 +56,20 @@ public class WareContextGUI {
     userID = uID;
   }
 
+  public void setClient(int cID) {
+    currentClient = cID;
+  }
+
   public int getLogin() {
     return currentUser;
   }
 
   public String getUser() {
     return userID;
+  }
+
+  public int getClient() {
+    return currentClient;
   }
 
   private WareContextGUI() {
@@ -82,9 +91,9 @@ public class WareContextGUI {
     nextState[MANAGER_STATE][QUERY_STATE] = -2;
 
     nextState[SALES_STATE][MANAGER_STATE] = MANAGER_STATE;
-    nextState[SALES_STATE][SALES_STATE] = LOGIN_STATE;
+    nextState[SALES_STATE][SALES_STATE] = -2;
     nextState[SALES_STATE][CLIENT_STATE] = CLIENT_STATE;
-    nextState[SALES_STATE][LOGIN_STATE] = -2;
+    nextState[SALES_STATE][LOGIN_STATE] = LOGIN_STATE;
     nextState[SALES_STATE][CART_STATE] = -2;
     nextState[SALES_STATE][QUERY_STATE] = QUERY_STATE;
 

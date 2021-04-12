@@ -21,6 +21,7 @@ public class QueryStateGUI extends WareStateGUI {
   private static JButton cButton;
   private static JButton balanceButton;
   private static JButton transactionButton;
+  private static JButton back;
 
   private static JTextArea tabText;
 
@@ -32,64 +33,6 @@ public class QueryStateGUI extends WareStateGUI {
 
   private QueryStateGUI() {
     super();
-
-    wareFrame = new JFrame("Query");
-    wareFrame.addWindowListener(new WindowAdapter() {
-      public void windowClosing(WindowEvent e) {
-        System.exit(0);
-      }
-    });
-    panel = new JPanel();
-    wareFrame.add(panel);
-    panel.setLayout(null);
-
-    tabText = new JTextArea();
-    tabText.setBounds(10, 40, 500, 200);
-    tabText.setEditable(false);
-    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    panel.add(scroll);
-    panel.add(tabText);
-
-    cButton = new JButton("View All Clients");
-    cButton.setBounds(10, 10, 175, 25);
-    panel.add(cButton);
-    cButton.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-        // get a list of clients and display in text field
-
-      }
-    });
-
-    balanceButton = new JButton("Outstanding Balance");
-    balanceButton.setBounds(185, 10, 175, 25);
-    panel.add(balanceButton);
-    balanceButton.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-        // get a list of clients with a remaing balance and print to text field
-
-      }
-    });
-
-    transactionButton = new JButton("No Transactions");
-    transactionButton.setBounds(360, 10, 175, 25);
-    panel.add(transactionButton);
-    transactionButton.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-
-        // get a list of clients with a no transactions and print to text field
-
-      }
-    });
-
-    wareFrame.setVisible(true);
 
   }
 
@@ -186,6 +129,75 @@ public class QueryStateGUI extends WareStateGUI {
   }
 
   public void run() {
-    process();
+    // process();
+
+    wareFrame = new JFrame("Query");
+    wareFrame.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
+      }
+    });
+    panel = new JPanel();
+
+    panel.setLayout(null);
+
+    tabText = new JTextArea();
+    tabText.setBounds(10, 40, 500, 200);
+    tabText.setEditable(false);
+    scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    panel.add(scroll);
+    panel.add(tabText);
+
+    cButton = new JButton("View All Clients");
+    cButton.setBounds(10, 10, 175, 25);
+    panel.add(cButton);
+    cButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+        // get a list of clients and display in text field
+
+      }
+    });
+
+    balanceButton = new JButton("Outstanding Balance");
+    balanceButton.setBounds(185, 10, 175, 25);
+    panel.add(balanceButton);
+    balanceButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+        // get a list of clients with a remaing balance and print to text field
+
+      }
+    });
+
+    transactionButton = new JButton("No Transactions");
+    transactionButton.setBounds(360, 10, 175, 25);
+    panel.add(transactionButton);
+    transactionButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+
+        // get a list of clients with a no transactions and print to text field
+
+      }
+    });
+    back = new JButton("Back");
+    back.setBounds(10, 600, 80, 25);
+    panel.add(back);
+    back.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+        // go to previous state
+      }
+    });
+    wareFrame.add(panel);
+    wareFrame.pack();
+    wareFrame.setVisible(true);
   }
 }

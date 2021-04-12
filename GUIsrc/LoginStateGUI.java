@@ -13,9 +13,6 @@ public class LoginStateGUI extends WareStateGUI {
   private static JLabel managerJL;
   private static JLabel password1JL;
   private static JLabel password2JL;
-  private static JLabel clientIDJL;
-  private static JLabel sUserJL;
-  private static JLabel mUserJL;
 
   private static JTextField userClient;
   private static JTextField userSales;
@@ -27,7 +24,6 @@ public class LoginStateGUI extends WareStateGUI {
   private static JButton clientLogin;
   private static JButton salesLogin;
   private static JButton managerLogin;
-  private static JButton back;
 
   private static JPanel panel;
 
@@ -43,6 +39,18 @@ public class LoginStateGUI extends WareStateGUI {
 
   private LoginStateGUI() {
     super();
+
+  }
+
+  public static LoginStateGUI instance() {
+    if (instance == null) {
+      instance = new LoginStateGUI();
+    }
+    return instance;
+  }
+
+  public void run() {
+    instance();
     wareFrame = new JFrame("Login");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
@@ -50,7 +58,7 @@ public class LoginStateGUI extends WareStateGUI {
       }
     });
     panel = new JPanel();
-    wareFrame.add(panel);
+
     panel.setLayout(null);
 
     clientJL = new JLabel("Client ID:");
@@ -73,6 +81,7 @@ public class LoginStateGUI extends WareStateGUI {
 
         String userName = userClient.getText();
         if (warehouse.isClient(Integer.parseInt(userName))) {
+          context.setClient(Integer.parseInt(userName));
           (context).setLogin(WareContextGUI.IsClient);
           (context).setUser(userName);
           (context).changeState(2);
@@ -94,7 +103,7 @@ public class LoginStateGUI extends WareStateGUI {
     panel.add(password1JL);
 
     sPass = new JPasswordField(20);
-    sPass.setBounds(100, 100, 100, 25);
+    sPass.setBounds(100, 100, 190, 25);
     panel.add(sPass);
 
     salesLogin = new JButton("Login");
@@ -105,8 +114,8 @@ public class LoginStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
         String userName = userSales.getText();
-        char password[] = sPass.getPassword();
-        if (userName == "username" && password.toString() == "password") {
+        String password = String.valueOf(sPass.getPassword());
+        if (userName.equals("username") && password.equals("password")) {
           (context).setLogin(WareContextGUI.IsSales);
           (context).changeState(1);
         } else {
@@ -140,9 +149,9 @@ public class LoginStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
         String userName = userManager.getText();
-        char password[] = mPass.getPassword();
+        String password = String.valueOf(mPass.getPassword());
 
-        if (userName == "username" && password.toString() == "password") {
+        if (userName.equals("username") && password.equals("password")) {
           (context).setLogin(WareContextGUI.IsManager);
           (context).changeState(0);
         } else {
@@ -153,31 +162,11 @@ public class LoginStateGUI extends WareStateGUI {
       }
     });
 
-    back = new JButton("Back");
-    back.setBounds(10, 600, 80, 25);
-    panel.add(back);
-    back.addActionListener(new ActionListener() {
-
-      @Override
-      public void actionPerformed(ActionEvent event) {
-        // go to previous state
-      }
-    });
-
+    wareFrame.add(panel);
+    wareFrame.pack();
     wareFrame.setVisible(true);
 
     // context = WareContext.instance();
-  }
-
-  public static LoginStateGUI instance() {
-    if (instance == null) {
-      instance = new LoginStateGUI();
-    }
-    return instance;
-  }
-
-  public void run() {
-    instance();
   }
 
   /*
