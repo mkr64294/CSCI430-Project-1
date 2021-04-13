@@ -134,7 +134,7 @@ public class QueryStateGUI extends WareStateGUI {
     wareFrame = new JFrame("Query");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-        System.exit(0);
+        // context.changeState(WareContextGUI.SALES_STATE);
       }
     });
     panel = new JPanel();
@@ -155,9 +155,12 @@ public class QueryStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
-
-        // get a list of clients and display in text field
-
+        tabText.setEditable(true);
+        tabText.setText(warehouse.clientsToString());
+        if (tabText.getText() == "[]") {
+          tabText.setText("No clients exist");
+        }
+        tabText.setEditable(false);
       }
     });
 
@@ -168,7 +171,12 @@ public class QueryStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
-
+        tabText.setEditable(true);
+        tabText.setText(warehouse.showClientsWithCredit());
+        if (tabText.getText() == "") {
+          tabText.setText("No clients exist");
+        }
+        tabText.setEditable(false);
         // get a list of clients with a remaing balance and print to text field
 
       }
@@ -181,7 +189,12 @@ public class QueryStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
-
+        tabText.setEditable(true);
+        tabText.setText(warehouse.showClientsWithNoTransactions());
+        if (tabText.getText() == "") {
+          tabText.setText("No clients exist");
+        }
+        tabText.setEditable(false);
         // get a list of clients with a no transactions and print to text field
 
       }
@@ -193,6 +206,9 @@ public class QueryStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+        wareFrame.setVisible(false);
+        wareFrame.dispose();
+        context.changeState(WareContextGUI.SALES_STATE);
         // go to previous state
       }
     });

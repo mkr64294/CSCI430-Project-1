@@ -200,6 +200,8 @@ public class ClientStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+        wareFrame.setVisible(false);
+        wareFrame.dispose();
         (context).changeState(WareContextGUI.CART_STATE);
 
       }
@@ -279,6 +281,18 @@ public class ClientStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+        if (((context).getLogin()) == (WareContextGUI.SALES_STATE)
+            || ((context).getLogin()) == (WareContextGUI.MANAGER_STATE)) {
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
+          (context).changeState(WareContextGUI.SALES_STATE);
+        } else if (((context).getLogin()) == (WareContextGUI.CLIENT_STATE)) {
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
+          (context).changeState(WareContextGUI.LOGIN_STATE);
+        }
+        wareFrame.setVisible(false);
+        wareFrame.dispose();
         // go to previous state
       }
     });

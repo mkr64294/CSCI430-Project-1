@@ -164,6 +164,8 @@ public class SalesStateGUI extends WareStateGUI {
     if (warehouse.isClient(Integer.parseInt(userID))) {
       System.out.println("\n\nBecoming Client");
       (context).setUser(userID);
+      wareFrame.setVisible(false);
+      wareFrame.dispose();
       (context).changeState(WareContextGUI.CLIENT_STATE);
     } else {
       System.out.println("Invalid user id.");
@@ -171,10 +173,15 @@ public class SalesStateGUI extends WareStateGUI {
   }
 
   public void logout() {
+
     if ((context).getLogin() == WareContextGUI.IsManager) {
       System.out.println("\n\nReturning to Manager");
+      wareFrame.setVisible(false);
+      wareFrame.dispose();
       (context).changeState(WareContextGUI.MANAGER_STATE);
     } else {
+      wareFrame.setVisible(false);
+      wareFrame.dispose();
       (context).changeState(WareContextGUI.SALES_STATE);
     }
   }
@@ -222,7 +229,11 @@ public class SalesStateGUI extends WareStateGUI {
     wareFrame = new JFrame("Sales Clerk");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-        System.exit(0);
+        // if (((context).getLogin()) == (WareContextGUI.SALES_STATE)) {
+        // (context).changeState(WareContextGUI.LOGIN_STATE);
+        // } else if (((context).getLogin()) == (WareContextGUI.MANAGER_STATE)) {
+        // (context).changeState(WareContextGUI.MANAGER_STATE);
+        // }
       }
     });
     panel = new JPanel();
@@ -263,7 +274,14 @@ public class SalesStateGUI extends WareStateGUI {
         String cName = cNameText.getText();
         String cAddress = cAddressText.getText();
 
-        System.out.println(warehouse.addClient(cName, cAddress));
+        warehouse.addClient(cName, cAddress);
+
+        tabText.setEditable(true);
+        tabText.setText("New Client Added\n" + warehouse.showClientDetails(Integer.parseInt(context.getUser())));
+        tabText.setEditable(false);
+
+        cNameText.setText("");
+        cAddressText.setText("");
 
         // creates new client with this name and address
 
@@ -374,6 +392,8 @@ public class SalesStateGUI extends WareStateGUI {
         String userName = cIDText.getText();
         if (warehouse.isClient(Integer.parseInt(userName))) {
           (context).setUser(userName);
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
           (context).changeState(WareContextGUI.CLIENT_STATE);
         }
 
@@ -409,7 +429,7 @@ public class SalesStateGUI extends WareStateGUI {
       public void actionPerformed(ActionEvent event) {
 
         tabText.setEditable(true);
-        System.out.println(warehouse.showProductList());
+        tabText.setText(warehouse.showProductList());
         tabText.setEditable(false);
 
         // prints the list of products stored in the warehouse in the JTextArea tabText
@@ -424,7 +444,8 @@ public class SalesStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
-        context.setClient(Integer.parseInt(cIDText.getText()));
+        wareFrame.setVisible(false);
+        wareFrame.dispose();
         (context).changeState(WareContextGUI.QUERY_STATE);
 
       }
@@ -437,8 +458,12 @@ public class SalesStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
         if (((context).getLogin()) == (WareContextGUI.SALES_STATE)) {
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
           (context).changeState(WareContextGUI.LOGIN_STATE);
         } else if (((context).getLogin()) == (WareContextGUI.MANAGER_STATE)) {
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
           (context).changeState(WareContextGUI.MANAGER_STATE);
         }
       }

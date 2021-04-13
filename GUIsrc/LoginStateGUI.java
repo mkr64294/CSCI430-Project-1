@@ -24,6 +24,7 @@ public class LoginStateGUI extends WareStateGUI {
   private static JButton clientLogin;
   private static JButton salesLogin;
   private static JButton managerLogin;
+  private static JButton back;
 
   private static JPanel panel;
 
@@ -54,7 +55,7 @@ public class LoginStateGUI extends WareStateGUI {
     wareFrame = new JFrame("Login");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-        System.exit(0);
+
       }
     });
     panel = new JPanel();
@@ -84,6 +85,8 @@ public class LoginStateGUI extends WareStateGUI {
           context.setClient(Integer.parseInt(userName));
           (context).setLogin(WareContextGUI.IsClient);
           (context).setUser(userName);
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
           (context).changeState(2);
         }
 
@@ -117,6 +120,8 @@ public class LoginStateGUI extends WareStateGUI {
         String password = String.valueOf(sPass.getPassword());
         if (userName.equals("username") && password.equals("password")) {
           (context).setLogin(WareContextGUI.IsSales);
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
           (context).changeState(1);
         } else {
           userSales.setText("");
@@ -153,12 +158,38 @@ public class LoginStateGUI extends WareStateGUI {
 
         if (userName.equals("username") && password.equals("password")) {
           (context).setLogin(WareContextGUI.IsManager);
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
           (context).changeState(0);
         } else {
           userManager.setText("");
           mPass.setText("");
         }
 
+      }
+    });
+
+    back = new JButton("Exit");
+    back.setBounds(10, 600, 80, 25);
+    panel.add(back);
+    back.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent event) {
+        wareFrame.setVisible(false);
+        wareFrame.dispose();
+        if (((context).getLogin()) == (WareContextGUI.SALES_STATE)
+            || ((context).getLogin()) == (WareContextGUI.MANAGER_STATE)) {
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
+          (context).changeState(WareContextGUI.SALES_STATE);
+        } else if (((context).getLogin()) == (WareContextGUI.CLIENT_STATE)) {
+          wareFrame.setVisible(false);
+          wareFrame.dispose();
+          (context).changeState(WareContextGUI.LOGIN_STATE);
+        }
+
+        // go to previous state
       }
     });
 

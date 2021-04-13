@@ -364,8 +364,11 @@ public class ManagerStateGUI extends WareStateGUI {
 
         int pID = Integer.parseInt(pIDTag.getText());
         int sID = Integer.parseInt(sIDTag.getText());
+        Float price = Float.parseFloat(pPriceTag.getText());
 
         warehouse.addSupplierToProduct(pID, sID);
+        if (price != 0)
+          warehouse.setPrice(pID, sID, price);
 
         tabText.setEditable(true);
         System.out.println(warehouse.showSupplierListForProduct(sID));
@@ -415,65 +418,6 @@ public class ManagerStateGUI extends WareStateGUI {
       }
     });
 
-    /*
-     * int sID = Integer.parseInt(
-     * getToken("Enter the Supplier ID of the supplier you want to edit"));
-     * System.out.println(warehouse.showSupplierListForProduct(sID)); if
-     * (warehouse.isSupplier(sID)) {
-     * 
-     * System.out.println("What would you like to do?");
-     * System.out.println("1 for adding product");
-     * System.out.println("2 for removing product");
-     * System.out.println("3 for changing price");
-     * System.out.println("0 to return to Manager Menu");
-     * 
-     * int choice;
-     * 
-     * while ((choice = Integer.parseInt(getToken("Enter a number"))) != 0) { switch
-     * (choice) { case 1: { int pID =
-     * Integer.parseInt(getToken("What is the ID of this product?  : ")); if
-     * (warehouse.addSupplierToProduct(pID, sID)) {
-     * System.out.println("Product sucessfully added to this supplier.\n");
-     * 
-     * float price =
-     * Float.parseFloat(getToken("What is the price of this product?  : $")); String
-     * priceString = String.format("%.2f", price);
-     * 
-     * if (warehouse.setPrice(pID, sID, price)) {
-     * System.out.println("The price of this product has been set to $" +
-     * priceString + ".\n"); } else {
-     * System.out.println("Unable to assign a price to this product.\n"); } } else {
-     * System.out.println("Unable to add product to supplier.\n"); } break; }
-     * 
-     * case 2: { System.out.println("Removing product from supplier list");
-     * 
-     * int pID = Integer.parseInt(getToken("What is the ID of this product?  : "));
-     * if (warehouse.removeSupplierFromProduct(sID, pID)) {
-     * System.out.println("Product sucessfully removed from this supplier.\n");
-     * 
-     * } else { System.out.println("Unable to remove product from supplier.\n"); }
-     * break; }
-     * 
-     * case 3: {
-     * 
-     * int pID = Integer.parseInt(getToken("What is the ID of this product?  : "));
-     * 
-     * if (warehouse.isSupplierOfProduct(sID, pID)) { System.out.println(
-     * "The current price of this product is $" + String.format("%.2f",
-     * warehouse.getPrice(pID, sID))); float price =
-     * Float.parseFloat(getToken("What is the new price of this product?  : $"));
-     * String priceString = String.format("%.2f", price);
-     * 
-     * if (warehouse.setPrice(pID, sID, price)) {
-     * System.out.println("The price of this product has been set to $" +
-     * priceString + ".\n"); } else {
-     * System.out.println("Unable to assign a price to this product.\n"); } } else {
-     * System.out.println("Unable to change the price of this product.\n"); } break;
-     * }
-     * 
-     * } } } else { System.out.println("Supplier not found"); }
-     */
-
     sNameL = new JLabel("Supplier Name:");
     sNameL.setBounds(10, 140, 120, 25);
     panel.add(sNameL);
@@ -492,7 +436,7 @@ public class ManagerStateGUI extends WareStateGUI {
 
         String sName = sNameTag.getText();
 
-        // adds supplier with this name
+        warehouse.addSupplier(sName);
 
       }
     });
@@ -505,7 +449,9 @@ public class ManagerStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
-        // transitions to sales state
+        wareFrame.setVisible(false);
+        wareFrame.dispose();
+        (context).changeState(WareContextGUI.SALES_STATE);
 
       }
     });
@@ -555,8 +501,13 @@ public class ManagerStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
-        // go to previous state
+
+        wareFrame.setVisible(false);
+        wareFrame.dispose();
+        (context).changeState(WareContextGUI.LOGIN_STATE);
+        wareFrame.dispatchEvent(new WindowEvent(wareFrame, WindowEvent.WINDOW_CLOSING));
       }
+
     });
     wareFrame.add(panel);
     wareFrame.pack();

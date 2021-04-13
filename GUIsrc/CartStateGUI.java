@@ -268,7 +268,7 @@ public class CartStateGUI extends WareStateGUI {
     wareFrame = new JFrame("Shopping Cart");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-        System.exit(0);
+        // (context).changeState(WareContextGUI.CLIENT_STATE);
       }
     });
     panel = new JPanel();
@@ -333,7 +333,9 @@ public class CartStateGUI extends WareStateGUI {
 
         int pID = Integer.parseInt(pIDfield.getText());
         int pQTY = Integer.parseInt(pIDfield.getText());
-
+        int sID = Integer.parseInt(sIDfield.getText());
+        warehouse.removeFromCart(context.getClient(), pID, 9999999, sID);
+        warehouse.addToCart(context.getClient(), pID, pQTY, sID);
         // update's product quantity
 
       }
@@ -346,8 +348,9 @@ public class CartStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
-
-        String pID = pIDfield.getText();
+        int pID = Integer.parseInt(pIDfield.getText());
+        int sID = Integer.parseInt(sIDfield.getText());
+        warehouse.removeFromCart(context.getClient(), pID, 9999999, sID);
 
         // removes product from the cart, no matter the quantity
 
@@ -360,6 +363,9 @@ public class CartStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
+        wareFrame.setVisible(false);
+        wareFrame.dispose();
+        (context).changeState(WareContextGUI.CLIENT_STATE);
         // go to previous state
       }
     });

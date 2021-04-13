@@ -714,6 +714,19 @@ public class Warehouse {
     return out;
   }
 
+  public String showClientsWithNoTransactions() {
+    ListIterator<ClientBalance> cbIt = clientList.listIterator();
+    ClientBalance cb;
+    String out = "These Clients owe money: \n";
+    while (cbIt.hasNext()) {
+      cb = cbIt.next();
+      if (cb.cart.invoices.size() == 0) {
+        out += cb.toString();
+      }
+    }
+    return out;
+  }
+
   public String showSupplierList() {
     ListIterator<SupplierProduct> spIt = supplierList.listIterator();
     SupplierProduct sp;
