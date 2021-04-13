@@ -52,10 +52,13 @@ public class LoginStateGUI extends WareStateGUI {
 
   public void run() {
     instance();
+    context.setChangeStateFlag(false);
     wareFrame = new JFrame("Login");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-
+        if(context.getChangeStateFlag() == false){
+          System.exit(0);
+        }
       }
     });
     panel = new JPanel();
@@ -86,6 +89,7 @@ public class LoginStateGUI extends WareStateGUI {
           (context).setLogin(WareContextGUI.IsClient);
           (context).setUser(userName);
           wareFrame.setVisible(false);
+          context.setChangeStateFlag(true);
           wareFrame.dispose();
           (context).changeState(2);
         }
@@ -121,6 +125,7 @@ public class LoginStateGUI extends WareStateGUI {
         if (userName.equals("username") && password.equals("password")) {
           (context).setLogin(WareContextGUI.IsSales);
           wareFrame.setVisible(false);
+          context.setChangeStateFlag(true);
           wareFrame.dispose();
           (context).changeState(1);
         } else {
@@ -159,6 +164,7 @@ public class LoginStateGUI extends WareStateGUI {
         if (userName.equals("username") && password.equals("password")) {
           (context).setLogin(WareContextGUI.IsManager);
           wareFrame.setVisible(false);
+          context.setChangeStateFlag(true);
           wareFrame.dispose();
           (context).changeState(0);
         } else {
@@ -178,17 +184,6 @@ public class LoginStateGUI extends WareStateGUI {
       public void actionPerformed(ActionEvent event) {
         wareFrame.setVisible(false);
         wareFrame.dispose();
-        if (((context).getLogin()) == (WareContextGUI.SALES_STATE)
-            || ((context).getLogin()) == (WareContextGUI.MANAGER_STATE)) {
-          wareFrame.setVisible(false);
-          wareFrame.dispose();
-          (context).changeState(WareContextGUI.SALES_STATE);
-        } else if (((context).getLogin()) == (WareContextGUI.CLIENT_STATE)) {
-          wareFrame.setVisible(false);
-          wareFrame.dispose();
-          (context).changeState(WareContextGUI.LOGIN_STATE);
-        }
-
         // go to previous state
       }
     });

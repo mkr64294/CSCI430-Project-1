@@ -282,10 +282,13 @@ public class ManagerStateGUI extends WareStateGUI {
 
   public void run() {
     // process();
+    context.setChangeStateFlag(false);
     wareFrame = new JFrame("Manager");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-        System.exit(0);
+        if(context.getChangeStateFlag() == false){
+          System.exit(0);
+        }
       }
     });
     panel = new JPanel();
@@ -332,7 +335,7 @@ public class ManagerStateGUI extends WareStateGUI {
 
         String pName = pNameTag.getText();
         String pDesc = pDescriptionTag.getText();
-
+        warehouse.addProduct(pName, pDesc);
         // adds product
 
       }
@@ -476,10 +479,10 @@ public class ManagerStateGUI extends WareStateGUI {
 
       @Override
       public void actionPerformed(ActionEvent event) {
-
-        // prints the list of product suppliers in the JTextArea tabText
-
-      }
+        tabText.setEditable(true);
+        tabText.setText(warehouse.showSupplierListForProduct(Integer.parseInt(sIDTag.getText())));
+        tabText.setEditable(false);
+        }
     });
 
     viewSupplierProducts = new JButton("View Supplier Products");
@@ -490,7 +493,9 @@ public class ManagerStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
 
-        // prints the list of supplier products in the JTextArea tabText
+        tabText.setEditable(true);
+        tabText.setText(warehouse.showProductListForSupplier(Integer.parseInt(pIDTag.getText())));
+        tabText.setEditable(false);
 
       }
     });

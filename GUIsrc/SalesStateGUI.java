@@ -226,14 +226,13 @@ public class SalesStateGUI extends WareStateGUI {
 
   public void run() {
     // process();
+    context.setChangeStateFlag(false);
     wareFrame = new JFrame("Sales Clerk");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-        // if (((context).getLogin()) == (WareContextGUI.SALES_STATE)) {
-        // (context).changeState(WareContextGUI.LOGIN_STATE);
-        // } else if (((context).getLogin()) == (WareContextGUI.MANAGER_STATE)) {
-        // (context).changeState(WareContextGUI.MANAGER_STATE);
-        // }
+        if(context.getChangeStateFlag() == false){
+          System.exit(0);
+        }
       }
     });
     panel = new JPanel();

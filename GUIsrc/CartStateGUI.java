@@ -265,10 +265,14 @@ public class CartStateGUI extends WareStateGUI {
 
   public void run() {
     // modifyCart();
+    context.setChangeStateFlag(false);
     wareFrame = new JFrame("Shopping Cart");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-        // (context).changeState(WareContextGUI.CLIENT_STATE);
+        if(context.getChangeStateFlag())
+          (context).changeState(WareContextGUI.CLIENT_STATE);
+        else 
+          System.exit(0);
       }
     });
     panel = new JPanel();
@@ -364,8 +368,8 @@ public class CartStateGUI extends WareStateGUI {
       @Override
       public void actionPerformed(ActionEvent event) {
         wareFrame.setVisible(false);
+        context.setChangeStateFlag(true);
         wareFrame.dispose();
-        (context).changeState(WareContextGUI.CLIENT_STATE);
         // go to previous state
       }
     });

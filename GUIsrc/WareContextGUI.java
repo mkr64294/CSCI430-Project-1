@@ -12,6 +12,7 @@ public class WareContextGUI {
   private int currentState;
 
   private static WareContextGUI context;
+  private boolean changeStateFlag;
   private int currentUser;
   private int currentClient;
   private String userID;
@@ -60,6 +61,10 @@ public class WareContextGUI {
     currentClient = cID;
   }
 
+  public void setChangeStateFlag(boolean running){
+    changeStateFlag = running;
+  }
+
   public int getLogin() {
     return currentUser;
   }
@@ -72,8 +77,12 @@ public class WareContextGUI {
     return currentClient;
   }
 
-  private WareContextGUI() {
+  public boolean getChangeStateFlag(){
+    return changeStateFlag;
+  }
 
+  private WareContextGUI() {
+    changeStateFlag = false;
     states = new WareStateGUI[6];
     states[0] = ManagerStateGUI.instance();
     states[1] = SalesStateGUI.instance();

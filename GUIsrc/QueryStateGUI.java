@@ -131,10 +131,13 @@ public class QueryStateGUI extends WareStateGUI {
   public void run() {
     // process();
 
+    context.setChangeStateFlag(false);
     wareFrame = new JFrame("Query");
     wareFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent e) {
-        // context.changeState(WareContextGUI.SALES_STATE);
+        if(context.getChangeStateFlag() == false){
+          System.exit(0);
+        }
       }
     });
     panel = new JPanel();
@@ -143,6 +146,7 @@ public class QueryStateGUI extends WareStateGUI {
 
     tabText = new JTextArea();
     tabText.setBounds(10, 40, 500, 200);
+    tabText.setText("");
     tabText.setEditable(false);
     scroll = new JScrollPane(tabText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     panel.add(scroll);
@@ -157,7 +161,7 @@ public class QueryStateGUI extends WareStateGUI {
       public void actionPerformed(ActionEvent event) {
         tabText.setEditable(true);
         tabText.setText(warehouse.clientsToString());
-        if (tabText.getText() == "[]") {
+        if (tabText.getText() == "") {
           tabText.setText("No clients exist");
         }
         tabText.setEditable(false);
