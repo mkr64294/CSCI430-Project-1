@@ -1,4 +1,4 @@
-package GUIsrc;
+//package GUIsrc;
 
 import java.util.*;
 import java.io.*;
@@ -191,7 +191,7 @@ public class LoginStateGUI extends WareStateGUI {
     wareFrame.add(panel);
     wareFrame.pack();
     wareFrame.setVisible(true);
-
+    wareFrame.setExtendedState(wareFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
     // context = WareContext.instance();
   }
 

@@ -1,4 +1,4 @@
-package GUIsrc;
+//package GUIsrc;
 
 import java.util.*;
 import java.io.*;
@@ -517,5 +517,6 @@ public class ManagerStateGUI extends WareStateGUI {
     wareFrame.add(panel);
     wareFrame.pack();
     wareFrame.setVisible(true);
+    wareFrame.setExtendedState(wareFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
   }
 }

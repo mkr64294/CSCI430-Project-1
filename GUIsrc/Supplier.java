@@ -1,7 +1,7 @@
 // Mario Quintero
 // Supplier class
 
-package GUIsrc;
+//package GUIsrc;
 
 import java.util.LinkedList;
 

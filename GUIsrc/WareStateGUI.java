@@ -1,4 +1,4 @@
-package GUIsrc;
+//package GUIsrc;
 
 public abstract class WareStateGUI {
   protected static WareContextGUI context = WareContextGUI.instance();

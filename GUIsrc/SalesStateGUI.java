@@ -1,4 +1,4 @@
-package GUIsrc;
+//package GUIsrc;
 
 import java.util.*;
 import java.io.*;
@@ -273,10 +273,10 @@ public class SalesStateGUI extends WareStateGUI {
         String cName = cNameText.getText();
         String cAddress = cAddressText.getText();
 
-        warehouse.addClient(cName, cAddress);
+        int client = warehouse.addClient(cName, cAddress);
 
         tabText.setEditable(true);
-        tabText.setText("New Client Added\n" + warehouse.showClientDetails(Integer.parseInt(context.getUser())));
+        tabText.setText("New Client Added\n" + warehouse.showClientDetails(client));
         tabText.setEditable(false);
 
         cNameText.setText("");
@@ -470,5 +470,6 @@ public class SalesStateGUI extends WareStateGUI {
     wareFrame.add(panel);
     wareFrame.pack();
     wareFrame.setVisible(true);
+    wareFrame.setExtendedState(wareFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
   }
 }
